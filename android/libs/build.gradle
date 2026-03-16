@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file("../../plugins/c72_sdk/android/libs/DeviceAPI_ver20251103_release.aar"))

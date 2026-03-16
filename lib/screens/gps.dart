@@ -42,13 +42,11 @@ class _GpsScreenState extends State<GpsScreen> {
         _error = error.toString();
       });
     } finally {
-      if (!mounted) {
-        return;
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
       }
-
-      setState(() {
-        _loading = false;
-      });
     }
   }
 

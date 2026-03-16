@@ -17,13 +17,18 @@ class HomeScreen extends StatelessWidget {
             label: const Text('Info'),
           ),
           const SizedBox(height: 14),
-                    FilledButton.icon(
+          FilledButton.icon(
             onPressed: () => Navigator.of(context).pushNamed('/gps'),
             icon: const Icon(Icons.gps_fixed),
             label: const Text('GPS'),
           ),
           const SizedBox(height: 14),
-          const Text('Conteudo inicial da pagina'),
+          FilledButton.icon(
+            onPressed: () => Navigator.of(context).pushNamed('/rfid'),
+            icon: const Icon(Icons.nfc),
+            label: const Text('RFID'),
+          ),
+          const SizedBox(height: 14),
         ],
       ),
     );

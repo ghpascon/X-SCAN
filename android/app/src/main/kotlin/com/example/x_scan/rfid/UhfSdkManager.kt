@@ -26,6 +26,14 @@ class UhfSdkManager(private val context: Context) {
                 reader = RFIDWithUHFUART.getInstance()
             }
             val connected = reader?.init(context) == true
+            if (connected) {
+                // Prefer inventory payload with EPC+TID when supported by firmware.
+                try {
+                    reader?.setEPCAndTIDMode()
+                } catch (_: Throwable) {
+                    // Keep connected even if this mode is unavailable in current firmware.
+                }
+            }
             listener?.onConnect(connected, 0)
             connected
         } catch (_: Throwable) {
@@ -79,6 +87,46 @@ class UhfSdkManager(private val context: Context) {
         return true
     }
 
+    fun getReaderConfig(): Map<String, Any?> {
+        val connected = connect()
+        if (!connected) {
+            return mapOf(
+                "connected" to false,
+                "power" to null,
+            )
+        }
+
+        val currentReader = reader ?: return mapOf(
+            "connected" to false,
+            "power" to null,
+        )
+
+        val power = try {
+            currentReader.power
+        } catch (_: Throwable) {
+            null
+        }
+
+        return mapOf(
+            "connected" to true,
+            "power" to power,
+        )
+    }
+
+    fun applyReaderConfig(power: Int?): Boolean {
+        if (!connect()) {
+            return false
+        }
+
+        val currentReader = reader ?: return false
+
+        if (power == null) {
+            return true
+        }
+
+        return currentReader.setPower(power.coerceIn(5, 30))
+    }
+
     private fun startReadLoop() {
         thread(name = "rfid-read-loop", isDaemon = true) {
             while (started) {
@@ -95,15 +143,22 @@ class UhfSdkManager(private val context: Context) {
             return
         }
 
-        val rssi = info.rssi ?: ""
-        val existing = tagMap[epc]
+        val tid = extractTid(info)
+        val rssi = extractRssi(info)
+        // Use TID as primary key if available, otherwise use EPC
+        val key = if (tid.isNotBlank()) tid else epc
+        val existing = tagMap[key]
         val nextCount = (existing?.count?.toIntOrNull() ?: 0) + 1
 
-        tagMap[epc] = EpcTag(
+        // Debug log
+        android.util.Log.d("UhfSdkManager", "TAG: epc=$epc, tid=$tid, rssi=$rssi, count=$nextCount")
+
+        tagMap[key] = EpcTag(
             id = existing?.id ?: "",
             epc = epc,
+            tid = if (tid.isNotBlank()) tid else (existing?.tid ?: ""),
             count = nextCount.toString(),
-            rssi = rssi,
+            rssi = if (rssi.isNotBlank()) rssi else (existing?.rssi ?: ""),
         )
 
         publishTags()
@@ -115,10 +170,48 @@ class UhfSdkManager(private val context: Context) {
             val json = JSONObject()
             json.put(TagKey.ID, tag.id)
             json.put(TagKey.EPC, tag.epc)
+            json.put(TagKey.TID, tag.tid)
             json.put(TagKey.RSSI, tag.rssi)
             json.put(TagKey.COUNT, tag.count)
             array.put(json)
         }
         listener?.onRead(array.toString())
+    }
+
+    private fun extractTid(info: UHFTAGInfo): String {
+        return try {
+            // Use the direct getter method from SDK: getTid() returns String
+            val tid = info.getTid()?.trim()
+            if (!tid.isNullOrBlank()) {
+                tid
+            } else {
+                ""
+            }
+        } catch (_: Throwable) {
+            ""
+        }
+    }
+
+    private fun extractRssi(info: UHFTAGInfo): String {
+        return try {
+            // Use the direct getter method from SDK: getRssi() returns String
+            val rssiStr = info.getRssi()?.trim() ?: ""
+            if (rssiStr.isBlank()) {
+                return ""
+            }
+            
+            // Convert decimal string (e.g., "-72,50" or "-72.50") to integer
+            // Replace comma with dot for parsing
+            val normalized = rssiStr.replace(",", ".")
+            val rssiDouble = normalized.toDoubleOrNull()
+            
+            if (rssiDouble != null) {
+                rssiDouble.toInt().toString()
+            } else {
+                rssiStr  // Return original if parsing fails
+            }
+        } catch (_: Throwable) {
+            ""
+        }
     }
 }

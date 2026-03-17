@@ -29,6 +29,12 @@ class HomeScreen extends StatelessWidget {
             label: const Text('RFID'),
           ),
           const SizedBox(height: 14),
+          FilledButton.icon(
+            onPressed: () => Navigator.of(context).pushNamed('/rfid-config'),
+            icon: const Icon(Icons.tune),
+            label: const Text('Configurar Leitor RFID'),
+          ),
+          const SizedBox(height: 14),
         ],
       ),
     );

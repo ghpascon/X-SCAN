@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:x_scan/core/rfid/rfid_tag.dart';
 import 'package:x_scan/services/rfid/platform_rfid_reader.dart';
 import 'package:x_scan/services/rfid/rfid_controller.dart';
@@ -38,7 +42,7 @@ class _RfidScreenState extends State<RfidScreen> {
               _buildStatusCard(),
               const SizedBox(height: 12),
               _buildActions(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               _buildTagSummary(),
               const SizedBox(height: 10),
               ..._buildTagTiles(_controller.tags),
@@ -54,6 +58,8 @@ class _RfidScreenState extends State<RfidScreen> {
     final error = _controller.errorMessage;
     final inventoryText =
         _controller.isInventoryRunning ? 'Leitura em andamento' : 'Leitura parada';
+    final connectionText =
+      _controller.isReaderConnected ? 'Conectado' : 'Desconectado';
 
     return Card(
       child: Padding(
@@ -65,6 +71,8 @@ class _RfidScreenState extends State<RfidScreen> {
             const SizedBox(height: 8),
             Text('Modelo: ${platformInfo?.model ?? '...'}'),
             Text('Fabricante: ${platformInfo?.manufacturer ?? '...'}'),
+            Text('Conexao do leitor: $connectionText'),
+            Text('Tipo de leitor: ${platformInfo?.readerType ?? '...'}'),
             Text(
               'SDK detectado: ${platformInfo?.sdkAvailable == true ? 'Sim' : 'Nao'}',
             ),
@@ -99,12 +107,53 @@ class _RfidScreenState extends State<RfidScreen> {
           onPressed: _controller.clearTags,
           child: const Text('Limpar Tags'),
         ),
+        OutlinedButton.icon(
+          onPressed: _controller.tags.isEmpty ? null : _exportCsv,
+          icon: const Icon(Icons.download),
+          label: const Text('Exportar CSV'),
+        ),
         const Chip(
           avatar: Icon(Icons.settings_input_antenna, size: 18),
           label: Text('Segure o gatilho para ler'),
         ),
       ],
     );
+  }
+
+  Future<void> _exportCsv() async {
+    final tags = _controller.tags;
+    if (tags.isEmpty) return;
+
+    final buf = StringBuffer();
+    buf.writeln('EPC,TID,RSSI,Contagem,Timestamp');
+    for (final tag in tags) {
+      buf.writeln(
+        '${_csvField(tag.epc)},'
+        '${_csvField(tag.tid ?? '')},'
+        '${tag.rssi ?? ''},'
+        '${tag.count},'
+        '${tag.timestamp.toIso8601String()}',
+      );
+    }
+
+    final dir = await getTemporaryDirectory();
+    final ts = DateTime.now().toIso8601String().replaceAll(RegExp(r'[:.]'), '-');
+    final file = File('${dir.path}/rfid_$ts.csv');
+    await file.writeAsString(buf.toString());
+
+    await SharePlus.instance.share(
+      ShareParams(
+        files: [XFile(file.path, mimeType: 'text/csv')],
+        subject: 'RFID Export $ts',
+      ),
+    );
+  }
+
+  String _csvField(String value) {
+    if (value.contains(',') || value.contains('"') || value.contains('\n')) {
+      return '"${value.replaceAll('"', '""')}"';
+    }
+    return value;
   }
 
   Widget _buildTagSummary() {
@@ -136,11 +185,57 @@ class _RfidScreenState extends State<RfidScreen> {
 
     return tags.map((tag) {
       return Card(
-        child: ListTile(
-          dense: true,
-          title: Text(tag.epc, style: const TextStyle(fontFamily: 'monospace')),
-          subtitle: Text(
-            'Count: ${tag.count} | RSSI: ${tag.rssi?.toString() ?? '-'} | ${tag.timestamp.toIso8601String()}',
+        margin: const EdgeInsets.only(bottom: 8),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // EPC
+              SelectableText(
+                tag.epc,
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontFamily: 'monospace',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              
+              // TID (se disponível)
+              if (tag.tid != null && tag.tid!.isNotEmpty) ...[
+                const SizedBox(height: 4),
+                Text(
+                  'TID: ${tag.tid}',
+                  style: const TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 12,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+              
+              // Info line: Count | RSSI | Timestamp
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Cont: ${tag.count}',
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                  Text(
+                    'RSSI: ${tag.rssi ?? '-'}',
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                  Flexible(
+                    child: Text(
+                      tag.timestamp.toIso8601String().split('T')[1].split('.')[0],
+                      style: const TextStyle(fontSize: 11, color: Colors.grey),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       );

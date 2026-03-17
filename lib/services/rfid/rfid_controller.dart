@@ -20,11 +20,17 @@ class RfidController extends ChangeNotifier {
   bool _isBusy = false;
   bool _isInventoryRunning = false;
   bool _isTriggerPressed = false;
+  bool _isReaderConnected = false;
   String? _errorMessage;
   RfidPlatformInfo? _platformInfo;
 
+  /// Limiar de RSSI configurado na tela de configuração do leitor.
+  /// null = sem filtro. Aplicado a todos os controladores.
+  static int? rssiThreshold;
+
   bool get isBusy => _isBusy;
   bool get isInventoryRunning => _isInventoryRunning;
+  bool get isReaderConnected => _isReaderConnected;
   String? get errorMessage => _errorMessage;
   RfidPlatformInfo? get platformInfo => _platformInfo;
 
@@ -48,11 +54,13 @@ class RfidController extends ChangeNotifier {
       _platformInfo = await _reader.getPlatformInfo();
       _bindStreamsIfNeeded();
       await _reader.initialize();
+      _isReaderConnected = true;
       _appendLog(
         'Reader conectado: ${_platformInfo?.readerName ?? 'desconhecido'}',
       );
     } catch (error) {
       _errorMessage = error.toString();
+      _isReaderConnected = false;
       _appendLog('Erro de setup: $error');
     } finally {
       _setBusy(false);
@@ -126,17 +134,26 @@ class RfidController extends ChangeNotifier {
 
   void _bindStreamsIfNeeded() {
     _tagSubscription ??= _reader.tags.listen((tag) {
-      final existing = _tagsByEpc[tag.epc];
+      // Filtro de RSSI configurado na tela de configuração do leitor
+      final threshold = RfidController.rssiThreshold;
+      if (threshold != null && (tag.rssi == null || tag.rssi! < threshold)) {
+        return;
+      }
+
+      // Use TID as primary key if available, otherwise use EPC
+      final key = (tag.tid != null && tag.tid!.isNotEmpty) ? tag.tid! : tag.epc;
+      final existing = _tagsByEpc[key];
       if (existing == null) {
-        _tagsByEpc[tag.epc] = tag;
+        _tagsByEpc[key] = tag;
       } else {
         final updatedCount =
             tag.count > 1
                 ? (tag.count > existing.count ? tag.count : existing.count)
                 : (existing.count + 1);
 
-        _tagsByEpc[tag.epc] = existing.copyWith(
+        _tagsByEpc[key] = existing.copyWith(
           count: updatedCount,
+          tid: tag.tid ?? existing.tid,
           rssi: tag.rssi ?? existing.rssi,
           timestamp: tag.timestamp,
         );
@@ -145,6 +162,12 @@ class RfidController extends ChangeNotifier {
     });
 
     _statusSubscription ??= _reader.status.listen((message) {
+      final normalized = message.trim().toLowerCase();
+      if (normalized.startsWith('rfid conectado')) {
+        _isReaderConnected = true;
+      } else if (normalized.startsWith('rfid desconectado')) {
+        _isReaderConnected = false;
+      }
       _appendLog(message);
       notifyListeners();
     });

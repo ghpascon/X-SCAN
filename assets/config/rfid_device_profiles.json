@@ -1,0 +1,12 @@
+[
+  {
+    "id": "chainway_c72_uhf_uart",
+    "displayName": "Chainway C72 UHF UART",
+    "readerType": "uhf_uart",
+    "priority": 1,
+    "match": {
+      "manufacturerContains": ["chainway"],
+      "modelContains": ["c72"]
+    }
+  }
+]

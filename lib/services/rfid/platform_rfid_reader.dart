@@ -4,12 +4,18 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/services.dart';
+import 'package:x_scan/core/rfid/rfid_device_profile.dart';
+import 'package:x_scan/core/rfid/rfid_device_profile_repository.dart';
 import 'package:x_scan/core/rfid/rfid_failure.dart';
 import 'package:x_scan/core/rfid/rfid_platform_info.dart';
 import 'package:x_scan/core/rfid/rfid_reader.dart';
+import 'package:x_scan/core/rfid/rfid_reader_type.dart';
 import 'package:x_scan/core/rfid/rfid_tag.dart';
 
 class PlatformRfidReader implements RfidReader {
+    static const RfidDeviceProfileRepository _profileRepository =
+        RfidDeviceProfileRepository();
+
   static const MethodChannel _channel = MethodChannel('x_scan/rfid');
   static const EventChannel _tagsEventChannel = EventChannel('x_scan/rfid/tags');
   static const EventChannel _connectedEventChannel =
@@ -29,6 +35,7 @@ class PlatformRfidReader implements RfidReader {
   StreamSubscription<dynamic>? _triggerEventSubscription;
   bool _initialized = false;
   bool _isConnected = false;
+  SelectedRfidProfile? _selectedProfile;
 
   @override
   Stream<RfidTag> get tags => _tagsController.stream;
@@ -45,17 +52,25 @@ class PlatformRfidReader implements RfidReader {
       throw const RfidFailure('RFID suportado apenas em Android.');
     }
 
-    final deviceInfo = DeviceInfoPlugin();
-    final androidInfo = await deviceInfo.androidInfo;
+    final androidInfo = await _getAndroidInfo();
+    final selected = await _resolveSelectedProfile(androidInfo);
     final platformVersion = await _channel.invokeMethod<String>(
       'getPlatformVersion',
     );
 
     return RfidPlatformInfo(
       manufacturer: androidInfo.manufacturer,
+      brand: androidInfo.brand,
       model: androidInfo.model,
+      device: androidInfo.device,
+      product: androidInfo.product,
+      hardware: androidInfo.hardware,
+      board: androidInfo.board,
+      androidSdkInt: androidInfo.version.sdkInt,
       sdkAvailable: platformVersion != null && platformVersion.isNotEmpty,
-      readerName: 'Chainway C72 (SDK nativo)',
+      readerName: selected.profile.displayName,
+      readerType: selected.profile.readerType.value,
+      profileId: selected.profile.id,
     );
   }
 
@@ -67,6 +82,19 @@ class PlatformRfidReader implements RfidReader {
         await _reconnect();
       }
       return;
+    }
+
+    final androidInfo = await _getAndroidInfo();
+    final selected = await _resolveSelectedProfile(androidInfo);
+    _statusController.add(
+      'Perfil RFID selecionado: ${selected.profile.id} (${selected.profile.readerType.value})',
+    );
+
+    if (selected.profile.readerType != RfidReaderType.uhfUart) {
+      throw RfidFailure(
+        'Leitor ${selected.profile.readerType.value} ainda nao implementado. '
+        'Perfil selecionado: ${selected.profile.id}',
+      );
     }
 
     _tagEventSubscription = _tagsEventChannel
@@ -247,6 +275,34 @@ class PlatformRfidReader implements RfidReader {
         '3) Reiniciar o servico RFID ou o dispositivo e testar novamente.';
   }
 
+  Future<AndroidDeviceInfo> _getAndroidInfo() async {
+    final deviceInfo = DeviceInfoPlugin();
+    return deviceInfo.androidInfo;
+  }
+
+  Future<SelectedRfidProfile> _resolveSelectedProfile(
+    AndroidDeviceInfo androidInfo,
+  ) async {
+    final cached = _selectedProfile;
+    if (cached != null) {
+      return cached;
+    }
+
+    final identity = DeviceIdentity(
+      manufacturer: androidInfo.manufacturer,
+      brand: androidInfo.brand,
+      model: androidInfo.model,
+      device: androidInfo.device,
+      product: androidInfo.product,
+      hardware: androidInfo.hardware,
+      board: androidInfo.board,
+      sdkInt: androidInfo.version.sdkInt,
+    );
+    final selected = await _profileRepository.selectProfile(identity);
+    _selectedProfile = selected;
+    return selected;
+  }
+
   void _handleTagEvent(dynamic event) {
     if (event == null) {
       return;
@@ -263,10 +319,28 @@ class PlatformRfidReader implements RfidReader {
       if (epc.isEmpty) {
         continue;
       }
+      
+      // Parse RSSI - handle both integer and decimal formats
+      final rssiRaw = tag['KEY_RSSI'] ?? '';
+      int? rssiInt;
+      if (rssiRaw.toString().isNotEmpty) {
+        // Try direct int parse first
+        rssiInt = int.tryParse(rssiRaw.toString());
+        
+        // If that fails, try parsing as double then converting to int
+        if (rssiInt == null) {
+          final rssiDouble = double.tryParse(rssiRaw.toString());
+          if (rssiDouble != null) {
+            rssiInt = rssiDouble.toInt();
+          }
+        }
+      }
+      
       _tagsController.add(
         RfidTag(
           epc: epc,
-          rssi: int.tryParse((tag['KEY_RSSI'] ?? '').toString()),
+          tid: _normalizeString(tag['KEY_TID']),
+          rssi: rssiInt,
           count: int.tryParse((tag['KEY_COUNT'] ?? '').toString()) ?? 1,
           timestamp: DateTime.now(),
         ),
@@ -293,5 +367,13 @@ class PlatformRfidReader implements RfidReader {
       _statusController.add('Falha ao decodificar payload de tags.');
     }
     return const <Map<String, dynamic>>[];
+  }
+
+  String? _normalizeString(Object? value) {
+    final text = value?.toString().trim() ?? '';
+    if (text.isEmpty) {
+      return null;
+    }
+    return text;
   }
 }

@@ -121,6 +121,11 @@ class RfidBridge(
             "getPlatformVersion" -> result.success("Android ${Build.VERSION.RELEASE}")
             "connect" -> result.success(manager.connect())
             "isConnected" -> result.success(manager.isConnected())
+            "getReaderConfig" -> result.success(manager.getReaderConfig())
+            "applyReaderConfig" -> {
+                val power = call.argument<Number>("power")?.toInt()
+                result.success(manager.applyReaderConfig(power))
+            }
             "startContinuous" -> result.success(manager.startContinuous())
             "stop" -> result.success(manager.stop())
             "clearData" -> result.success(manager.clearData())

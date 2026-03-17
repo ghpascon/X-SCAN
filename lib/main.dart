@@ -5,6 +5,8 @@ import 'package:x_scan/screens/home.dart';
 import 'package:x_scan/screens/info.dart';
 import 'package:x_scan/screens/rfid.dart';
 import 'package:x_scan/screens/rfid_config.dart';
+import 'package:x_scan/screens/sync.dart';
+import 'package:x_scan/screens/sync_queue.dart';
 import 'package:x_scan/services/reader_prefs.dart';
 
 void main() async {
@@ -27,6 +29,8 @@ class XScanApp extends StatelessWidget {
         '/info': (context) => const InfoScreen(),
         '/rfid': (context) => const RfidScreen(),
         '/rfid-config': (context) => const RfidConfigScreen(),
+        '/sync': (context) => const SyncScreen(),
+        '/sync-queue': (context) => const SyncQueueScreen(),
       },
       themeMode: ThemeMode.light,
       theme: AppTheme.light,

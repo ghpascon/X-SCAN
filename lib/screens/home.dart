@@ -35,6 +35,12 @@ class HomeScreen extends StatelessWidget {
             label: const Text('Configurar Leitor RFID'),
           ),
           const SizedBox(height: 14),
+          FilledButton.icon(
+            onPressed: () => Navigator.of(context).pushNamed('/sync'),
+            icon: const Icon(Icons.sync),
+            label: const Text('Sincronizar'),
+          ),
+          const SizedBox(height: 14),
         ],
       ),
     );

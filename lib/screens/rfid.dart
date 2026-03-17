@@ -1,9 +1,12 @@
 import 'dart:io';
+import 'dart:convert';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:x_scan/core/rfid/rfid_tag.dart';
+import 'package:x_scan/services/gps_service.dart';
 import 'package:x_scan/services/rfid/platform_rfid_reader.dart';
 import 'package:x_scan/services/rfid/rfid_controller.dart';
 import 'package:x_scan/widgets/app_page_scaffold.dart';
@@ -17,6 +20,8 @@ class RfidScreen extends StatefulWidget {
 
 class _RfidScreenState extends State<RfidScreen> {
   late final RfidController _controller;
+  final GpsService _gpsService = GpsService();
+  bool _isSavingLocal = false;
 
   @override
   void initState() {
@@ -108,6 +113,21 @@ class _RfidScreenState extends State<RfidScreen> {
           child: const Text('Limpar Tags'),
         ),
         OutlinedButton.icon(
+          onPressed: (_controller.tags.isEmpty ||
+                  _isSavingLocal ||
+                  _controller.isInventoryRunning)
+              ? null
+              : _saveLocally,
+          icon: _isSavingLocal
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Icon(Icons.save),
+          label: const Text('Salvar tags localmente'),
+        ),
+        OutlinedButton.icon(
           onPressed: _controller.tags.isEmpty ? null : _exportCsv,
           icon: const Icon(Icons.download),
           label: const Text('Exportar CSV'),
@@ -125,7 +145,7 @@ class _RfidScreenState extends State<RfidScreen> {
     if (tags.isEmpty) return;
 
     final buf = StringBuffer();
-    buf.writeln('EPC,TID,RSSI,Contagem,Timestamp');
+    buf.writeln('epc,tid,rssi,contagem,timestamp');
     for (final tag in tags) {
       buf.writeln(
         '${_csvField(tag.epc)},'
@@ -136,17 +156,116 @@ class _RfidScreenState extends State<RfidScreen> {
       );
     }
 
-    final dir = await getTemporaryDirectory();
-    final ts = DateTime.now().toIso8601String().replaceAll(RegExp(r'[:.]'), '-');
-    final file = File('${dir.path}/rfid_$ts.csv');
-    await file.writeAsString(buf.toString());
+    final ts = DateTime.now()
+        .toIso8601String()
+        .replaceAll(RegExp(r'[:.]'), '-');
+    final fileName = 'rfid_$ts.csv';
+    final csvText = buf.toString().toLowerCase();
 
-    await SharePlus.instance.share(
-      ShareParams(
-        files: [XFile(file.path, mimeType: 'text/csv')],
-        subject: 'RFID Export $ts',
-      ),
-    );
+    try {
+      final dir = await getTemporaryDirectory();
+      final file = File('${dir.path}/$fileName');
+      await file.writeAsString(csvText);
+
+      await SharePlus.instance.share(
+        ShareParams(
+          files: [XFile(file.path, mimeType: 'text/csv', name: fileName)],
+          subject: fileName.toLowerCase(),
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao exportar CSV: $e')),
+      );
+    }
+  }
+
+  Future<void> _saveLocally() async {
+    final tags = _controller.tags;
+    if (tags.isEmpty) {
+      return;
+    }
+
+    if (_controller.isInventoryRunning) {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Pare a leitura antes de salvar localmente.')),
+      );
+      return;
+    }
+
+    setState(() => _isSavingLocal = true);
+
+    try {
+      final position = await _gpsService.getCurrentPosition();
+      final deviceInfo = await DeviceInfoPlugin().androidInfo;
+      final docsDir = await getApplicationDocumentsDirectory();
+      final file = File('${docsDir.path}/inventory_events.json');
+
+      List<dynamic> events = <dynamic>[];
+      if (await file.exists()) {
+        final content = await file.readAsString();
+        if (content.trim().isNotEmpty) {
+          final parsed = jsonDecode(content);
+          if (parsed is List<dynamic>) {
+            events = parsed;
+          }
+        }
+      }
+
+      final event = <String, dynamic>{
+        'device': deviceInfo.id,
+        'event_type': 'inventory',
+        'event_data': <String, dynamic>{
+          'gps': <String, dynamic>{
+            'latitude': position.latitude,
+            'longitude': position.longitude,
+            'accuracy': position.accuracy,
+            'altitude': position.altitude,
+            'heading': position.heading,
+            'speed': position.speed,
+            'timestamp': position.timestamp.toIso8601String(),
+          },
+          'tags': tags
+              .map(
+                (tag) => <String, dynamic>{
+                  'epc': tag.epc,
+                  'tid': tag.tid,
+                  'rssi': tag.rssi,
+                  'count': tag.count,
+                  'timestamp': tag.timestamp.toIso8601String(),
+                },
+              )
+              .toList(),
+        },
+      };
+
+      events.add(event);
+      await file.writeAsString(
+        const JsonEncoder.withIndent('  ').convert(events),
+      );
+
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Evento salvo localmente (${events.length}).')),
+      );
+    } catch (e) {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao salvar localmente: $e')),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _isSavingLocal = false);
+      }
+    }
   }
 
   String _csvField(String value) {

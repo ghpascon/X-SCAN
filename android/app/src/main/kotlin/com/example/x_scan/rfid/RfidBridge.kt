@@ -124,7 +124,12 @@ class RfidBridge(
             "getReaderConfig" -> result.success(manager.getReaderConfig())
             "applyReaderConfig" -> {
                 val power = call.argument<Number>("power")?.toInt()
-                result.success(manager.applyReaderConfig(power))
+                val beepEnabled = call.argument<Boolean>("beepEnabled")
+                result.success(manager.applyReaderConfig(power, beepEnabled))
+            }
+            "setBeepEnabled" -> {
+                val enabled = call.argument<Boolean>("enabled") ?: true
+                result.success(manager.setBeepEnabled(enabled))
             }
             "startContinuous" -> result.success(manager.startContinuous())
             "stop" -> result.success(manager.stop())

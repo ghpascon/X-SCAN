@@ -20,6 +20,7 @@ class _RfidConfigScreenState extends State<RfidConfigScreen> {
 
   int _power = 30;
   int? _rssiThreshold = RfidController.rssiThreshold;
+  bool _beepEnabled = RfidController.beepEnabled;
 
   @override
   void initState() {
@@ -36,7 +37,11 @@ class _RfidConfigScreenState extends State<RfidConfigScreen> {
     try {
       // Carrega potência salva como padrão inicial
       final savedPower = await ReaderPrefs.loadPower();
-      setState(() => _power = savedPower);
+      final savedBeep = await ReaderPrefs.loadBeepEnabled();
+      setState(() {
+        _power = savedPower;
+        _beepEnabled = savedBeep;
+      });
 
       final connected = await _channel.invokeMethod<bool>('connect') ?? false;
       if (!connected) {
@@ -76,6 +81,7 @@ class _RfidConfigScreenState extends State<RfidConfigScreen> {
     try {
       final ok = await _channel.invokeMethod<bool>('applyReaderConfig', {
         'power': _power,
+        'beepEnabled': _beepEnabled,
       });
 
       if (ok != true) {
@@ -83,8 +89,13 @@ class _RfidConfigScreenState extends State<RfidConfigScreen> {
       }
 
       RfidController.rssiThreshold = _rssiThreshold;
+      RfidController.beepEnabled = _beepEnabled;
 
-      await ReaderPrefs.save(power: _power, rssiThreshold: _rssiThreshold);
+      await ReaderPrefs.save(
+        power: _power,
+        rssiThreshold: _rssiThreshold,
+        beepEnabled: _beepEnabled,
+      );
 
       await _loadConfig();
 
@@ -134,6 +145,8 @@ class _RfidConfigScreenState extends State<RfidConfigScreen> {
                 _buildPowerCard(),
                 const SizedBox(height: 10),
                 _buildRssiFilterCard(),
+                const SizedBox(height: 10),
+                _buildBeepCard(),                
                 if (_error != null) ...[
                   const SizedBox(height: 12),
                   Text(
@@ -238,6 +251,38 @@ class _RfidConfigScreenState extends State<RfidConfigScreen> {
                 padding: EdgeInsets.only(top: 4),
                 child: Text('Desativado — todas as tags sao aceitas.'),
               ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBeepCard() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Beep ao ler tag',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                const SizedBox(height: 4),
+                Text(_beepEnabled ? 'Ativado' : 'Desativado'),
+              ],
+            ),
+            Switch(
+              value: _beepEnabled,
+              onChanged: (value) {
+                setState(() {
+                  _beepEnabled = value;
+                });
+              },
+            ),
           ],
         ),
       ),

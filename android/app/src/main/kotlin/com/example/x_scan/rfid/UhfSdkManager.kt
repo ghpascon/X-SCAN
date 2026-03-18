@@ -1,6 +1,8 @@
 package com.example.x_scan.rfid
 
 import android.content.Context
+import android.media.AudioManager
+import android.media.ToneGenerator
 import com.rscja.deviceapi.RFIDWithUHFUART
 import com.rscja.deviceapi.entity.UHFTAGInfo
 import org.json.JSONArray
@@ -13,6 +15,9 @@ class UhfSdkManager(private val context: Context) {
     private var listener: UhfListener? = null
     private val tagMap = ConcurrentHashMap<String, EpcTag>()
     private val oldTagKeys = mutableSetOf<String>()
+    private var toneGenerator: ToneGenerator? = null
+    private var beepEnabled = true
+    private var lastBeepMs = 0L
 
     @Volatile
     private var started = false
@@ -85,6 +90,11 @@ class UhfSdkManager(private val context: Context) {
 
     fun close(): Boolean {
         started = false
+        try {
+            toneGenerator?.release()
+        } catch (_: Throwable) {
+        }
+        toneGenerator = null
         reader?.free()
         reader = null
         listener?.onConnect(false, 0)
@@ -118,18 +128,27 @@ class UhfSdkManager(private val context: Context) {
         )
     }
 
-    fun applyReaderConfig(power: Int?): Boolean {
+    fun applyReaderConfig(power: Int?, beepEnabled: Boolean?): Boolean {
         if (!connect()) {
             return false
         }
 
         val currentReader = reader ?: return false
 
+        if (beepEnabled != null) {
+            this.beepEnabled = beepEnabled
+        }
+
         if (power == null) {
             return true
         }
 
         return currentReader.setPower(power.coerceIn(5, 30))
+    }
+
+    fun setBeepEnabled(enabled: Boolean): Boolean {
+        beepEnabled = enabled
+        return true
     }
 
     private fun startReadLoop() {
@@ -168,7 +187,30 @@ class UhfSdkManager(private val context: Context) {
             rssi = if (rssi.isNotBlank()) rssi else (existing?.rssi ?: ""),
         )
 
+        playTagBeepIfEnabled()
         publishTags()
+    }
+
+    private fun playTagBeepIfEnabled() {
+        if (!beepEnabled) {
+            return
+        }
+
+        val now = System.currentTimeMillis()
+        // Avoid overlapping tones in very fast read bursts.
+        if (now - lastBeepMs < 70) {
+            return
+        }
+        lastBeepMs = now
+
+        try {
+            val tg = toneGenerator ?: ToneGenerator(AudioManager.STREAM_MUSIC, 85).also {
+                toneGenerator = it
+            }
+            tg.startTone(ToneGenerator.TONE_PROP_BEEP, 60)
+        } catch (_: Throwable) {
+            // No-op: beep failures should never interrupt reading.
+        }
     }
 
     private fun publishTags() {

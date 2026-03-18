@@ -11,6 +11,7 @@ import 'package:x_scan/core/rfid/rfid_platform_info.dart';
 import 'package:x_scan/core/rfid/rfid_reader.dart';
 import 'package:x_scan/core/rfid/rfid_reader_type.dart';
 import 'package:x_scan/core/rfid/rfid_tag.dart';
+import 'package:x_scan/services/reader_prefs.dart';
 
 class PlatformRfidReader implements RfidReader {
     static const RfidDeviceProfileRepository _profileRepository =
@@ -136,6 +137,11 @@ class PlatformRfidReader implements RfidReader {
         _connectionFailureMessage('Falha na inicializacao do RFID.'),
       );
     }
+
+    final beepEnabled = await ReaderPrefs.loadBeepEnabled();
+    await _channel.invokeMethod<bool>('setBeepEnabled', {
+      'enabled': beepEnabled,
+    });
 
     // Give hardware a short settle window before first inventory start.
     await Future<void>.delayed(const Duration(milliseconds: 250));

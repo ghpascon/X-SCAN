@@ -28,6 +28,9 @@ class RfidController extends ChangeNotifier {
   /// null = sem filtro. Aplicado a todos os controladores.
   static int? rssiThreshold;
 
+  /// Controle global de beep por leitura de tag no leitor nativo.
+  static bool beepEnabled = true;
+
   bool get isBusy => _isBusy;
   bool get isInventoryRunning => _isInventoryRunning;
   bool get isReaderConnected => _isReaderConnected;

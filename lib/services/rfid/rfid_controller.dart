@@ -31,6 +31,9 @@ class RfidController extends ChangeNotifier {
   /// Controle global de beep por leitura de tag no leitor nativo.
   static bool beepEnabled = true;
 
+  /// Prefixos de EPC aceitos. Vazio = aceita qualquer EPC.
+  static List<String> epcPrefixes = <String>[];
+
   bool get isBusy => _isBusy;
   bool get isInventoryRunning => _isInventoryRunning;
   bool get isReaderConnected => _isReaderConnected;
@@ -143,22 +146,42 @@ class RfidController extends ChangeNotifier {
         return;
       }
 
+      final normalizedEpc = tag.epc.trim().toLowerCase();
+      if (normalizedEpc.isEmpty) {
+        return;
+      }
+
+      final normalizedTid = tag.tid?.trim().toLowerCase();
+      final normalizedTag = tag.copyWith(
+        epc: normalizedEpc,
+        tid: (normalizedTid == null || normalizedTid.isEmpty) ? null : normalizedTid,
+      );
+
+      if (!_matchesAnyPrefix(normalizedTag.epc)) {
+        return;
+      }
+
       // Use TID as primary key if available, otherwise use EPC
-      final key = (tag.tid != null && tag.tid!.isNotEmpty) ? tag.tid! : tag.epc;
+      final key =
+          (normalizedTag.tid != null && normalizedTag.tid!.isNotEmpty)
+              ? normalizedTag.tid!
+              : normalizedTag.epc;
       final existing = _tagsByEpc[key];
       if (existing == null) {
-        _tagsByEpc[key] = tag;
+        _tagsByEpc[key] = normalizedTag;
       } else {
         final updatedCount =
-            tag.count > 1
-                ? (tag.count > existing.count ? tag.count : existing.count)
+            normalizedTag.count > 1
+                ? (normalizedTag.count > existing.count
+                    ? normalizedTag.count
+                    : existing.count)
                 : (existing.count + 1);
 
         _tagsByEpc[key] = existing.copyWith(
           count: updatedCount,
-          tid: tag.tid ?? existing.tid,
-          rssi: tag.rssi ?? existing.rssi,
-          timestamp: tag.timestamp,
+          tid: normalizedTag.tid ?? existing.tid,
+          rssi: normalizedTag.rssi ?? existing.rssi,
+          timestamp: normalizedTag.timestamp,
         );
       }
       notifyListeners();
@@ -178,6 +201,25 @@ class RfidController extends ChangeNotifier {
     _triggerSubscription ??= _reader.trigger.listen((pressed) {
       unawaited(_handleTriggerState(pressed));
     });
+  }
+
+  bool _matchesAnyPrefix(String epc) {
+    final filters = RfidController.epcPrefixes;
+    if (filters.isEmpty) {
+      return true;
+    }
+
+    final normalizedEpc = epc.trim().toLowerCase();
+    for (final prefix in filters) {
+      final normalizedPrefix = prefix.trim().toLowerCase();
+      if (normalizedPrefix.isEmpty) {
+        continue;
+      }
+      if (normalizedEpc.startsWith(normalizedPrefix)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   Future<void> _handleTriggerState(bool pressed) async {

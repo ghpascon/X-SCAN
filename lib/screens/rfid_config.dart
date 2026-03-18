@@ -14,6 +14,8 @@ class RfidConfigScreen extends StatefulWidget {
 class _RfidConfigScreenState extends State<RfidConfigScreen> {
   static const MethodChannel _channel = MethodChannel('x_scan/rfid');
 
+  final TextEditingController _prefixController = TextEditingController();
+
   bool _loading = true;
   bool _saving = false;
   String? _error;
@@ -21,6 +23,7 @@ class _RfidConfigScreenState extends State<RfidConfigScreen> {
   int _power = 30;
   int? _rssiThreshold = RfidController.rssiThreshold;
   bool _beepEnabled = RfidController.beepEnabled;
+  List<String> _epcPrefixes = List<String>.from(RfidController.epcPrefixes);
 
   @override
   void initState() {
@@ -38,9 +41,11 @@ class _RfidConfigScreenState extends State<RfidConfigScreen> {
       // Carrega potência salva como padrão inicial
       final savedPower = await ReaderPrefs.loadPower();
       final savedBeep = await ReaderPrefs.loadBeepEnabled();
+      final savedPrefixes = await ReaderPrefs.loadEpcPrefixes();
       setState(() {
         _power = savedPower;
         _beepEnabled = savedBeep;
+        _epcPrefixes = savedPrefixes;
       });
 
       final connected = await _channel.invokeMethod<bool>('connect') ?? false;
@@ -90,11 +95,13 @@ class _RfidConfigScreenState extends State<RfidConfigScreen> {
 
       RfidController.rssiThreshold = _rssiThreshold;
       RfidController.beepEnabled = _beepEnabled;
+      RfidController.epcPrefixes = List<String>.from(_epcPrefixes);
 
       await ReaderPrefs.save(
         power: _power,
         rssiThreshold: _rssiThreshold,
         beepEnabled: _beepEnabled,
+        epcPrefixes: _epcPrefixes,
       );
 
       await _loadConfig();
@@ -146,7 +153,9 @@ class _RfidConfigScreenState extends State<RfidConfigScreen> {
                 const SizedBox(height: 10),
                 _buildRssiFilterCard(),
                 const SizedBox(height: 10),
-                _buildBeepCard(),                
+                _buildBeepCard(),
+                const SizedBox(height: 10),
+                _buildPrefixCard(),
                 if (_error != null) ...[
                   const SizedBox(height: 12),
                   Text(
@@ -287,5 +296,94 @@ class _RfidConfigScreenState extends State<RfidConfigScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildPrefixCard() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Filtro por prefixo EPC',
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            const SizedBox(height: 4),
+            const Text(
+              'Se vazio, aceita todas as tags. Se preenchido, aceita apenas EPC com os prefixos abaixo.',
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _prefixController,
+                    textCapitalization: TextCapitalization.characters,
+                    decoration: const InputDecoration(
+                      labelText: 'Adicionar prefixo',
+                      hintText: 'Ex: e28011',
+                      border: OutlineInputBorder(),
+                      isDense: true,
+                    ),
+                    onSubmitted: (_) => _addPrefix(),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                FilledButton(
+                  onPressed: _addPrefix,
+                  child: const Text('Add'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            if (_epcPrefixes.isEmpty)
+              const Text('Nenhum prefixo configurado.')
+            else
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: _epcPrefixes
+                    .map(
+                      (prefix) => Chip(
+                        label: Text(prefix),
+                        onDeleted: () => _removePrefix(prefix),
+                      ),
+                    )
+                    .toList(),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _addPrefix() {
+    final value = _prefixController.text.trim().toLowerCase();
+    if (value.isEmpty) {
+      return;
+    }
+
+    if (_epcPrefixes.contains(value)) {
+      _prefixController.clear();
+      return;
+    }
+
+    setState(() {
+      _epcPrefixes = <String>[..._epcPrefixes, value]..sort();
+    });
+    _prefixController.clear();
+  }
+
+  void _removePrefix(String prefix) {
+    setState(() {
+      _epcPrefixes = _epcPrefixes.where((item) => item != prefix).toList();
+    });
+  }
+
+  @override
+  void dispose() {
+    _prefixController.dispose();
+    super.dispose();
   }
 }

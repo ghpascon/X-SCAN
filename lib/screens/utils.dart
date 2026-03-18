@@ -1,0 +1,34 @@
+import 'package:flutter/material.dart';
+import 'package:x_scan/widgets/app_page_scaffold.dart';
+
+class UtilsScreen extends StatelessWidget {
+  const UtilsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppPageScaffold(
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
+        children: [
+          FilledButton.icon(
+            onPressed: () => Navigator.of(context).pushNamed('/info'),
+            icon: const Icon(Icons.info_outline),
+            label: const Text('Info'),
+          ),
+          const SizedBox(height: 14),
+          FilledButton.icon(
+            onPressed: () => Navigator.of(context).pushNamed('/gps'),
+            icon: const Icon(Icons.gps_fixed),
+            label: const Text('GPS'),
+          ),
+          const SizedBox(height: 14),
+          FilledButton.icon(
+            onPressed: () => Navigator.of(context).pushNamed('/barcode-test'),
+            icon: const Icon(Icons.qr_code_scanner),
+            label: const Text('Teste Barcode'),
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -156,8 +156,7 @@ class UhfSdkManager(private val context: Context) {
         val nextCount = (existing?.count?.toIntOrNull() ?: 0) + 1
 
         // Only log new tags (not from old session)
-        val isNewTag = !oldTagKeys.contains(key)
-        if (isNewTag) {
+        if (nextCount == 1) {
             android.util.Log.d("UhfSdkManager", "TAG: epc=$epc, tid=$tid, rssi=$rssi, count=$nextCount")
         }
 

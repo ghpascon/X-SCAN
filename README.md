@@ -1,57 +1,77 @@
 # X-SCAN
 
-Aplicativo Flutter com modulo RFID estruturado para escalar para varios leitores.
+Aplicativo Flutter com integracao RFID para handheld C72, suporta fila local, sincronizacao webhook e GPS.
+
+## Features Implementadas
+
+### RFID
+
+- Leitura continua via `rfid_c72_plugin` (Chainway C72)
+- Exibe apenas **novas tags** (descarta antigas de sessoes anteriores)
+- Mostra EPC, TID, RSSI, contagem e timestamp
+- Reconexao/limpeza de tags
+
+### Persistencia Local
+
+- Fila de eventos em `inventory_events.json`
+- Dados salvos: device ID, GPS, tags com timestamp
+- Retorna para Home apos salvar localmente
+
+### Sincronizacao Webhook
+
+- Configuracao de URL webhook nas Configuracoes do app
+- Tela dedicada de execucao com:
+  - Progresso (processados / total)
+  - Contador de sucessos e falhas
+  - Lista de motivos de falha (HTTP status, erro de rede, SSL, etc.)
+- Comportamento: sucesso remove da fila, falha mantém para retry
+- Recarrega fila ao voltar
+
+### Fila
+
+- Visualizar eventos pendentes
+- Deletar evento individual
+- Ver JSON completo do evento
+
+### APP
+
+- Tela inicial com navegacao
+- Configuracoes: URL webhook persistida
+- GPS integrado
+- Barcode test (teclado)
 
 ## Estrutura RFID
 
-O modulo foi separado em camadas para facilitar manutencao e crescimento:
+Camadas:
 
-- `lib/core/rfid`: contratos e modelos (`RfidReader`, `RfidTag`, `RfidPlatformInfo`)
-- `lib/services/rfid`: implementacao de plataforma e estado (`PlatformRfidReader`, `RfidController`)
-- `lib/screens/rfid.dart`: UI de inventario simples (`RfidScreen`)
+- `lib/core/rfid`: contratos (`RfidReader`, `RfidTag`, `RfidPlatformInfo`)
+- `lib/services/rfid`: implementacao (`PlatformRfidReader`, `RfidController`)
+- `lib/screens/rfid.dart`: UI (`RfidScreen`)
 
-Na Home existe o atalho `RFID`.
+Android:
 
-## C72 - O Que Ja Esta Pronto
+- `android/app/src/main/kotlin/com/example/x_scan/rfid/UhfSdkManager.kt`: gerenciador de tags e logs
+  - Filtra para exibir **apenas novas tags** no console
+  - Marca tags antigas ao iniciar leitura
 
-- Integracao oficial via `rfid_c72_plugin`
-- Leitura continua via `RfidC72Plugin.startContinuous`
-- Stream de tags via `RfidC72Plugin.tagsStatusStream`
-- Parse de tags JSON usando `TagEpc.parseTags(...)`
-- Tela simples que mostra EPC, RSSI e contagem de leituras
+## Setup
 
-Arquivo principal Android da integracao:
+1. `flutter clean && flutter pub get`
+2. `flutter run -d HC72BA240900235` (ou seu device ID)
 
-- `android/app/src/main/kotlin/com/example/x_scan/MainActivity.kt`
+Valide:
 
-## Setup Android Para Plugin C72
+- RFID conectado e SDK detectado
+- Tags aparecendo ao iniciar leitura
+- App Settings mostra webhook URL persistido
 
-1. Dependencia Flutter adicionada:
-   - `rfid_c72_plugin` via path local `plugins/rfid_c72_plugin` (patchado para AGP 8)
-2. Modulo Android `:libs` configurado:
-   - `android/settings.gradle.kts` com `include(":app", ":libs")`
-   - `android/libs/build.gradle`
-3. SDK nativo Chainway ja baixado em:
-   - `android/libs/DeviceAPI_ver20220518_release.aar`
-4. App ligado ao modulo `:libs`:
-   - `android/app/build.gradle.kts` com `implementation(project(":libs"))`
-5. Rode:
-   - `flutter clean`
-   - `flutter pub get`
-   - `flutter run`
-6. Abra a tela RFID e valide:
-   - `SDK detectado: Sim`
-   - botao `Iniciar Leitura`
-   - tags aparecendo na lista
+## Arquivos-Chave
 
-## Arquivos-Chave Da Integracao
-
-- `lib/services/rfid/platform_rfid_reader.dart`
-- `lib/services/rfid/rfid_controller.dart`
-- `lib/screens/rfid.dart`
-- `android/libs/build.gradle`
-
-## Proximo Passo Recomendado
-
-Se o seu firmware C72 tiver comportamentos diferentes (ex.: nao publicar RSSI ou erro de permissao),
-me envie o log do `flutter run` que eu ajusto o parser/fluxo de leitura para o seu device.
+- `lib/screens/rfid.dart`: UI inventario
+- `lib/screens/sync.dart`: entrada da sincronizacao
+- `lib/screens/sync_run.dart`: execucao e resultado
+- `lib/screens/sync_queue.dart`: fila de eventos
+- `lib/screens/app_settings.dart`: config webhook
+- `lib/services/app_prefs.dart`: persistencia webhook
+- `lib/services/rfid/rfid_controller.dart`: controller com session tracking
+- `android/.../UhfSdkManager.kt`: logs apenas de novas tags

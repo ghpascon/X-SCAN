@@ -8,6 +8,8 @@ import 'package:x_scan/core/rfid/rfid_tag.dart';
 class RfidController extends ChangeNotifier {
   RfidController({required RfidReader reader}) : _reader = reader;
 
+  static final RegExp _hex24Pattern = RegExp(r'^[0-9a-f]{24}$');
+
   final RfidReader _reader;
 
   final Map<String, RfidTag> _tagsByEpc = <String, RfidTag>{};
@@ -147,25 +149,23 @@ class RfidController extends ChangeNotifier {
       }
 
       final normalizedEpc = tag.epc.trim().toLowerCase();
-      if (normalizedEpc.isEmpty) {
+      final normalizedTid = tag.tid?.trim().toLowerCase();
+      // Regra: EPC e TID devem ser hex com 24 caracteres, senao ignora.
+      if (!_isHex24(normalizedEpc) || normalizedTid == null || !_isHex24(normalizedTid)) {
         return;
       }
 
-      final normalizedTid = tag.tid?.trim().toLowerCase();
       final normalizedTag = tag.copyWith(
         epc: normalizedEpc,
-        tid: (normalizedTid == null || normalizedTid.isEmpty) ? null : normalizedTid,
+        tid: normalizedTid,
       );
 
       if (!_matchesAnyPrefix(normalizedTag.epc)) {
         return;
       }
 
-      // Use TID as primary key if available, otherwise use EPC
-      final key =
-          (normalizedTag.tid != null && normalizedTag.tid!.isNotEmpty)
-              ? normalizedTag.tid!
-              : normalizedTag.epc;
+      // TID sempre como chave primaria.
+      final key = normalizedTid;
       final existing = _tagsByEpc[key];
       if (existing == null) {
         _tagsByEpc[key] = normalizedTag;
@@ -179,7 +179,7 @@ class RfidController extends ChangeNotifier {
 
         _tagsByEpc[key] = existing.copyWith(
           count: updatedCount,
-          tid: normalizedTag.tid ?? existing.tid,
+          tid: normalizedTid,
           rssi: normalizedTag.rssi ?? existing.rssi,
           timestamp: normalizedTag.timestamp,
         );
@@ -220,6 +220,10 @@ class RfidController extends ChangeNotifier {
       }
     }
     return false;
+  }
+
+  bool _isHex24(String value) {
+    return _hex24Pattern.hasMatch(value);
   }
 
   Future<void> _handleTriggerState(bool pressed) async {

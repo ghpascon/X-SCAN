@@ -129,10 +129,26 @@ class RfidController extends ChangeNotifier {
     return start();
   }
 
-  void clearTags() {
+  Future<void> clearTags() async {
+    if (_isBusy) {
+      return;
+    }
+
+    _setBusy(true);
+    _errorMessage = null;
     _tagsByEpc.clear();
-    _appendLog('Lista de tags limpa');
     notifyListeners();
+
+    try {
+      await _reader.clearTagSession();
+      _appendLog('Lista de tags limpa');
+    } catch (error) {
+      _errorMessage = error.toString();
+      _appendLog('Erro ao limpar tags: $error');
+    } finally {
+      _setBusy(false);
+      notifyListeners();
+    }
   }
 
   void clearLogs() {

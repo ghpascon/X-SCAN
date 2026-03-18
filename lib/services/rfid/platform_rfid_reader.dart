@@ -189,6 +189,15 @@ class PlatformRfidReader implements RfidReader {
   }
 
   @override
+  Future<void> clearTagSession() async {
+    final success = await _invokeBool('clearData');
+    if (success != true) {
+      throw const RfidFailure('Falha ao limpar dados de tag no leitor RFID.');
+    }
+    _statusController.add('Cache de tags do leitor limpo');
+  }
+
+  @override
   Future<void> dispose() async {
     await _invokeBool('stop');
     await _invokeBool('clearData');

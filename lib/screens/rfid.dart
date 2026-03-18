@@ -21,6 +21,7 @@ class _RfidScreenState extends State<RfidScreen> {
   late final RfidController _controller;
   final GpsService _gpsService = GpsService();
   bool _isSavingLocal = false;
+  bool _isStatusExpanded = false;
 
   @override
   void initState() {
@@ -64,32 +65,65 @@ class _RfidScreenState extends State<RfidScreen> {
         _controller.isInventoryRunning ? 'Leitura em andamento' : 'Leitura parada';
     final connectionText =
       _controller.isReaderConnected ? 'Conectado' : 'Desconectado';
+    final deviceLabel = platformInfo?.model ?? '...';
+
+    final cardColor = error != null
+        ? Colors.red.shade100
+        : _controller.isInventoryRunning
+            ? Colors.green.shade100
+            : _controller.isReaderConnected
+                ? Colors.amber.shade100
+                : null;
 
     return Card(
+      color: cardColor,
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('RFID C72', style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 8),
-            Text('Modelo: ${platformInfo?.model ?? '...'}'),
-            Text('Fabricante: ${platformInfo?.manufacturer ?? '...'}'),
-            Text('Conexao do leitor: $connectionText'),
-            Text('Tipo de leitor: ${platformInfo?.readerType ?? '...'}'),
-            Text(
-              'SDK detectado: ${platformInfo?.sdkAvailable == true ? 'Sim' : 'Nao'}',
-            ),
-            Text('Status: $inventoryText'),
-            if (error != null) ...[
-              const SizedBox(height: 8),
-              Text(
-                error,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.error,
-                  fontWeight: FontWeight.w600,
-                ),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _isStatusExpanded = !_isStatusExpanded;
+                });
+              },
+              child: Row(
+                children: [
+                  const Icon(Icons.devices_other),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Device: $deviceLabel',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ),
+                  Icon(_isStatusExpanded ? Icons.expand_less : Icons.expand_more),
+                ],
               ),
+            ),
+            if (_isStatusExpanded) ...[
+              const SizedBox(height: 8),
+              const Divider(height: 1),
+              const SizedBox(height: 8),
+              Text('Modelo: ${platformInfo?.model ?? '...'}'),
+              Text('Fabricante: ${platformInfo?.manufacturer ?? '...'}'),
+              Text('Conexao do leitor: $connectionText'),
+              Text('Tipo de leitor: ${platformInfo?.readerType ?? '...'}'),
+              Text(
+                'SDK detectado: ${platformInfo?.sdkAvailable == true ? 'Sim' : 'Nao'}',
+              ),
+              Text('Status: $inventoryText'),
+              if (error != null) ...[
+                const SizedBox(height: 8),
+                Text(
+                  error,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.error,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ],
           ],
         ),
@@ -108,7 +142,7 @@ class _RfidScreenState extends State<RfidScreen> {
           label: const Text('Reconectar'),
         ),
         OutlinedButton(
-          onPressed: _controller.clearTags,
+          onPressed: _controller.isBusy ? null : _controller.clearTags,
           child: const Text('Limpar Tags'),
         ),
         OutlinedButton.icon(

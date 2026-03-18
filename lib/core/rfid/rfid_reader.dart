@@ -10,6 +10,8 @@ abstract class RfidReader {
 
   Future<void> stopInventory();
 
+  Future<void> clearTagSession();
+
   Future<void> dispose();
 
   Stream<RfidTag> get tags;

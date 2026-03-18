@@ -15,7 +15,7 @@ class SyncQueueScreen extends StatefulWidget {
 class _SyncQueueScreenState extends State<SyncQueueScreen> {
   late Future<List<Map<String, dynamic>>> _queueFuture;
 
-  void _showEventJson(Map<String, dynamic> event) {
+  void _showEventJson(Map<String, dynamic> event, int index) {
     final prettyJson = const JsonEncoder.withIndent('  ').convert(event);
     showDialog<void>(
       context: context,
@@ -35,6 +35,14 @@ class _SyncQueueScreenState extends State<SyncQueueScreen> {
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
               child: const Text('Fechar'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                _deleteEvent(index);
+              },
+              child: const Text('Excluir',
+                  style: TextStyle(color: Colors.red)),
             ),
           ],
         );
@@ -76,6 +84,46 @@ class _SyncQueueScreenState extends State<SyncQueueScreen> {
       _queueFuture = _loadQueue();
     });
     await _queueFuture;
+  }
+
+  Future<void> _deleteEvent(int index) async {
+    try {
+      final docsDir = await getApplicationDocumentsDirectory();
+      final file = File('${docsDir.path}/inventory_events.json');
+
+      if (!await file.exists()) {
+        return;
+      }
+
+      final content = await file.readAsString();
+      if (content.trim().isEmpty) {
+        return;
+      }
+
+      final parsed = jsonDecode(content);
+      if (parsed is! List) {
+        return;
+      }
+
+      // Remove event at index
+      (parsed as List).removeAt(index);
+
+      // Save updated list back to file
+      await file.writeAsString(jsonEncode(parsed));
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Evento excluído da fila')),
+      );
+
+      // Refresh the queue
+      await _refresh();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao excluir evento: $e')),
+      );
+    }
   }
 
   @override
@@ -144,7 +192,7 @@ class _SyncQueueScreenState extends State<SyncQueueScreen> {
                     title: Text(eventType),
                     subtitle: const Text('Toque para ver o JSON completo'),
                     trailing: const Icon(Icons.chevron_right),
-                    onTap: () => _showEventJson(event),
+                    onTap: () => _showEventJson(event, index - 1),
                   ),
                 );
               },

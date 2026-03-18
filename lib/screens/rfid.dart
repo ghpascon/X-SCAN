@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:x_scan/core/rfid/rfid_tag.dart';
 import 'package:x_scan/services/gps_service.dart';
 import 'package:x_scan/services/rfid/platform_rfid_reader.dart';
@@ -127,11 +126,7 @@ class _RfidScreenState extends State<RfidScreen> {
               : const Icon(Icons.save),
           label: const Text('Salvar tags localmente'),
         ),
-        OutlinedButton.icon(
-          onPressed: _controller.tags.isEmpty ? null : _exportCsv,
-          icon: const Icon(Icons.download),
-          label: const Text('Exportar CSV'),
-        ),
+
         const Chip(
           avatar: Icon(Icons.settings_input_antenna, size: 18),
           label: Text('Segure o gatilho para ler'),
@@ -140,46 +135,7 @@ class _RfidScreenState extends State<RfidScreen> {
     );
   }
 
-  Future<void> _exportCsv() async {
-    final tags = _controller.tags;
-    if (tags.isEmpty) return;
 
-    final buf = StringBuffer();
-    buf.writeln('epc,tid,rssi,contagem,timestamp');
-    for (final tag in tags) {
-      buf.writeln(
-        '${_csvField(tag.epc)},'
-        '${_csvField(tag.tid ?? '')},'
-        '${tag.rssi ?? ''},'
-        '${tag.count},'
-        '${tag.timestamp.toIso8601String()}',
-      );
-    }
-
-    final ts = DateTime.now()
-        .toIso8601String()
-        .replaceAll(RegExp(r'[:.]'), '-');
-    final fileName = 'rfid_$ts.csv';
-    final csvText = buf.toString().toLowerCase();
-
-    try {
-      final dir = await getTemporaryDirectory();
-      final file = File('${dir.path}/$fileName');
-      await file.writeAsString(csvText);
-
-      await SharePlus.instance.share(
-        ShareParams(
-          files: [XFile(file.path, mimeType: 'text/csv', name: fileName)],
-          subject: fileName.toLowerCase(),
-        ),
-      );
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao exportar CSV: $e')),
-      );
-    }
-  }
 
   Future<void> _saveLocally() async {
     final tags = _controller.tags;
@@ -220,6 +176,7 @@ class _RfidScreenState extends State<RfidScreen> {
         'device': deviceInfo.id,
         'event_type': 'inventory',
         'event_data': <String, dynamic>{
+          'timestamp': DateTime.now().toIso8601String(),
           'gps': <String, dynamic>{
             'latitude': position.latitude,
             'longitude': position.longitude,
@@ -268,12 +225,7 @@ class _RfidScreenState extends State<RfidScreen> {
     }
   }
 
-  String _csvField(String value) {
-    if (value.contains(',') || value.contains('"') || value.contains('\n')) {
-      return '"${value.replaceAll('"', '""')}"';
-    }
-    return value;
-  }
+
 
   Widget _buildTagSummary() {
     return Card(

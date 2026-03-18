@@ -93,3 +93,5 @@ fi
 git -C "$ROOT_DIR" commit -m "$COMMIT_MESSAGE"
 
 echo "Commit criado com sucesso."
+
+git push

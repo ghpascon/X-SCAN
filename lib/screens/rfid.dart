@@ -126,11 +126,6 @@ class _RfidScreenState extends State<RfidScreen> {
               : const Icon(Icons.save),
           label: const Text('Salvar tags localmente'),
         ),
-
-        const Chip(
-          avatar: Icon(Icons.settings_input_antenna, size: 18),
-          label: Text('Segure o gatilho para ler'),
-        ),
       ],
     );
   }
@@ -180,11 +175,6 @@ class _RfidScreenState extends State<RfidScreen> {
           'gps': <String, dynamic>{
             'latitude': position.latitude,
             'longitude': position.longitude,
-            'accuracy': position.accuracy,
-            'altitude': position.altitude,
-            'heading': position.heading,
-            'speed': position.speed,
-            'timestamp': position.timestamp.toIso8601String(),
           },
           'tags': tags
               .map(
@@ -211,6 +201,7 @@ class _RfidScreenState extends State<RfidScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Evento salvo localmente (${events.length}).')),
       );
+      Navigator.of(context).popUntil((route) => route.isFirst);
     } catch (e) {
       if (!mounted) {
         return;

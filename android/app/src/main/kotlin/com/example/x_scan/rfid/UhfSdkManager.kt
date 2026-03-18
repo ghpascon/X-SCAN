@@ -12,6 +12,7 @@ class UhfSdkManager(private val context: Context) {
     private var reader: RFIDWithUHFUART? = null
     private var listener: UhfListener? = null
     private val tagMap = ConcurrentHashMap<String, EpcTag>()
+    private val oldTagKeys = mutableSetOf<String>()
 
     @Volatile
     private var started = false
@@ -51,6 +52,10 @@ class UhfSdkManager(private val context: Context) {
         if (started) {
             return true
         }
+
+        // Mark all current tags as old so only new ones get logged
+        oldTagKeys.clear()
+        oldTagKeys.addAll(tagMap.keys)
 
         val ok = currentReader.startInventoryTag()
         if (!ok) {
@@ -150,8 +155,11 @@ class UhfSdkManager(private val context: Context) {
         val existing = tagMap[key]
         val nextCount = (existing?.count?.toIntOrNull() ?: 0) + 1
 
-        // Debug log
-        android.util.Log.d("UhfSdkManager", "TAG: epc=$epc, tid=$tid, rssi=$rssi, count=$nextCount")
+        // Only log new tags (not from old session)
+        val isNewTag = !oldTagKeys.contains(key)
+        if (isNewTag) {
+            android.util.Log.d("UhfSdkManager", "TAG: epc=$epc, tid=$tid, rssi=$rssi, count=$nextCount")
+        }
 
         tagMap[key] = EpcTag(
             id = existing?.id ?: "",

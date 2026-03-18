@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:x_scan/screens/sync_run.dart';
 import 'package:x_scan/widgets/app_page_scaffold.dart';
 
 class SyncScreen extends StatefulWidget {
@@ -46,6 +47,23 @@ class _SyncScreenState extends State<SyncScreen> {
     }
   }
 
+  Future<void> _reloadQueueCount() async {
+    setState(() {
+      _queueCountFuture = _getQueueCount();
+    });
+    await _queueCountFuture;
+  }
+
+  Future<void> _openSyncRun() async {
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) => const SyncRunScreen(),
+      ),
+    );
+    if (!mounted) return;
+    await _reloadQueueCount();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppPageScaffold(
@@ -85,9 +103,19 @@ class _SyncScreenState extends State<SyncScreen> {
           ),
           const SizedBox(height: 12),
           FilledButton.icon(
-            onPressed: () => Navigator.of(context).pushNamed('/sync-queue'),
+            onPressed: () async {
+              await Navigator.of(context).pushNamed('/sync-queue');
+              if (!mounted) return;
+              await _reloadQueueCount();
+            },
             icon: const Icon(Icons.list_alt),
             label: const Text('Ver fila'),
+          ),
+          const SizedBox(height: 12),
+          FilledButton.icon(
+            onPressed: _openSyncRun,
+            icon: const Icon(Icons.cloud_upload),
+            label: const Text('Enviar dados'),
           ),
         ],
       ),

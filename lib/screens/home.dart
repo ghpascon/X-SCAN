@@ -30,6 +30,12 @@ class HomeScreen extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           FilledButton.icon(
+            onPressed: () => Navigator.of(context).pushNamed('/barcode-test'),
+            icon: const Icon(Icons.qr_code_scanner),
+            label: const Text('Teste Barcode'),
+          ),
+          const SizedBox(height: 14),
+          FilledButton.icon(
             onPressed: () => Navigator.of(context).pushNamed('/rfid-config'),
             icon: const Icon(Icons.tune),
             label: const Text('Configurar Leitor RFID'),
@@ -39,6 +45,12 @@ class HomeScreen extends StatelessWidget {
             onPressed: () => Navigator.of(context).pushNamed('/sync'),
             icon: const Icon(Icons.sync),
             label: const Text('Sincronizar'),
+          ),
+          const SizedBox(height: 14),
+          FilledButton.icon(
+            onPressed: () => Navigator.of(context).pushNamed('/app-settings'),
+            icon: const Icon(Icons.settings),
+            label: const Text('Configuracoes do app'),
           ),
           const SizedBox(height: 14),
         ],

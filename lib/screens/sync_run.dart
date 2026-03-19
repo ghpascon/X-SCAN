@@ -283,10 +283,10 @@ class _SyncRunScreenState extends State<SyncRunScreen> {
                           width: double.infinity,
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: Colors.red.withOpacity(0.06),
+                            color: Colors.red.withValues(alpha: 0.06),
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                              color: Colors.red.withOpacity(0.15),
+                              color: Colors.red.withValues(alpha: 0.15),
                             ),
                           ),
                           child: Column(

@@ -14,7 +14,6 @@ class UhfSdkManager(private val context: Context) {
     private var reader: RFIDWithUHFUART? = null
     private var listener: UhfListener? = null
     private val tagMap = ConcurrentHashMap<String, EpcTag>()
-    private val oldTagKeys = mutableSetOf<String>()
     private var toneGenerator: ToneGenerator? = null
     private var beepEnabled = true
     private var lastBeepMs = 0L
@@ -49,7 +48,14 @@ class UhfSdkManager(private val context: Context) {
     }
 
     fun isConnected(): Boolean {
-        return reader != null
+        val currentReader = reader ?: return false
+        return try {
+            val status = currentReader.getConnectStatus()
+            status.toString().equals("CONNECTED", ignoreCase = true)
+        } catch (_: Throwable) {
+            // Fallback: keep legacy behavior if firmware/SDK does not expose status reliably.
+            true
+        }
     }
 
     fun startContinuous(): Boolean {
@@ -57,10 +63,6 @@ class UhfSdkManager(private val context: Context) {
         if (started) {
             return true
         }
-
-        // Mark all current tags as old so only new ones get logged
-        oldTagKeys.clear()
-        oldTagKeys.addAll(tagMap.keys)
 
         val ok = currentReader.startInventoryTag()
         if (!ok) {
@@ -76,7 +78,8 @@ class UhfSdkManager(private val context: Context) {
         val currentReader = reader
         if (!started || currentReader == null) {
             started = false
-            return false
+            // Idempotent stop: already stopped should not be treated as an error.
+            return true
         }
 
         started = false

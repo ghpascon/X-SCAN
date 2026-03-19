@@ -106,7 +106,7 @@ class _SyncQueueScreenState extends State<SyncQueueScreen> {
       }
 
       // Remove event at index
-      (parsed as List).removeAt(index);
+      parsed.removeAt(index);
 
       // Save updated list back to file
       await file.writeAsString(jsonEncode(parsed));

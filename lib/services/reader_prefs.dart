@@ -1,8 +1,22 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:x_scan/services/rfid/rfid_controller.dart';
+import 'package:x_scan/core/rfid/rfid_reader_type.dart';
 
 /// Persiste as configurações do leitor RFID entre sessões.
 class ReaderPrefs {
+    static const _keyReaderType = 'reader_type';
+    /// Salva o tipo de leitor selecionado
+    static Future<void> saveReaderType(RfidReaderType type) async {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_keyReaderType, type.value);
+    }
+
+    /// Carrega o tipo de leitor salvo (padrão: c72)
+    static Future<RfidReaderType> loadReaderType() async {
+      final prefs = await SharedPreferences.getInstance();
+      final value = prefs.getString(_keyReaderType);
+      return RfidReaderType.fromValue(value);
+    }
   static const _keyPower = 'reader_power';
   static const _keyRssi = 'reader_rssi_threshold';
   static const _keyBeepEnabled = 'reader_beep_enabled';

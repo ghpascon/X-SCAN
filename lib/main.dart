@@ -11,11 +11,14 @@ import 'package:x_scan/screens/rfid_config.dart';
 import 'package:x_scan/screens/sync.dart';
 import 'package:x_scan/screens/sync_queue.dart';
 import 'package:x_scan/screens/utils.dart';
+import 'package:x_scan/screens/select_reader.dart';
 import 'package:x_scan/services/reader_prefs.dart';
+import 'package:x_scan/core/rfid/rfid_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ReaderPrefs.load();
+  await RfidManager.loadType(); // Carrega o tipo salvo
   runApp(const XScanApp());
 }
 
@@ -39,6 +42,7 @@ class XScanApp extends StatelessWidget {
         '/barcode-test': (context) => const BarcodeTestScreen(),
         '/rfid-config': (context) => const RfidConfigScreen(),
         '/app-settings': (context) => const AppSettingsScreen(),
+        '/select-reader': (context) => SelectReaderScreen(),
       },
       themeMode: ThemeMode.light,
       theme: AppTheme.light,

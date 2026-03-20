@@ -1,4 +1,5 @@
 package com.example.x_scan
+import android.util.Log
 
 import android.content.pm.PackageManager
 import android.view.KeyEvent
@@ -52,6 +53,7 @@ class MainActivity : FlutterActivity() {
 	}
 
 	override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+		Log.d("XSCAN_KEYS", "onKeyDown: keyCode=$keyCode, event=$event")
 		if (rfidBridge?.onHardwareKeyDown(keyCode) == true) {
 			return true
 		}
@@ -59,6 +61,7 @@ class MainActivity : FlutterActivity() {
 	}
 
 	override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+		Log.d("XSCAN_KEYS", "onKeyUp: keyCode=$keyCode, event=$event")
 		if (rfidBridge?.onHardwareKeyUp(keyCode) == true) {
 			return true
 		}

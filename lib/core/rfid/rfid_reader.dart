@@ -18,5 +18,11 @@ abstract class RfidReader {
 
   Stream<String> get status;
 
+  /// Obtém configuração atual do leitor (potência, beep, etc)
+  Future<Map<String, dynamic>> getConfig();
+
+  /// Aplica configuração ao leitor (potência, beep, etc)
+  Future<bool> applyConfig(Map<String, dynamic> config);
+
   Stream<bool> get trigger;
 }

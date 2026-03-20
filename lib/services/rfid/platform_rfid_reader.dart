@@ -14,6 +14,17 @@ import 'package:x_scan/core/rfid/rfid_tag.dart';
 import 'package:x_scan/services/reader_prefs.dart';
 
 class PlatformRfidReader implements RfidReader {
+      @override
+      Future<Map<String, dynamic>> getConfig() async {
+        final raw = await _channel.invokeMethod<Map<dynamic, dynamic>>('getReaderConfig');
+        return raw?.map((key, value) => MapEntry(key.toString(), value)) ?? <String, dynamic>{};
+      }
+
+      @override
+      Future<bool> applyConfig(Map<String, dynamic> config) async {
+        final ok = await _channel.invokeMethod<bool>('applyReaderConfig', config);
+        return ok == true;
+      }
     static const RfidDeviceProfileRepository _profileRepository =
         RfidDeviceProfileRepository();
 

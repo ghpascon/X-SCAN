@@ -41,6 +41,12 @@ android {
 
 dependencies {
     implementation(project(":libs"))
+    implementation(project(":at907_plugin"))
+}
+repositories {
+    flatDir {
+        dirs = setOf(file("../libs"))
+    }
 }
 
 flutter {

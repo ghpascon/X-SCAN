@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:x_scan/services/reader_prefs.dart';
 import 'package:x_scan/services/rfid/rfid_controller.dart';
 import 'package:x_scan/widgets/app_page_scaffold.dart';
+import 'package:x_scan/core/rfid/rfid_manager.dart';
 
 class RfidConfigScreen extends StatefulWidget {
   const RfidConfigScreen({super.key});
@@ -12,8 +12,6 @@ class RfidConfigScreen extends StatefulWidget {
 }
 
 class _RfidConfigScreenState extends State<RfidConfigScreen> {
-  static const MethodChannel _channel = MethodChannel('x_scan/rfid');
-
   final TextEditingController _prefixController = TextEditingController();
 
   bool _loading = true;
@@ -48,18 +46,9 @@ class _RfidConfigScreenState extends State<RfidConfigScreen> {
         _epcPrefixes = savedPrefixes;
       });
 
-      final connected = await _channel.invokeMethod<bool>('connect') ?? false;
-      if (!connected) {
-        throw Exception('Falha ao conectar com o leitor RFID.');
-      }
-
-      final raw = await _channel.invokeMethod<Map<dynamic, dynamic>>(
-        'getReaderConfig',
-      );
-
-      final config =
-          raw?.map((key, value) => MapEntry(key.toString(), value)) ??
-          <String, dynamic>{};
+      final reader = RfidManager.reader;
+      await reader.initialize();
+      final config = await reader.getConfig();
 
       // Hardware tem prioridade sobre o valor salvo
       final hwPower = (config['power'] as num?)?.toInt();
@@ -84,7 +73,9 @@ class _RfidConfigScreenState extends State<RfidConfigScreen> {
     });
 
     try {
-      final ok = await _channel.invokeMethod<bool>('applyReaderConfig', {
+      final reader = RfidManager.reader;
+      await reader.initialize();
+      final ok = await reader.applyConfig({
         'power': _power,
         'beepEnabled': _beepEnabled,
       });
@@ -143,7 +134,6 @@ class _RfidConfigScreenState extends State<RfidConfigScreen> {
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                         const SizedBox(height: 6),
-                        const Text('Baseado na API C72: setPower/getPower.'),
                       ],
                     ),
                   ),

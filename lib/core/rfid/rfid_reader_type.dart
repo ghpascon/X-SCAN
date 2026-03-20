@@ -1,4 +1,6 @@
 enum RfidReaderType {
+  c72('c72'),
+  at907('at907'),
   uhfUart('uhf_uart'),
   unknown('unknown');
 

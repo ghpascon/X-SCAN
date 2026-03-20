@@ -75,6 +75,7 @@ class RfidBridge(
     }
 
     fun onHardwareKeyDown(keyCode: Int): Boolean {
+        android.util.Log.d("XSCAN_KEYS", "RfidBridge.onHardwareKeyDown: keyCode=$keyCode")
         if (!isTriggerKey(keyCode) || triggerSink == null) {
             return false
         }
@@ -85,6 +86,7 @@ class RfidBridge(
     }
 
     fun onHardwareKeyUp(keyCode: Int): Boolean {
+        android.util.Log.d("XSCAN_KEYS", "RfidBridge.onHardwareKeyUp: keyCode=$keyCode")
         if (!isTriggerKey(keyCode) || triggerSink == null) {
             return false
         }

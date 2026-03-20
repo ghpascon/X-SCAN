@@ -1,0 +1,24 @@
+name: at907_plugin
+version: 0.1.0
+publish_to: none
+description: Plugin nativo para integração AT907 SDK
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.example.at907_plugin
+        pluginClass: At907Plugin
+
+environment:
+  sdk: ">=2.18.0 <4.0.0"
+  flutter: ">=2.5.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0

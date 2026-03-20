@@ -1,14 +1,13 @@
-import 'dart:io';
-import 'dart:convert';
-
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'dart:convert';
 import 'package:x_scan/core/rfid/rfid_tag.dart';
 import 'package:x_scan/services/gps_service.dart';
-import 'package:x_scan/services/rfid/platform_rfid_reader.dart';
 import 'package:x_scan/services/rfid/rfid_controller.dart';
 import 'package:x_scan/widgets/app_page_scaffold.dart';
+import 'package:x_scan/core/rfid/rfid_manager.dart';
 
 class RfidScreen extends StatefulWidget {
   const RfidScreen({super.key});
@@ -18,39 +17,54 @@ class RfidScreen extends StatefulWidget {
 }
 
 class _RfidScreenState extends State<RfidScreen> {
-  late final RfidController _controller;
+  RfidController? _controller;
   final GpsService _gpsService = GpsService();
   bool _isSavingLocal = false;
   bool _isStatusExpanded = false;
+  bool _loading = true;
 
   @override
   void initState() {
     super.initState();
-    _controller = RfidController(reader: PlatformRfidReader())..setup();
+    _initController();
+  }
+
+  Future<void> _initController() async {
+    await RfidManager.loadType();
+    setState(() {
+      _controller = RfidController(reader: RfidManager.reader)..setup();
+      _loading = false;
+    });
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_loading || _controller == null) {
+      return AppPageScaffold(
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
     return AppPageScaffold(
       body: AnimatedBuilder(
-        animation: _controller,
+        animation: _controller!,
         builder: (context, _) {
           return ListView(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
             children: [
+              const SizedBox(height: 8),
               _buildStatusCard(),
               const SizedBox(height: 12),
               _buildActions(),
               const SizedBox(height: 12),
               _buildTagSummary(),
               const SizedBox(height: 10),
-              ..._buildTagTiles(_controller.tags),
+              ..._buildTagTiles(_controller!.tags),
             ],
           );
         },
@@ -58,22 +72,27 @@ class _RfidScreenState extends State<RfidScreen> {
     );
   }
 
+  // Seletor removido, agora a seleção é feita em outra tela.
+
   Widget _buildStatusCard() {
-    final platformInfo = _controller.platformInfo;
-    final error = _controller.errorMessage;
+    final platformInfo = _controller!.platformInfo;
+    final error = _controller!.errorMessage;
     final inventoryText =
-        _controller.isInventoryRunning ? 'Leitura em andamento' : 'Leitura parada';
+        _controller!.isInventoryRunning
+            ? 'Leitura em andamento'
+            : 'Leitura parada';
     final connectionText =
-      _controller.isReaderConnected ? 'Conectado' : 'Desconectado';
+        _controller!.isReaderConnected ? 'Conectado' : 'Desconectado';
     final deviceLabel = platformInfo?.model ?? '...';
 
-    final cardColor = error != null
-        ? Colors.red.shade100
-        : _controller.isInventoryRunning
+    final cardColor =
+        error != null
+            ? Colors.red.shade100
+            : _controller!.isInventoryRunning
             ? Colors.green.shade100
-            : _controller.isReaderConnected
-                ? Colors.amber.shade100
-                : null;
+            : _controller!.isReaderConnected
+            ? Colors.amber.shade100
+            : null;
 
     return Card(
       color: cardColor,
@@ -98,7 +117,9 @@ class _RfidScreenState extends State<RfidScreen> {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
-                  Icon(_isStatusExpanded ? Icons.expand_less : Icons.expand_more),
+                  Icon(
+                    _isStatusExpanded ? Icons.expand_less : Icons.expand_more,
+                  ),
                 ],
               ),
             ),
@@ -137,47 +158,49 @@ class _RfidScreenState extends State<RfidScreen> {
       runSpacing: 10,
       children: [
         OutlinedButton.icon(
-          onPressed: _controller.isBusy ? null : _controller.setup,
+          onPressed: _controller!.isBusy ? null : _controller!.setup,
           icon: const Icon(Icons.refresh),
           label: const Text('Reconectar'),
         ),
         OutlinedButton(
-          onPressed: _controller.isBusy ? null : _controller.clearTags,
+          onPressed: _controller!.isBusy ? null : _controller!.clearTags,
           child: const Text('Limpar Tags'),
         ),
         OutlinedButton.icon(
-          onPressed: (_controller.tags.isEmpty ||
-                  _isSavingLocal ||
-                  _controller.isInventoryRunning)
-              ? null
-              : _saveLocally,
-          icon: _isSavingLocal
-              ? const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : const Icon(Icons.save),
+          onPressed:
+              (_controller!.tags.isEmpty ||
+                      _isSavingLocal ||
+                      _controller!.isInventoryRunning)
+                  ? null
+                  : _saveLocally,
+          icon:
+              _isSavingLocal
+                  ? const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                  : const Icon(Icons.save),
           label: const Text('Salvar tags localmente'),
         ),
       ],
     );
   }
 
-
-
   Future<void> _saveLocally() async {
-    final tags = _controller.tags;
+    final tags = _controller!.tags;
     if (tags.isEmpty) {
       return;
     }
 
-    if (_controller.isInventoryRunning) {
+    if (_controller!.isInventoryRunning) {
       if (!mounted) {
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Pare a leitura antes de salvar localmente.')),
+        const SnackBar(
+          content: Text('Pare a leitura antes de salvar localmente.'),
+        ),
       );
       return;
     }
@@ -210,17 +233,18 @@ class _RfidScreenState extends State<RfidScreen> {
             'latitude': position.latitude,
             'longitude': position.longitude,
           },
-          'tags': tags
-              .map(
-                (tag) => <String, dynamic>{
-                  'epc': tag.epc,
-                  'tid': tag.tid,
-                  'rssi': tag.rssi,
-                  'count': tag.count,
-                  'timestamp': tag.timestamp.toIso8601String(),
-                },
-              )
-              .toList(),
+          'tags':
+              tags
+                  .map(
+                    (tag) => <String, dynamic>{
+                      'epc': tag.epc,
+                      'tid': tag.tid,
+                      'rssi': tag.rssi,
+                      'count': tag.count,
+                      'timestamp': tag.timestamp.toIso8601String(),
+                    },
+                  )
+                  .toList(),
         },
       };
 
@@ -240,17 +264,15 @@ class _RfidScreenState extends State<RfidScreen> {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao salvar localmente: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Erro ao salvar localmente: $e')));
     } finally {
       if (mounted) {
         setState(() => _isSavingLocal = false);
       }
     }
   }
-
-
 
   Widget _buildTagSummary() {
     return Card(
@@ -259,8 +281,8 @@ class _RfidScreenState extends State<RfidScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Tags unicas: ${_controller.tags.length}'),
-            Text('Leituras: ${_controller.totalReads}'),
+            Text('Tags unicas: ${_controller!.tags.length}'),
+            Text('Leituras: ${_controller!.totalReads}'),
           ],
         ),
       ),
@@ -295,7 +317,7 @@ class _RfidScreenState extends State<RfidScreen> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              
+
               // TID (se disponível)
               if (tag.tid != null && tag.tid!.isNotEmpty) ...[
                 const SizedBox(height: 4),
@@ -308,7 +330,7 @@ class _RfidScreenState extends State<RfidScreen> {
                   ),
                 ),
               ],
-              
+
               // Info line: Count | RSSI | Timestamp
               const SizedBox(height: 8),
               Row(
@@ -324,7 +346,10 @@ class _RfidScreenState extends State<RfidScreen> {
                   ),
                   Flexible(
                     child: Text(
-                      tag.timestamp.toIso8601String().split('T')[1].split('.')[0],
+                      tag.timestamp
+                          .toIso8601String()
+                          .split('T')[1]
+                          .split('.')[0],
                       style: const TextStyle(fontSize: 11, color: Colors.grey),
                       overflow: TextOverflow.ellipsis,
                     ),

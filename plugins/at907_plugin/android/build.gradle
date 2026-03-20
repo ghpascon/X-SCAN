@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+
+android {
+    namespace 'com.example.at907_plugin'
+    compileSdkVersion 33
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 33
+    }
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java']
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs '../../at907_sdk/Lib', '../../libs', '../../../android/libs'
+    }
+}
+
+dependencies {
+    implementation(name: 'atid.system.comm_v1.18.2021070700', ext: 'aar')
+    implementation(name: 'atid.system.device_v1.16.2021070700', ext: 'aar')
+    implementation(name: 'atid.system.ctrl_v1.20.2021070700', ext: 'aar')
+    implementation(name: 'atid.util_v1.19.2022062000', ext: 'aar')
+    implementation(name: 'atid.system.jcomm_v1.23.2022062000', ext: 'aar')
+    implementation(name: 'atid.dev.rfid_v2.32.2022062000', ext: 'aar')
+}

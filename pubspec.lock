@@ -17,6 +17,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.12.0"
+  at907_plugin:
+    dependency: "direct main"
+    description:
+      path: "plugins/at907_plugin"
+      relative: true
+    source: path
+    version: "0.1.0"
   boolean_selector:
     dependency: transitive
     description:

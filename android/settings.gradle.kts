@@ -23,3 +23,5 @@ plugins {
 }
 
 include(":app", ":libs")
+project(":at907_plugin").projectDir = file("../plugins/at907_plugin/android")
+include(":at907_plugin")

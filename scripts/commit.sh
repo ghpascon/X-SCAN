@@ -2,16 +2,11 @@
 
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-PUBSPEC_PATH="$ROOT_DIR/pubspec.yaml"
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+BUILD_GRADLE="$ROOT_DIR/rfid-app/app/build.gradle"
 
-if [[ ! -f "$PUBSPEC_PATH" ]]; then
-  echo "Erro: pubspec.yaml nao encontrado em $PUBSPEC_PATH"
-  exit 1
-fi
-
-if ! git -C "$ROOT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  echo "Erro: este script precisa ser executado dentro de um repositorio git."
+if [[ ! -f "$BUILD_GRADLE" ]]; then
+  echo "Erro: nao encontrou $BUILD_GRADLE"
   exit 1
 fi
 
@@ -38,22 +33,16 @@ if [[ -z "${COMMIT_MESSAGE// }" ]]; then
   exit 1
 fi
 
-CURRENT_VERSION_LINE="$(grep -E '^version:[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+(\+[0-9]+)?$' "$PUBSPEC_PATH" | head -n1 || true)"
-if [[ -z "$CURRENT_VERSION_LINE" ]]; then
-  echo "Erro: nao foi possivel encontrar uma linha de versao valida no pubspec.yaml"
+# Le versionName e versionCode do build.gradle
+CURRENT_VERSION="$(grep -E 'versionName\s+"[0-9]+\.[0-9]+\.[0-9]+"' "$BUILD_GRADLE" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
+CURRENT_CODE="$(grep -E 'versionCode\s+[0-9]+' "$BUILD_GRADLE" | grep -oE '[0-9]+')"
+
+if [[ -z "$CURRENT_VERSION" ]]; then
+  echo "Erro: nao foi possivel encontrar versionName no build.gradle"
   exit 1
 fi
 
-CURRENT_VERSION="${CURRENT_VERSION_LINE#version: }"
-BASE_VERSION="$CURRENT_VERSION"
-BUILD_NUMBER=""
-
-if [[ "$CURRENT_VERSION" == *"+"* ]]; then
-  BASE_VERSION="${CURRENT_VERSION%%+*}"
-  BUILD_NUMBER="${CURRENT_VERSION##*+}"
-fi
-
-IFS='.' read -r MAJOR MINOR PATCH <<< "$BASE_VERSION"
+IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
 
 case "$VERSION_TYPE" in
   major)
@@ -70,18 +59,15 @@ case "$VERSION_TYPE" in
     ;;
 esac
 
-if [[ -n "$BUILD_NUMBER" && "$BUILD_NUMBER" =~ ^[0-9]+$ ]]; then
-  BUILD_NUMBER=$((BUILD_NUMBER + 1))
-  NEW_VERSION="$MAJOR.$MINOR.$PATCH+$BUILD_NUMBER"
-else
-  NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-fi
+NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+NEW_CODE=$((CURRENT_CODE + 1))
 
-# Atualiza apenas a primeira ocorrencia da linha de versao.
-sed -i "0,/^version:[[:space:]]*[0-9]\+\.[0-9]\+\.[0-9]\+\(+[0-9]\+\)\?$/s//version: $NEW_VERSION/" "$PUBSPEC_PATH"
+# Atualiza versionName e versionCode no build.gradle
+sed -i "s/versionName \"$CURRENT_VERSION\"/versionName \"$NEW_VERSION\"/" "$BUILD_GRADLE"
+sed -i "s/versionCode $CURRENT_CODE/versionCode $NEW_CODE/" "$BUILD_GRADLE"
 
-echo "Versao atual: $CURRENT_VERSION"
-echo "Nova versao:  $NEW_VERSION"
+echo "Versao atual: $CURRENT_VERSION (code $CURRENT_CODE)"
+echo "Nova versao:  $NEW_VERSION (code $NEW_CODE)"
 
 git -C "$ROOT_DIR" add -A
 
@@ -94,4 +80,4 @@ git -C "$ROOT_DIR" commit -m "$COMMIT_MESSAGE"
 
 echo "Commit criado com sucesso."
 
-git push
+git -C "$ROOT_DIR" push

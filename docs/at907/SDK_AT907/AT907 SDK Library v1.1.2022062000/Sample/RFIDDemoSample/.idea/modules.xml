@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rfiddemosample_20210714-release.iml" filepath="$PROJECT_DIR$/.idea/modules/rfiddemosample_20210714-release.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/atrfiddemo/rfiddemosample_20210714-release.atrfiddemo.iml" filepath="$PROJECT_DIR$/.idea/modules/atrfiddemo/rfiddemosample_20210714-release.atrfiddemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/atrfiddemo/rfiddemosample_20210714-release.atrfiddemo.main.iml" filepath="$PROJECT_DIR$/.idea/modules/atrfiddemo/rfiddemosample_20210714-release.atrfiddemo.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/atrfiddemo/rfiddemosample_20210714-release.atrfiddemo.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/atrfiddemo/rfiddemosample_20210714-release.atrfiddemo.unitTest.iml" />
+    </modules>
+  </component>
+</project>

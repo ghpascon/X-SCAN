@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="inventory_mode_options">
+        <item>Apenas EPC</item>
+        <item>EPC + TID</item>
+        <item>EPC + TID + User</item>
+    </string-array>
+    <string-array name="region_options">
+        <item>Brasil / FCC (0x02)</item>
+        <item>ETSI (0x01)</item>
+        <item>China (0x03)</item>
+        <item>Japão (0x04)</item>
+    </string-array>
+    <string-array name="session_options">
+        <item>S0</item>
+        <item>S1</item>
+        <item>S2</item>
+        <item>S3</item>
+    </string-array>
+    <color name="md_theme_background">#F8F9FF</color>
+    <color name="md_theme_error">#BA1A1A</color>
+    <color name="md_theme_errorContainer">#FFDAD6</color>
+    <color name="md_theme_onBackground">#191C20</color>
+    <color name="md_theme_onError">#FFFFFF</color>
+    <color name="md_theme_onErrorContainer">#410002</color>
+    <color name="md_theme_onPrimary">#FFFFFF</color>
+    <color name="md_theme_onPrimaryContainer">#001D36</color>
+    <color name="md_theme_onSecondary">#FFFFFF</color>
+    <color name="md_theme_onSecondaryContainer">#101C2B</color>
+    <color name="md_theme_onSurface">#191C20</color>
+    <color name="md_theme_onSurfaceVariant">#41484D</color>
+    <color name="md_theme_onTertiary">#FFFFFF</color>
+    <color name="md_theme_onTertiaryContainer">#251431</color>
+    <color name="md_theme_outline">#71787E</color>
+    <color name="md_theme_outlineVariant">#C1C7CE</color>
+    <color name="md_theme_primary">#1B6EBF</color>
+    <color name="md_theme_primaryContainer">#D3E4FF</color>
+    <color name="md_theme_secondary">#535F70</color>
+    <color name="md_theme_secondaryContainer">#D7E3F7</color>
+    <color name="md_theme_surface">#F8F9FF</color>
+    <color name="md_theme_surfaceVariant">#DDE3EA</color>
+    <color name="md_theme_tertiary">#6B5778</color>
+    <color name="md_theme_tertiaryContainer">#F2DAFF</color>
+    <color name="status_active">#4CAF50</color>
+    <color name="status_error">#F44336</color>
+    <color name="status_inactive">#9E9E9E</color>
+    <string name="app_name">RFID Reader</string>
+    <string name="btn_apply_config">Aplicar</string>
+    <string name="btn_clear_tags">Limpar</string>
+    <string name="btn_connect">Conectar</string>
+    <string name="btn_reload_config">Recarregar</string>
+    <string name="btn_start_inventory">Iniciar Leitura</string>
+    <string name="btn_stop_inventory">Parar Leitura</string>
+    <string name="config_save_error">Erro ao aplicar configuração</string>
+    <string name="config_saved">Configuração aplicada com sucesso!</string>
+    <string name="connecting">Conectando…</string>
+    <string name="error_connection_failed">Falha ao conectar. Verifique se o dispositivo é compatível.</string>
+    <string name="error_invalid_power">Valor inválido</string>
+    <string name="error_invalid_region">Região inválida (ex: 0x02)</string>
+    <string name="error_invalid_rssi">Valor RSSI inválido</string>
+    <string name="error_no_reader">Nenhum leitor selecionado</string>
+    <string name="error_power_range">Potência deve ser entre 5 e 33 dBm</string>
+    <string name="helper_power">Faixa válida: 5 – 33 dBm</string>
+    <string name="helper_region">Ex: 0x02 = Brasil/FCC, 0x01 = ETSI</string>
+    <string name="helper_rssi_filter">Ex: -70 para ignorar sinais fracos</string>
+    <string name="hint_power">Potência (dBm)</string>
+    <string name="hint_region">Região (hex)</string>
+    <string name="hint_rssi_filter">Filtro RSSI mínimo (dBm)</string>
+    <string name="label_inventory_mode">Modo de Inventário</string>
+    <string name="label_session">Sessão Gen2</string>
+    <string name="selection_subtitle">Escolha o dispositivo e tente se conectar</string>
+    <string name="selection_title">Selecionar Leitor RFID</string>
+    <string name="status_connected">Conectado: %s</string>
+    <string name="status_connecting">Conectando…</string>
+    <string name="status_disconnected">Desconectado</string>
+    <string name="status_error">Erro de conexão</string>
+    <string name="tab_config">Configuração</string>
+    <string name="tab_reading">Leitura</string>
+    <string name="tag_count">%d tags</string>
+    <string name="tag_count_zero">0 tags</string>
+    <style name="Base.Theme.RfidReader" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/md_theme_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_theme_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md_theme_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_theme_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_onTertiaryContainer</item>
+        <item name="colorError">@color/md_theme_error</item>
+        <item name="colorOnError">@color/md_theme_onError</item>
+        <item name="colorErrorContainer">@color/md_theme_errorContainer</item>
+        <item name="colorOnErrorContainer">@color/md_theme_onErrorContainer</item>
+        <item name="android:colorBackground">@color/md_theme_background</item>
+        <item name="colorOnBackground">@color/md_theme_onBackground</item>
+        <item name="colorSurface">@color/md_theme_surface</item>
+        <item name="colorOnSurface">@color/md_theme_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_theme_outline</item>
+        <item name="colorOutlineVariant">@color/md_theme_outlineVariant</item>
+    </style>
+    <style name="Theme.RfidReader" parent="Base.Theme.RfidReader"/>
+</resources>

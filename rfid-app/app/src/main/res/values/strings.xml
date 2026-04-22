@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">RFID Reader</string>
+
+    <!-- Tela de seleção -->
+    <string name="selection_title">Selecionar Leitor RFID</string>
+    <string name="selection_subtitle">Escolha o dispositivo e tente se conectar</string>
+    <string name="btn_connect">Conectar</string>
+    <string name="connecting">Conectando…</string>
+    <string name="error_connection_failed">Falha ao conectar. Verifique se o dispositivo é compatível.</string>
+
+    <!-- Abas principais -->
+    <string name="tab_config">Configuração</string>
+    <string name="tab_reading">Leitura</string>
+
+    <!-- Aba de configuração -->
+    <string name="hint_power">Potência (dBm)</string>
+    <string name="helper_power">Faixa válida: 5 – 33 dBm</string>
+    <string name="label_session">Sessão Gen2</string>
+    <string name="hint_rssi_filter">Filtro RSSI mínimo (dBm)</string>
+    <string name="helper_rssi_filter">Ex: -70 para ignorar sinais fracos</string>
+    <string name="label_inventory_mode">Modo de Inventário</string>
+    <string name="hint_region">Região (hex)</string>
+    <string name="helper_region">Ex: 0x02 = Brasil/FCC, 0x01 = ETSI</string>
+    <string name="btn_apply_config">Aplicar</string>
+    <string name="btn_reload_config">Recarregar</string>
+    <string name="config_saved">Configuração aplicada com sucesso!</string>
+    <string name="config_save_error">Erro ao aplicar configuração</string>
+
+    <!-- Aba de leitura -->
+    <string name="btn_start_inventory">Iniciar Leitura</string>
+    <string name="btn_stop_inventory">Parar Leitura</string>
+    <string name="btn_clear_tags">Limpar</string>
+    <string name="tag_count_zero">0 tags</string>
+    <string name="tag_count">%d tags</string>
+
+    <!-- Status de conexão -->
+    <string name="status_connected">Conectado: %s</string>
+    <string name="status_connecting">Conectando…</string>
+    <string name="status_disconnected">Desconectado</string>
+    <string name="status_error">Erro de conexão</string>
+
+    <!-- Erros de validação -->
+    <string name="error_invalid_power">Valor inválido</string>
+    <string name="error_power_range">Potência deve ser entre 5 e 33 dBm</string>
+    <string name="error_invalid_rssi">Valor RSSI inválido</string>
+    <string name="error_invalid_region">Região inválida (ex: 0x02)</string>
+    <string name="error_no_reader">Nenhum leitor selecionado</string>
+</resources>

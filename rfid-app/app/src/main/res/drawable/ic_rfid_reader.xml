@@ -1,0 +1,29 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Corpo do leitor RFID -->
+    <path
+        android:fillColor="?attr/colorPrimary"
+        android:pathData="M14,8 L34,8 C36.2,8 38,9.8 38,12 L38,36 C38,38.2 36.2,40 34,40 L14,40 C11.8,40 10,38.2 10,36 L10,12 C10,9.8 11.8,8 14,8 Z" />
+    <!-- Tela do leitor -->
+    <path
+        android:fillColor="?attr/colorSurface"
+        android:pathData="M16,12 L32,12 L32,24 L16,24 Z" />
+    <!-- Ondas RFID -->
+    <path
+        android:fillColor="?attr/colorSurface"
+        android:strokeColor="?attr/colorOnPrimary"
+        android:strokeWidth="1.5"
+        android:pathData="M18,30 C18,30 21,27 24,27 C27,27 30,30 30,30" />
+    <path
+        android:fillColor="?attr/colorSurface"
+        android:strokeColor="?attr/colorOnPrimary"
+        android:strokeWidth="1.5"
+        android:pathData="M15,33 C15,33 19.5,28.5 24,28.5 C28.5,28.5 33,33 33,33" />
+    <!-- Símbolo central -->
+    <path
+        android:fillColor="?attr/colorOnPrimary"
+        android:pathData="M22,14 L26,14 L26,18 L24,22 L22,18 Z" />
+</vector>

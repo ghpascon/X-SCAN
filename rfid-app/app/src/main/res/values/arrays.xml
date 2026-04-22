@@ -1,0 +1,21 @@
+<resources>
+    <string-array name="session_options">
+        <item>S0</item>
+        <item>S1</item>
+        <item>S2</item>
+        <item>S3</item>
+    </string-array>
+
+    <string-array name="inventory_mode_options">
+        <item>Apenas EPC</item>
+        <item>EPC + TID</item>
+        <item>EPC + TID + User</item>
+    </string-array>
+
+    <string-array name="region_options">
+        <item>Brasil / FCC (0x02)</item>
+        <item>ETSI (0x01)</item>
+        <item>China (0x03)</item>
+        <item>Japão (0x04)</item>
+    </string-array>
+</resources>

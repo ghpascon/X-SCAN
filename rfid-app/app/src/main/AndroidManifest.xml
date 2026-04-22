@@ -19,6 +19,7 @@
     <!-- Comunicação serial (AT907 via USB/UART) -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".RfidApplication"
@@ -27,11 +28,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.RfidReader">
 
-        <!-- Tela inicial: seleção de leitor -->
+        <!-- Tela principal: seleção de leitor + config + leitura (3 abas) -->
         <activity
-            android:name=".ui.selection.ReaderSelectionActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -40,11 +42,18 @@
             </intent-filter>
         </activity>
 
-        <!-- Tela principal: config + leitura -->
+        <!-- Tela legada de seleção de leitor (não usada como launcher) -->
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.selection.ReaderSelectionActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <!-- Tela de sincronização -->
+        <activity
+            android:name=".ui.sync.SyncActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".ui.main.MainActivity" />
 
     </application>
 

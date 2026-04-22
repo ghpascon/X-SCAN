@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">RFID Reader</string>
 
-    <!-- Tela de seleção -->
+    <!-- Tela de seleção legada -->
     <string name="selection_title">Selecionar Leitor RFID</string>
     <string name="selection_subtitle">Escolha o dispositivo e tente se conectar</string>
     <string name="btn_connect">Conectar</string>
@@ -9,29 +9,51 @@
     <string name="error_connection_failed">Falha ao conectar. Verifique se o dispositivo é compatível.</string>
 
     <!-- Abas principais -->
+    <string name="tab_reader">Leitor</string>
     <string name="tab_config">Configuração</string>
     <string name="tab_reading">Leitura</string>
 
-    <!-- Aba de configuração -->
+    <!-- Aba leitor -->
+    <string name="reader_selection_hint">Selecione um leitor para conectar</string>
+    <string name="btn_disconnect">Desconectar</string>
+    <string name="status_connected_short">Conectado</string>
+    <string name="btn_sync">Sincronizar</string>
+
+    <!-- Seções da tela de configuração -->
+    <string name="section_reader_config">Configurações do Leitor</string>
+    <string name="section_app_config">Configurações do Aplicativo</string>
+
+    <!-- Config do leitor -->
     <string name="hint_power">Potência (dBm)</string>
     <string name="helper_power">Faixa válida: 5 – 33 dBm</string>
     <string name="label_session">Sessão Gen2</string>
-    <string name="hint_rssi_filter">Filtro RSSI mínimo (dBm)</string>
-    <string name="helper_rssi_filter">Ex: -70 para ignorar sinais fracos</string>
-    <string name="label_inventory_mode">Modo de Inventário</string>
-    <string name="hint_region">Região (hex)</string>
-    <string name="helper_region">Ex: 0x02 = Brasil/FCC, 0x01 = ETSI</string>
     <string name="btn_apply_config">Aplicar</string>
     <string name="btn_reload_config">Recarregar</string>
     <string name="config_saved">Configuração aplicada com sucesso!</string>
     <string name="config_save_error">Erro ao aplicar configuração</string>
 
+    <!-- Config do app -->
+    <string name="label_rssi_filter">Filtro RSSI mínimo</string>
+    <string name="label_buzzer">Buzzer</string>
+    <string name="helper_buzzer">Emite um bipe ao detectar nova tag</string>
+    <string name="label_prefix">Filtro de Prefixo EPC</string>
+    <string name="helper_prefix">Somente tags com EPC iniciando pelo prefixo serão listadas</string>
+    <string name="hint_prefix">Ex: E200 ou 3000</string>
+    <string name="btn_add_prefix">Adicionar</string>
+    <string name="btn_clear_prefixes">Limpar tudo</string>
+    <string name="btn_save_app_settings">Salvar</string>
+    <string name="app_settings_saved">Configurações salvas</string>
+    <string name="prefix_already_exists">Prefixo já adicionado</string>
+
     <!-- Aba de leitura -->
     <string name="btn_start_inventory">Iniciar Leitura</string>
     <string name="btn_stop_inventory">Parar Leitura</string>
     <string name="btn_clear_tags">Limpar</string>
+    <string name="btn_save_reading">Salvar Leitura</string>
     <string name="tag_count_zero">0 tags</string>
     <string name="tag_count">%d tags</string>
+    <string name="reading_saved">Leitura salva com sucesso!</string>
+    <string name="reading_save_error">Erro ao salvar leitura</string>
 
     <!-- Status de conexão -->
     <string name="status_connected">Conectado: %s</string>
@@ -43,6 +65,59 @@
     <string name="error_invalid_power">Valor inválido</string>
     <string name="error_power_range">Potência deve ser entre 5 e 33 dBm</string>
     <string name="error_invalid_rssi">Valor RSSI inválido</string>
-    <string name="error_invalid_region">Região inválida (ex: 0x02)</string>
+    <string name="error_invalid_region">Região inválida</string>
     <string name="error_no_reader">Nenhum leitor selecionado</string>
+    <string name="error_invalid_url">URL inválida. Use http:// ou https://</string>
+
+    <!-- Tela de sincronização -->
+    <string name="sync_title">Sincronizar</string>
+    <string name="section_webhook_config">Configuração do Webhook</string>
+    <string name="section_events">Eventos Salvos</string>
+    <string name="hint_webhook_url">URL do Webhook</string>
+    <string name="helper_webhook_url">Ex: https://meuservidor.com/api/rfid</string>
+    <string name="btn_save_webhook">Salvar URL</string>
+    <string name="webhook_saved">URL do webhook salva</string>
+    <string name="btn_send_all">Enviar Pendentes</string>
+    <string name="btn_delete_all">Apagar tudo</string>
+    <string name="events_empty">Nenhum evento salvo ainda</string>
+    <string name="no_pending_events">Todos os eventos foram enviados</string>
+    <string name="sync_result_ok">%d evento(s) enviado(s) com sucesso</string>
+    <string name="sync_result_partial">%1$d enviado(s), %2$d falha(s)</string>
+    <string name="sync_result_error">Erro ao enviar eventos. Verifique a URL e a conexão.</string>
+    <string name="sync_no_url">Configure o URL do webhook primeiro</string>
+    <string name="event_pending">Pendente</string>
+    <string name="event_synced">Enviado</string>
+    <string name="delete_event">Apagar evento</string>
+    <string name="delete_all_title">Apagar todos?</string>
+    <string name="delete_all_message">Todos os eventos salvos serão removidos permanentemente.</string>
+    <string name="confirm_delete">Apagar</string>
+
+    <!-- Home navigation -->
+    <string name="home_subtitle">Gerenciamento de leitores RFID</string>
+    <string name="nav_reader">Leitor</string>
+    <string name="nav_reader_desc">Conectar dispositivo</string>
+    <string name="nav_config">Configuração</string>
+    <string name="nav_config_desc">Ajustar parâmetros</string>
+    <string name="nav_reading">Leitura</string>
+    <string name="nav_reading_desc">Inventariar tags</string>
+    <string name="nav_reading_no_reader">Conecte um leitor primeiro</string>
+    <string name="nav_sync">Sincronizar</string>
+    <string name="nav_sync_desc">Enviar dados ao servidor</string>
+
+    <!-- Sync progress -->
+    <string name="btn_start_sync">Enviar Pendentes</string>
+    <string name="event_json_title">JSON do Evento</string>
+    <string name="delete_event_title">Apagar evento?</string>
+    <string name="delete_event_message">Este evento será removido permanentemente.</string>
+
+    <!-- BLE scanner -->
+    <string name="ble_scan_title">Dispositivos Bluetooth</string>
+    <string name="ble_scanning">Escaneando…</string>
+    <string name="ble_scan_done">%d dispositivo(s) encontrado(s)</string>
+    <string name="ble_no_devices">Nenhum dispositivo encontrado</string>
+    <string name="ble_scan_again">Escanear novamente</string>
+    <string name="ble_disabled">Bluetooth está desligado</string>
+    <string name="ble_permission_denied">Permissão Bluetooth negada</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="badge_ble">BLE</string>
 </resources>

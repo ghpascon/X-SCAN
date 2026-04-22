@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.smartx.rfidreader.R;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -29,10 +31,31 @@ public final class FragmentReadingBinding implements ViewBinding {
   public final MaterialButton btnClearTags;
 
   @NonNull
+  public final MaterialButton btnSaveReading;
+
+  @NonNull
   public final MaterialButton btnToggleInventory;
 
   @NonNull
+  public final Chip chip100;
+
+  @NonNull
+  public final Chip chip200;
+
+  @NonNull
+  public final Chip chip50;
+
+  @NonNull
+  public final Chip chipAll;
+
+  @NonNull
+  public final ChipGroup chipGroupLimit;
+
+  @NonNull
   public final View inventoryStatusIndicator;
+
+  @NonNull
+  public final LinearLayout limitBar;
 
   @NonNull
   public final RecyclerView recyclerViewTags;
@@ -48,14 +71,24 @@ public final class FragmentReadingBinding implements ViewBinding {
 
   private FragmentReadingBinding(@NonNull ConstraintLayout rootView,
       @NonNull LinearLayout actionBar, @NonNull MaterialButton btnClearTags,
-      @NonNull MaterialButton btnToggleInventory, @NonNull View inventoryStatusIndicator,
-      @NonNull RecyclerView recyclerViewTags, @NonNull LinearLayout statusBar,
-      @NonNull TextView textConnectionStatus, @NonNull TextView textTagCount) {
+      @NonNull MaterialButton btnSaveReading, @NonNull MaterialButton btnToggleInventory,
+      @NonNull Chip chip100, @NonNull Chip chip200, @NonNull Chip chip50, @NonNull Chip chipAll,
+      @NonNull ChipGroup chipGroupLimit, @NonNull View inventoryStatusIndicator,
+      @NonNull LinearLayout limitBar, @NonNull RecyclerView recyclerViewTags,
+      @NonNull LinearLayout statusBar, @NonNull TextView textConnectionStatus,
+      @NonNull TextView textTagCount) {
     this.rootView = rootView;
     this.actionBar = actionBar;
     this.btnClearTags = btnClearTags;
+    this.btnSaveReading = btnSaveReading;
     this.btnToggleInventory = btnToggleInventory;
+    this.chip100 = chip100;
+    this.chip200 = chip200;
+    this.chip50 = chip50;
+    this.chipAll = chipAll;
+    this.chipGroupLimit = chipGroupLimit;
     this.inventoryStatusIndicator = inventoryStatusIndicator;
+    this.limitBar = limitBar;
     this.recyclerViewTags = recyclerViewTags;
     this.statusBar = statusBar;
     this.textConnectionStatus = textConnectionStatus;
@@ -101,15 +134,57 @@ public final class FragmentReadingBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.btnSaveReading;
+      MaterialButton btnSaveReading = ViewBindings.findChildViewById(rootView, id);
+      if (btnSaveReading == null) {
+        break missingId;
+      }
+
       id = R.id.btnToggleInventory;
       MaterialButton btnToggleInventory = ViewBindings.findChildViewById(rootView, id);
       if (btnToggleInventory == null) {
         break missingId;
       }
 
+      id = R.id.chip100;
+      Chip chip100 = ViewBindings.findChildViewById(rootView, id);
+      if (chip100 == null) {
+        break missingId;
+      }
+
+      id = R.id.chip200;
+      Chip chip200 = ViewBindings.findChildViewById(rootView, id);
+      if (chip200 == null) {
+        break missingId;
+      }
+
+      id = R.id.chip50;
+      Chip chip50 = ViewBindings.findChildViewById(rootView, id);
+      if (chip50 == null) {
+        break missingId;
+      }
+
+      id = R.id.chipAll;
+      Chip chipAll = ViewBindings.findChildViewById(rootView, id);
+      if (chipAll == null) {
+        break missingId;
+      }
+
+      id = R.id.chipGroupLimit;
+      ChipGroup chipGroupLimit = ViewBindings.findChildViewById(rootView, id);
+      if (chipGroupLimit == null) {
+        break missingId;
+      }
+
       id = R.id.inventoryStatusIndicator;
       View inventoryStatusIndicator = ViewBindings.findChildViewById(rootView, id);
       if (inventoryStatusIndicator == null) {
+        break missingId;
+      }
+
+      id = R.id.limitBar;
+      LinearLayout limitBar = ViewBindings.findChildViewById(rootView, id);
+      if (limitBar == null) {
         break missingId;
       }
 
@@ -138,8 +213,9 @@ public final class FragmentReadingBinding implements ViewBinding {
       }
 
       return new FragmentReadingBinding((ConstraintLayout) rootView, actionBar, btnClearTags,
-          btnToggleInventory, inventoryStatusIndicator, recyclerViewTags, statusBar,
-          textConnectionStatus, textTagCount);
+          btnSaveReading, btnToggleInventory, chip100, chip200, chip50, chipAll, chipGroupLimit,
+          inventoryStatusIndicator, limitBar, recyclerViewTags, statusBar, textConnectionStatus,
+          textTagCount);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

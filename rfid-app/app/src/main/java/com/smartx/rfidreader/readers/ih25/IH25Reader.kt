@@ -9,6 +9,7 @@ import com.honeywell.rfidservice.rfid.AntennaPower
 import com.honeywell.rfidservice.rfid.Gen2
 import com.honeywell.rfidservice.rfid.OnTagReadListener
 import com.honeywell.rfidservice.rfid.RfidReader
+import com.honeywell.rfidservice.rfid.TagAdditionData
 import com.honeywell.rfidservice.rfid.TagReadData
 import com.honeywell.rfidservice.rfid.TagReadOption
 import com.smartx.rfidreader.core.reader.*
@@ -30,8 +31,12 @@ class IH25Reader : IRfidReader {
 
     override val readerId: String = "IH25"
     override val displayName: String = "Honeywell IH25"
+    override val isBle: Boolean = true
 
     private val TAG = "IH25Reader"
+
+    /** Endereço MAC BLE do dispositivo selecionado pelo usuário */
+    var targetMacAddress: String? = null
 
     private val _connectionState = MutableStateFlow(ReaderConnectionState.DISCONNECTED)
     override val connectionState: StateFlow<ReaderConnectionState> = _connectionState.asStateFlow()
@@ -45,9 +50,14 @@ class IH25Reader : IRfidReader {
 
     private val tagReadListener = OnTagReadListener { data: Array<TagReadData> ->
         data.forEach { tagData ->
+            val tidBytes = tagData.getAdditionData()
+            val tid = if (tidBytes != null && tidBytes.isNotEmpty()) {
+                tidBytes.joinToString("") { "%02X".format(it) }
+            } else ""
             val tag = RfidTag(
                 epc = tagData.getEpcHexStr() ?: "",
-                rssi = tagData.getRssi().toString()
+                rssi = tagData.getRssi().toString(),
+                tid = tid
             )
             _tagChannel.tryEmit(tag)
         }
@@ -95,7 +105,7 @@ class IH25Reader : IRfidReader {
         return@withContext try {
             val manager = RfidManager.getInstance(context)
             manager.addEventListener(eventListener)
-            val ok = manager.connect(null)
+            val ok = manager.connect(targetMacAddress)
             rfidManager = manager
             if (!ok) {
                 _connectionState.value = ReaderConnectionState.ERROR
@@ -125,7 +135,8 @@ class IH25Reader : IRfidReader {
 
     override fun startInventory(): Boolean {
         val reader = rfidReader ?: return false
-        val ok = reader.read(TagReadOption())
+        val option = TagReadOption().apply { setData(true) }
+        val ok = reader.read(TagAdditionData.TID_BANK, option)
         if (ok) _isInventorying = true
         return ok
     }

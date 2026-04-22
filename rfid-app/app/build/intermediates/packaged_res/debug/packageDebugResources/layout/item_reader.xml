@@ -35,19 +35,39 @@
             tools:text="Chainway AT907"
             xmlns:tools="http://schemas.android.com/tools" />
 
-        <TextView
-            android:id="@+id/textReaderId"
+        <LinearLayout
+            android:id="@+id/rowSubtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-            android:textColor="?attr/colorOnSurfaceVariant"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             app:layout_constraintEnd_toStartOf="@id/btnConnect"
             app:layout_constraintStart_toEndOf="@id/iconReader"
-            app:layout_constraintTop_toBottomOf="@id/textReaderName"
-            tools:text="AT907"
-            xmlns:tools="http://schemas.android.com/tools" />
+            app:layout_constraintTop_toBottomOf="@id/textReaderName">
+
+            <TextView
+                android:id="@+id/textReaderId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="AT907"
+                xmlns:tools="http://schemas.android.com/tools" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipBle"
+                style="@style/Widget.Material3.Chip.Assist.Elevated"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:minHeight="0dp"
+                android:text="@string/badge_ble"
+                android:textSize="10sp"
+                android:visibility="gone"
+                app:chipMinHeight="24dp" />
+
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnConnect"

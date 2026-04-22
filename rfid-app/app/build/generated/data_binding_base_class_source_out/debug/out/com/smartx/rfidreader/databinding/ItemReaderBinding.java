@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +13,7 @@ import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.chip.Chip;
 import com.smartx.rfidreader.R;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -25,7 +27,13 @@ public final class ItemReaderBinding implements ViewBinding {
   public final MaterialButton btnConnect;
 
   @NonNull
+  public final Chip chipBle;
+
+  @NonNull
   public final ImageView iconReader;
+
+  @NonNull
+  public final LinearLayout rowSubtitle;
 
   @NonNull
   public final TextView textReaderId;
@@ -34,11 +42,13 @@ public final class ItemReaderBinding implements ViewBinding {
   public final TextView textReaderName;
 
   private ItemReaderBinding(@NonNull MaterialCardView rootView, @NonNull MaterialButton btnConnect,
-      @NonNull ImageView iconReader, @NonNull TextView textReaderId,
-      @NonNull TextView textReaderName) {
+      @NonNull Chip chipBle, @NonNull ImageView iconReader, @NonNull LinearLayout rowSubtitle,
+      @NonNull TextView textReaderId, @NonNull TextView textReaderName) {
     this.rootView = rootView;
     this.btnConnect = btnConnect;
+    this.chipBle = chipBle;
     this.iconReader = iconReader;
+    this.rowSubtitle = rowSubtitle;
     this.textReaderId = textReaderId;
     this.textReaderName = textReaderName;
   }
@@ -76,9 +86,21 @@ public final class ItemReaderBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.chipBle;
+      Chip chipBle = ViewBindings.findChildViewById(rootView, id);
+      if (chipBle == null) {
+        break missingId;
+      }
+
       id = R.id.iconReader;
       ImageView iconReader = ViewBindings.findChildViewById(rootView, id);
       if (iconReader == null) {
+        break missingId;
+      }
+
+      id = R.id.rowSubtitle;
+      LinearLayout rowSubtitle = ViewBindings.findChildViewById(rootView, id);
+      if (rowSubtitle == null) {
         break missingId;
       }
 
@@ -94,8 +116,8 @@ public final class ItemReaderBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ItemReaderBinding((MaterialCardView) rootView, btnConnect, iconReader,
-          textReaderId, textReaderName);
+      return new ItemReaderBinding((MaterialCardView) rootView, btnConnect, chipBle, iconReader,
+          rowSubtitle, textReaderId, textReaderName);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

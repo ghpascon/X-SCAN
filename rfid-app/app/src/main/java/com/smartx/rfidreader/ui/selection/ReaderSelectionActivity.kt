@@ -54,7 +54,7 @@ class ReaderSelectionActivity : AppCompatActivity() {
 
                     state.connectedReader?.let { reader ->
                         val intent = Intent(this@ReaderSelectionActivity, MainActivity::class.java)
-                        intent.putExtra(MainActivity.EXTRA_READER_ID, reader.readerId)
+                        intent.putExtra("reader_id", reader.readerId)
                         startActivity(intent)
                         finish()
                     }

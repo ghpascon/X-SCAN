@@ -1,26 +1,30 @@
 package com.smartx.rfidreader.ui.main.reading
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.media.AudioManager
+import android.media.ToneGenerator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.chip.ChipGroup
+import com.google.android.material.snackbar.Snackbar
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.core.reader.ReaderConnectionState
 import com.smartx.rfidreader.databinding.FragmentReadingBinding
 import com.smartx.rfidreader.ui.main.MainViewModel
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
-/**
- * Aba de leitura de tags RFID.
- * Mostra a lista de EPCs lidos com RSSI e contador de repetições.
- * A leitura é disparada pelo gatilho físico OU pelo botão na tela.
- */
 class ReadingFragment : Fragment() {
 
     private var _binding: FragmentReadingBinding? = null
@@ -28,7 +32,36 @@ class ReadingFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
     private lateinit var tagAdapter: TagListAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    // Launcher para solicitar permissão de localização
+    private val locationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { _ ->
+        // Independente do resultado, tenta salvar (GpsHelper lida com permissão negada)
+        doSaveInventory()
+    }
+
+    private fun hasLocationPermission(): Boolean =
+        ContextCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED ||
+        ContextCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+
+    private fun playBeep() {
+        try {
+            ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME).also { tg ->
+                tg.startTone(ToneGenerator.TONE_PROP_BEEP, 150)
+                binding.root.postDelayed({ tg.release() }, 400)
+            }
+        } catch (_: Exception) {}
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentReadingBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -53,11 +86,44 @@ class ReadingFragment : Fragment() {
         binding.btnClearTags.setOnClickListener {
             viewModel.clearTags()
         }
+        binding.btnSaveReading.setOnClickListener {
+            binding.btnSaveReading.isEnabled = false
+            requestLocationAndSave()
+        }
+
+        binding.chipGroupLimit.setOnCheckedStateChangeListener { _, checkedIds ->
+            val limit: Int? = when (checkedIds.firstOrNull()) {
+                R.id.chip50  -> 50
+                R.id.chip100 -> 100
+                R.id.chip200 -> 200
+                else         -> null  // chipAll
+            }
+            viewModel.setDisplayLimit(limit)
+        }
+    }
+
+    private fun requestLocationAndSave() {
+        if (hasLocationPermission()) {
+            doSaveInventory()
+        } else {
+            locationPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+    }
+
+    private fun doSaveInventory() {
+        viewModel.saveInventory()
     }
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                // Estado principal da UI
                 launch {
                     viewModel.uiState.collect { state ->
                         val connected = state.connectionState == ReaderConnectionState.CONNECTED
@@ -67,9 +133,12 @@ class ReadingFragment : Fragment() {
                         if (state.isInventorying) {
                             binding.btnToggleInventory.text = getString(R.string.btn_stop_inventory)
                             binding.inventoryStatusIndicator.visibility = View.VISIBLE
+                            binding.btnSaveReading.isEnabled = false
                         } else {
                             binding.btnToggleInventory.text = getString(R.string.btn_start_inventory)
                             binding.inventoryStatusIndicator.visibility = View.GONE
+                            binding.btnSaveReading.isEnabled =
+                                connected && viewModel.tags.value.isNotEmpty()
                         }
 
                         binding.textConnectionStatus.text = when (state.connectionState) {
@@ -80,12 +149,62 @@ class ReadingFragment : Fragment() {
                         }
                     }
                 }
+
+                // Lista de tags — combina total com limite de exibição
+                var prevTotal = 0
                 launch {
-                    viewModel.tags.collect { tags ->
-                        tagAdapter.submitList(tags)
-                        binding.textTagCount.text = getString(R.string.tag_count, tags.size)
-                        if (tags.isNotEmpty()) {
+                    combine(viewModel.tags, viewModel.displayLimit) { allTags, limit ->
+                        Pair(allTags, limit)
+                    }.collect { (allTags, limit) ->
+                        val total = allTags.size
+                        val visible = if (limit == null) allTags else allTags.take(limit)
+
+                        tagAdapter.submitList(visible)
+
+                        val suffix = if (limit != null && total > limit) " (${limit})" else ""
+                        binding.textTagCount.text = getString(R.string.tag_count, total) + suffix
+
+                        // Faz scroll ao topo apenas quando uma nova tag é adicionada
+                        if (total > prevTotal && visible.isNotEmpty()) {
                             binding.recyclerViewTags.scrollToPosition(0)
+                        }
+                        prevTotal = if (total == 0) 0 else total
+
+                        val notInventorying = !viewModel.uiState.value.isInventorying
+                        val connected =
+                            viewModel.uiState.value.connectionState == ReaderConnectionState.CONNECTED
+                        binding.btnSaveReading.isEnabled =
+                            total > 0 && notInventorying && connected
+                    }
+                }
+
+                // Evento de buzzer (nova tag detectada)
+                launch {
+                    viewModel.buzzerEvent.collect {
+                        playBeep()
+                    }
+                }
+
+                // Resultado do salvamento
+                launch {
+                    viewModel.saveInventoryResult.collect { success ->
+                        val msg = if (success)
+                            getString(R.string.reading_saved)
+                        else
+                            getString(R.string.reading_save_error)
+
+                        if (success) {
+                            // Mostra snackbar brevemente e volta para a home
+                            Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).show()
+                            binding.root.postDelayed({
+                                parentFragmentManager.popBackStack()
+                            }, 1000)
+                        } else {
+                            // Em caso de erro, reabilita o botão
+                            binding.btnSaveReading.isEnabled =
+                                viewModel.tags.value.isNotEmpty() &&
+                                !viewModel.uiState.value.isInventorying
+                            Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -95,7 +214,6 @@ class ReadingFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        // Para a leitura e limpa tags ao sair da aba ou da Activity
         viewModel.stopInventoryAndClear()
     }
 

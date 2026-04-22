@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:2:1-51:12
-INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:2:1-51:12
-INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:2:1-51:12
-INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:2:1-51:12
+ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:2:1-60:12
+INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:2:1-60:12
+INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:2:1-60:12
+INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:2:1-60:12
 MERGED from [androidx.databinding:viewbinding:8.5.2] /home/gabriel/.gradle/caches/8.10.2/transforms/978bff042124125fe2a3150231281edb/transformed/jetified-viewbinding-8.5.2/AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.12.0] /home/gabriel/.gradle/caches/8.10.2/transforms/d633eaa3e14f0a2dc2160a53ea892ed6/transformed/material-1.12.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/gabriel/.gradle/caches/8.10.2/transforms/5c6632b72bfeb5dd7b772007080f388d/transformed/constraintlayout-2.1.4/AndroidManifest.xml:2:1-11:12
@@ -11,6 +11,10 @@ MERGED from [androidx.appcompat:appcompat-resources:1.7.0] /home/gabriel/.gradle
 MERGED from [androidx.appcompat:appcompat:1.7.0] /home/gabriel/.gradle/caches/8.10.2/transforms/af887e9434afecdaa6754b5623a322a8/transformed/appcompat-1.7.0/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.recyclerview:recyclerview:1.3.2] /home/gabriel/.gradle/caches/8.10.2/transforms/deb2524203b19b78d20b0117712ee632/transformed/recyclerview-1.3.2/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.viewpager2:viewpager2:1.1.0] /home/gabriel/.gradle/caches/8.10.2/transforms/a18df625546935763f5c4afcd89266ab/transformed/jetified-viewpager2-1.1.0/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-location:21.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/6058c467d8d1578230f1b1964e72ae3b/transformed/jetified-play-services-location-21.3.0/AndroidManifest.xml:2:1-8:12
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /home/gabriel/.gradle/caches/8.10.2/transforms/7b45dff998929ab6133d36421692903d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] /home/gabriel/.gradle/caches/8.10.2/transforms/25bdfb891e3174ea8af0e5eae049b50b/transformed/jetified-play-services-tasks-18.2.0/AndroidManifest.xml:2:1-5:12
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/2392143ef7ff716bf5cf1fff172e0790/transformed/jetified-play-services-basement-18.4.0/AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.fragment:fragment:1.8.2] /home/gabriel/.gradle/caches/8.10.2/transforms/80080f58d36b21f9b21ab1432fa83c21/transformed/fragment-1.8.2/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.fragment:fragment-ktx:1.8.2] /home/gabriel/.gradle/caches/8.10.2/transforms/36108b1d243052d51a44b7dcfd087084/transformed/jetified-fragment-ktx-1.8.2/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.activity:activity:1.9.2] /home/gabriel/.gradle/caches/8.10.2/transforms/d400ad3250dbdb01f8caaaad327db064/transformed/jetified-activity-1.9.2/AndroidManifest.xml:17:1-22:12
@@ -43,14 +47,21 @@ MERGED from [androidx.lifecycle:lifecycle-livedata-ktx:2.8.5] /home/gabriel/.gra
 MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.8.5] /home/gabriel/.gradle/caches/8.10.2/transforms/8a3e914ee1710e641e26a035b11327e0/transformed/jetified-lifecycle-livedata-core-ktx-2.8.5/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.5] /home/gabriel/.gradle/caches/8.10.2/transforms/636604a2d8f5048a4cbf7cc06586f428/transformed/jetified-lifecycle-viewmodel-savedstate-2.8.5/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.core:core-ktx:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/b8b255c1cd12ff23f182bdbdef424502/transformed/jetified-core-ktx-1.13.1/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.room:room-runtime:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/dde55b63fcf6256a30f54784fc7a3ed1/transformed/room-runtime-2.6.1/AndroidManifest.xml:17:1-31:12
+MERGED from [androidx.room:room-ktx:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/f082d9d54fc055d35edd1123dd688a21/transformed/jetified-room-ktx-2.6.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] /home/gabriel/.gradle/caches/8.10.2/transforms/c175b97155ae34916ba53a6a41b413e7/transformed/jetified-datastore-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-android:1.1.1] /home/gabriel/.gradle/caches/8.10.2/transforms/8dff361b1d4f8574971b8e006740778c/transformed/jetified-datastore-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.1] /home/gabriel/.gradle/caches/8.10.2/transforms/c1b8b20f370c6c261a1daa74bcdd1139/transformed/jetified-datastore-preferences-release/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/121aecec837c0b49cf1844084eaf6501/transformed/jetified-annotation-experimental-1.4.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.sqlite:sqlite-framework:2.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/862465d55f0f833f656bd78492947d28/transformed/sqlite-framework-2.4.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.sqlite:sqlite:2.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/9e58d8f71fa6d72aeb26790bc752da6b/transformed/sqlite-2.4.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/gabriel/.gradle/caches/8.10.2/transforms/b6527faee57fd3c95647fcdf7b951c0b/transformed/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:17:1-55:12
 MERGED from [androidx.cardview:cardview:1.0.0] /home/gabriel/.gradle/caches/8.10.2/transforms/81ed52b2037dc85520f165de9f2cf8f0/transformed/cardview-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/gabriel/.gradle/caches/8.10.2/transforms/495738ffb8cc01f7e6cc6400ee3a5798/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/gabriel/.gradle/caches/8.10.2/transforms/b4c7e575738823a2178ccc376803125c/transformed/core-runtime-2.2.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] /home/gabriel/.gradle/caches/8.10.2/transforms/0b6cabf5031ac967a8ee5cacc4f7d9eb/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.startup:startup-runtime:1.1.1] /home/gabriel/.gradle/caches/8.10.2/transforms/e2353aefc0b8f6bb17263665fcbd8286/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:17:1-33:12
-MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/gabriel/.gradle/caches/8.10.2/transforms/b4c7e575738823a2178ccc376803125c/transformed/core-runtime-2.2.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.tracing:tracing:1.0.0] /home/gabriel/.gradle/caches/8.10.2/transforms/23cf448ecc64d6e1e112eff80c9e6d45/transformed/jetified-tracing-1.0.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.documentfile:documentfile:1.0.0] /home/gabriel/.gradle/caches/8.10.2/transforms/cdfe1a5adfa6007957c68d4e8a35f762/transformed/documentfile-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/gabriel/.gradle/caches/8.10.2/transforms/f0b985ba02cf2b7814bbc4125b28cdf0/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
@@ -117,19 +128,33 @@ uses-permission#android.permission.FOREGROUND_SERVICE
 ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:21:5-77
 	android:name
 		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:21:22-74
+uses-permission#android.permission.VIBRATE
+ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:22:5-66
+	android:name
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:22:22-63
 application
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:23:5-49:19
-INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:23:5-49:19
+ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:24:5-58:19
+INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:24:5-58:19
 MERGED from [com.google.android.material:material:1.12.0] /home/gabriel/.gradle/caches/8.10.2/transforms/d633eaa3e14f0a2dc2160a53ea892ed6/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] /home/gabriel/.gradle/caches/8.10.2/transforms/d633eaa3e14f0a2dc2160a53ea892ed6/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/gabriel/.gradle/caches/8.10.2/transforms/5c6632b72bfeb5dd7b772007080f388d/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/gabriel/.gradle/caches/8.10.2/transforms/5c6632b72bfeb5dd7b772007080f388d/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
+MERGED from [com.google.android.gms:play-services-location:21.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/6058c467d8d1578230f1b1964e72ae3b/transformed/jetified-play-services-location-21.3.0/AndroidManifest.xml:6:5-20
+MERGED from [com.google.android.gms:play-services-location:21.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/6058c467d8d1578230f1b1964e72ae3b/transformed/jetified-play-services-location-21.3.0/AndroidManifest.xml:6:5-20
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /home/gabriel/.gradle/caches/8.10.2/transforms/7b45dff998929ab6133d36421692903d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:4:5-6:19
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /home/gabriel/.gradle/caches/8.10.2/transforms/7b45dff998929ab6133d36421692903d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:4:5-6:19
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] /home/gabriel/.gradle/caches/8.10.2/transforms/25bdfb891e3174ea8af0e5eae049b50b/transformed/jetified-play-services-tasks-18.2.0/AndroidManifest.xml:4:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] /home/gabriel/.gradle/caches/8.10.2/transforms/25bdfb891e3174ea8af0e5eae049b50b/transformed/jetified-play-services-tasks-18.2.0/AndroidManifest.xml:4:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/2392143ef7ff716bf5cf1fff172e0790/transformed/jetified-play-services-basement-18.4.0/AndroidManifest.xml:5:5-7:19
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/2392143ef7ff716bf5cf1fff172e0790/transformed/jetified-play-services-basement-18.4.0/AndroidManifest.xml:5:5-7:19
 MERGED from [androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:28:5-89
 MERGED from [androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:28:5-89
 MERGED from [androidx.lifecycle:lifecycle-process:2.8.5] /home/gabriel/.gradle/caches/8.10.2/transforms/676be3a3d23f4aaa11fdaa03081f3486/transformed/jetified-lifecycle-process-2.8.5/AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.lifecycle:lifecycle-process:2.8.5] /home/gabriel/.gradle/caches/8.10.2/transforms/676be3a3d23f4aaa11fdaa03081f3486/transformed/jetified-lifecycle-process-2.8.5/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.room:room-runtime:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/dde55b63fcf6256a30f54784fc7a3ed1/transformed/room-runtime-2.6.1/AndroidManifest.xml:23:5-29:19
+MERGED from [androidx.room:room-runtime:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/dde55b63fcf6256a30f54784fc7a3ed1/transformed/room-runtime-2.6.1/AndroidManifest.xml:23:5-29:19
 MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:23:5-53:19
 MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:23:5-53:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/gabriel/.gradle/caches/8.10.2/transforms/495738ffb8cc01f7e6cc6400ee3a5798/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
@@ -143,45 +168,57 @@ MERGED from [:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transform
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:29:9-35
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:30:9-35
 	android:label
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:27:9-41
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:28:9-41
 	android:roundIcon
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:28:9-54
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:29:9-54
 	android:icon
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:26:9-43
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:27:9-43
 	android:allowBackup
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:25:9-35
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:26:9-35
 	android:theme
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:30:9-48
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:32:9-48
+	android:usesCleartextTraffic
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:31:9-44
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:24:9-40
-activity#com.smartx.rfidreader.ui.selection.ReaderSelectionActivity
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:33:9-41:20
-	android:windowSoftInputMode
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:36:13-55
-	android:exported
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:35:13-36
-	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:34:13-65
-intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:37:13-40:29
-action#android.intent.action.MAIN
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:38:17-69
-	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:38:25-66
-category#android.intent.category.LAUNCHER
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:39:17-77
-	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:39:27-74
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:25:9-40
 activity#com.smartx.rfidreader.ui.main.MainActivity
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:44:9-47:58
+ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:35:9-43:20
 	android:windowSoftInputMode
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:47:13-55
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:38:13-55
 	android:exported
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:46:13-37
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:37:13-36
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:45:13-49
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:36:13-49
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:39:13-42:29
+action#android.intent.action.MAIN
+ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:40:17-69
+	android:name
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:40:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:41:17-77
+	android:name
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:41:27-74
+activity#com.smartx.rfidreader.ui.selection.ReaderSelectionActivity
+ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:46:9-49:58
+	android:windowSoftInputMode
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:49:13-55
+	android:exported
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:48:13-37
+	android:name
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:47:13-65
+activity#com.smartx.rfidreader.ui.sync.SyncActivity
+ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:52:9-56:66
+	android:parentActivityName
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:56:13-63
+	android:windowSoftInputMode
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:55:13-55
+	android:exported
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:54:13-37
+	android:name
+		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:53:13-49
 uses-sdk
 INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml
@@ -200,6 +237,14 @@ MERGED from [androidx.recyclerview:recyclerview:1.3.2] /home/gabriel/.gradle/cac
 MERGED from [androidx.recyclerview:recyclerview:1.3.2] /home/gabriel/.gradle/caches/8.10.2/transforms/deb2524203b19b78d20b0117712ee632/transformed/recyclerview-1.3.2/AndroidManifest.xml:20:5-44
 MERGED from [androidx.viewpager2:viewpager2:1.1.0] /home/gabriel/.gradle/caches/8.10.2/transforms/a18df625546935763f5c4afcd89266ab/transformed/jetified-viewpager2-1.1.0/AndroidManifest.xml:5:5-44
 MERGED from [androidx.viewpager2:viewpager2:1.1.0] /home/gabriel/.gradle/caches/8.10.2/transforms/a18df625546935763f5c4afcd89266ab/transformed/jetified-viewpager2-1.1.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-location:21.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/6058c467d8d1578230f1b1964e72ae3b/transformed/jetified-play-services-location-21.3.0/AndroidManifest.xml:4:5-44
+MERGED from [com.google.android.gms:play-services-location:21.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/6058c467d8d1578230f1b1964e72ae3b/transformed/jetified-play-services-location-21.3.0/AndroidManifest.xml:4:5-44
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /home/gabriel/.gradle/caches/8.10.2/transforms/7b45dff998929ab6133d36421692903d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:3:5-44
+MERGED from [com.google.android.gms:play-services-base:18.5.0] /home/gabriel/.gradle/caches/8.10.2/transforms/7b45dff998929ab6133d36421692903d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:3:5-44
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] /home/gabriel/.gradle/caches/8.10.2/transforms/25bdfb891e3174ea8af0e5eae049b50b/transformed/jetified-play-services-tasks-18.2.0/AndroidManifest.xml:3:5-44
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] /home/gabriel/.gradle/caches/8.10.2/transforms/25bdfb891e3174ea8af0e5eae049b50b/transformed/jetified-play-services-tasks-18.2.0/AndroidManifest.xml:3:5-44
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/2392143ef7ff716bf5cf1fff172e0790/transformed/jetified-play-services-basement-18.4.0/AndroidManifest.xml:3:5-44
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/2392143ef7ff716bf5cf1fff172e0790/transformed/jetified-play-services-basement-18.4.0/AndroidManifest.xml:3:5-44
 MERGED from [androidx.fragment:fragment:1.8.2] /home/gabriel/.gradle/caches/8.10.2/transforms/80080f58d36b21f9b21ab1432fa83c21/transformed/fragment-1.8.2/AndroidManifest.xml:5:5-44
 MERGED from [androidx.fragment:fragment:1.8.2] /home/gabriel/.gradle/caches/8.10.2/transforms/80080f58d36b21f9b21ab1432fa83c21/transformed/fragment-1.8.2/AndroidManifest.xml:5:5-44
 MERGED from [androidx.fragment:fragment-ktx:1.8.2] /home/gabriel/.gradle/caches/8.10.2/transforms/36108b1d243052d51a44b7dcfd087084/transformed/jetified-fragment-ktx-1.8.2/AndroidManifest.xml:5:5-44
@@ -264,8 +309,22 @@ MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.5] /home/gabr
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.5] /home/gabriel/.gradle/caches/8.10.2/transforms/636604a2d8f5048a4cbf7cc06586f428/transformed/jetified-lifecycle-viewmodel-savedstate-2.8.5/AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core-ktx:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/b8b255c1cd12ff23f182bdbdef424502/transformed/jetified-core-ktx-1.13.1/AndroidManifest.xml:5:5-44
 MERGED from [androidx.core:core-ktx:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/b8b255c1cd12ff23f182bdbdef424502/transformed/jetified-core-ktx-1.13.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.room:room-runtime:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/dde55b63fcf6256a30f54784fc7a3ed1/transformed/room-runtime-2.6.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.room:room-runtime:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/dde55b63fcf6256a30f54784fc7a3ed1/transformed/room-runtime-2.6.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.room:room-ktx:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/f082d9d54fc055d35edd1123dd688a21/transformed/jetified-room-ktx-2.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.room:room-ktx:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/f082d9d54fc055d35edd1123dd688a21/transformed/jetified-room-ktx-2.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] /home/gabriel/.gradle/caches/8.10.2/transforms/c175b97155ae34916ba53a6a41b413e7/transformed/jetified-datastore-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] /home/gabriel/.gradle/caches/8.10.2/transforms/c175b97155ae34916ba53a6a41b413e7/transformed/jetified-datastore-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-android:1.1.1] /home/gabriel/.gradle/caches/8.10.2/transforms/8dff361b1d4f8574971b8e006740778c/transformed/jetified-datastore-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-android:1.1.1] /home/gabriel/.gradle/caches/8.10.2/transforms/8dff361b1d4f8574971b8e006740778c/transformed/jetified-datastore-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.1] /home/gabriel/.gradle/caches/8.10.2/transforms/c1b8b20f370c6c261a1daa74bcdd1139/transformed/jetified-datastore-preferences-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.1] /home/gabriel/.gradle/caches/8.10.2/transforms/c1b8b20f370c6c261a1daa74bcdd1139/transformed/jetified-datastore-preferences-release/AndroidManifest.xml:20:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/121aecec837c0b49cf1844084eaf6501/transformed/jetified-annotation-experimental-1.4.0/AndroidManifest.xml:5:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/121aecec837c0b49cf1844084eaf6501/transformed/jetified-annotation-experimental-1.4.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.sqlite:sqlite-framework:2.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/862465d55f0f833f656bd78492947d28/transformed/sqlite-framework-2.4.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-framework:2.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/862465d55f0f833f656bd78492947d28/transformed/sqlite-framework-2.4.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite:2.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/9e58d8f71fa6d72aeb26790bc752da6b/transformed/sqlite-2.4.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite:2.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/9e58d8f71fa6d72aeb26790bc752da6b/transformed/sqlite-2.4.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/gabriel/.gradle/caches/8.10.2/transforms/b6527faee57fd3c95647fcdf7b951c0b/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/gabriel/.gradle/caches/8.10.2/transforms/b6527faee57fd3c95647fcdf7b951c0b/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:21:5-44
@@ -274,12 +333,12 @@ MERGED from [androidx.cardview:cardview:1.0.0] /home/gabriel/.gradle/caches/8.10
 MERGED from [androidx.cardview:cardview:1.0.0] /home/gabriel/.gradle/caches/8.10.2/transforms/81ed52b2037dc85520f165de9f2cf8f0/transformed/cardview-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/gabriel/.gradle/caches/8.10.2/transforms/495738ffb8cc01f7e6cc6400ee3a5798/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/gabriel/.gradle/caches/8.10.2/transforms/495738ffb8cc01f7e6cc6400ee3a5798/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/gabriel/.gradle/caches/8.10.2/transforms/b4c7e575738823a2178ccc376803125c/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/gabriel/.gradle/caches/8.10.2/transforms/b4c7e575738823a2178ccc376803125c/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.interpolator:interpolator:1.0.0] /home/gabriel/.gradle/caches/8.10.2/transforms/0b6cabf5031ac967a8ee5cacc4f7d9eb/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.interpolator:interpolator:1.0.0] /home/gabriel/.gradle/caches/8.10.2/transforms/0b6cabf5031ac967a8ee5cacc4f7d9eb/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.startup:startup-runtime:1.1.1] /home/gabriel/.gradle/caches/8.10.2/transforms/e2353aefc0b8f6bb17263665fcbd8286/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
 MERGED from [androidx.startup:startup-runtime:1.1.1] /home/gabriel/.gradle/caches/8.10.2/transforms/e2353aefc0b8f6bb17263665fcbd8286/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
-MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/gabriel/.gradle/caches/8.10.2/transforms/b4c7e575738823a2178ccc376803125c/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.arch.core:core-runtime:2.2.0] /home/gabriel/.gradle/caches/8.10.2/transforms/b4c7e575738823a2178ccc376803125c/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.tracing:tracing:1.0.0] /home/gabriel/.gradle/caches/8.10.2/transforms/23cf448ecc64d6e1e112eff80c9e6d45/transformed/jetified-tracing-1.0.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.tracing:tracing:1.0.0] /home/gabriel/.gradle/caches/8.10.2/transforms/23cf448ecc64d6e1e112eff80c9e6d45/transformed/jetified-tracing-1.0.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.documentfile:documentfile:1.0.0] /home/gabriel/.gradle/caches/8.10.2/transforms/cdfe1a5adfa6007957c68d4e8a35f762/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
@@ -308,6 +367,20 @@ MERGED from [:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transform
 		INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
 		INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.5.0] /home/gabriel/.gradle/caches/8.10.2/transforms/7b45dff998929ab6133d36421692903d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:9-173
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.5.0] /home/gabriel/.gradle/caches/8.10.2/transforms/7b45dff998929ab6133d36421692903d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:146-170
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.5.0] /home/gabriel/.gradle/caches/8.10.2/transforms/7b45dff998929ab6133d36421692903d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:86-145
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.5.0] /home/gabriel/.gradle/caches/8.10.2/transforms/7b45dff998929ab6133d36421692903d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:19-85
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:18.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/2392143ef7ff716bf5cf1fff172e0790/transformed/jetified-play-services-basement-18.4.0/AndroidManifest.xml:6:9-122
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:18.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/2392143ef7ff716bf5cf1fff172e0790/transformed/jetified-play-services-basement-18.4.0/AndroidManifest.xml:6:66-119
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:18.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/2392143ef7ff716bf5cf1fff172e0790/transformed/jetified-play-services-basement-18.4.0/AndroidManifest.xml:6:20-65
 provider#androidx.startup.InitializationProvider
 ADDED from [androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
 MERGED from [androidx.lifecycle:lifecycle-process:2.8.5] /home/gabriel/.gradle/caches/8.10.2/transforms/676be3a3d23f4aaa11fdaa03081f3486/transformed/jetified-lifecycle-process-2.8.5/AndroidManifest.xml:24:9-32:20
@@ -356,6 +429,16 @@ ADDED from [androidx.lifecycle:lifecycle-process:2.8.5] /home/gabriel/.gradle/ca
 		ADDED from [androidx.lifecycle:lifecycle-process:2.8.5] /home/gabriel/.gradle/caches/8.10.2/transforms/676be3a3d23f4aaa11fdaa03081f3486/transformed/jetified-lifecycle-process-2.8.5/AndroidManifest.xml:31:17-49
 	android:name
 		ADDED from [androidx.lifecycle:lifecycle-process:2.8.5] /home/gabriel/.gradle/caches/8.10.2/transforms/676be3a3d23f4aaa11fdaa03081f3486/transformed/jetified-lifecycle-process-2.8.5/AndroidManifest.xml:30:17-78
+service#androidx.room.MultiInstanceInvalidationService
+ADDED from [androidx.room:room-runtime:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/dde55b63fcf6256a30f54784fc7a3ed1/transformed/room-runtime-2.6.1/AndroidManifest.xml:24:9-28:63
+	android:exported
+		ADDED from [androidx.room:room-runtime:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/dde55b63fcf6256a30f54784fc7a3ed1/transformed/room-runtime-2.6.1/AndroidManifest.xml:27:13-37
+	tools:ignore
+		ADDED from [androidx.room:room-runtime:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/dde55b63fcf6256a30f54784fc7a3ed1/transformed/room-runtime-2.6.1/AndroidManifest.xml:28:13-60
+	android:directBootAware
+		ADDED from [androidx.room:room-runtime:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/dde55b63fcf6256a30f54784fc7a3ed1/transformed/room-runtime-2.6.1/AndroidManifest.xml:26:13-43
+	android:name
+		ADDED from [androidx.room:room-runtime:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/dde55b63fcf6256a30f54784fc7a3ed1/transformed/room-runtime-2.6.1/AndroidManifest.xml:25:13-74
 meta-data#androidx.profileinstaller.ProfileInstallerInitializer
 ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
 	android:value

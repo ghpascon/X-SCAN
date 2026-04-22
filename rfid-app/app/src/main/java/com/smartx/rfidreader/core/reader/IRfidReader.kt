@@ -20,6 +20,9 @@ interface IRfidReader {
     /** Nome legível para exibição (ex.: "Chainway AT907") */
     val displayName: String
 
+    /** true se o leitor se conecta via Bluetooth LE (requer seleção de dispositivo) */
+    val isBle: Boolean get() = false
+
     /** Estado atual da conexão como StateFlow observável */
     val connectionState: StateFlow<ReaderConnectionState>
 

@@ -12,12 +12,25 @@ class ReaderListAdapter(
     private val onConnect: (IRfidReader) -> Unit
 ) : ListAdapter<IRfidReader, ReaderListAdapter.ViewHolder>(DiffCallback()) {
 
+    var connectedReaderId: String = ""
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     inner class ViewHolder(private val binding: ItemReaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(reader: IRfidReader) {
+            val isConnected = reader.readerId == connectedReaderId
             binding.textReaderName.text = reader.displayName
             binding.textReaderId.text = reader.readerId
+            binding.chipBle.visibility = if (reader.isBle) android.view.View.VISIBLE else android.view.View.GONE
+            binding.btnConnect.text = if (isConnected)
+                binding.root.context.getString(com.smartx.rfidreader.R.string.status_connected_short)
+            else
+                binding.root.context.getString(com.smartx.rfidreader.R.string.btn_connect)
+            binding.btnConnect.isEnabled = !isConnected
             binding.btnConnect.setOnClickListener { onConnect(reader) }
         }
     }

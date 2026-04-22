@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -11,8 +12,8 @@ android {
         applicationId "com.smartx.rfidreader"
         minSdk 24
         targetSdk 34
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.1.0"
     }
 
     buildTypes {
@@ -48,6 +49,20 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.viewpager2:viewpager2:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.3.2'
+
+    // --- DataStore ---
+    implementation 'androidx.datastore:datastore-preferences:1.1.1'
+
+    // --- Room ---
+    implementation 'androidx.room:room-runtime:2.6.1'
+    implementation 'androidx.room:room-ktx:2.6.1'
+    kapt 'androidx.room:room-compiler:2.6.1'
+
+    // --- Rede (Webhook) ---
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+
+    // --- Localização GPS ---
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
 
     // --- Lifecycle / ViewModel / Coroutines ---
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.5'

@@ -1,8 +1,8 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 3    package="com.smartx.rfidreader"
-4    android:versionCode="1"
-5    android:versionName="1.0.0" >
+4    android:versionCode="2"
+5    android:versionName="1.0.1" >
 6
 7    <uses-sdk
 8        android:minSdkVersion="24"
@@ -45,149 +45,190 @@
 28    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 28-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:21:5-77
 28-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:21:22-74
-29
-30    <permission
-30-->[androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
-31        android:name="com.smartx.rfidreader.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-31-->[androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
-32        android:protectionLevel="signature" />
-32-->[androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
-33
-34    <uses-permission android:name="com.smartx.rfidreader.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-34-->[androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
-34-->[androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
-35    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-35-->[:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:11:5-79
-35-->[:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:11:22-76
-36    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-36-->[:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:14:5-76
-36-->[:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:14:22-73
-37    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-37-->[:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:15:5-76
-37-->[:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:15:22-73
-38
-39    <application
-39-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:23:5-49:19
-40        android:name="com.smartx.rfidreader.RfidApplication"
-40-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:24:9-40
-41        android:allowBackup="true"
-41-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:25:9-35
-42        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-42-->[androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
-43        android:debuggable="true"
-44        android:extractNativeLibs="false"
-45        android:icon="@mipmap/ic_launcher"
-45-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:26:9-43
-46        android:label="@string/app_name"
-46-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:27:9-41
-47        android:roundIcon="@mipmap/ic_launcher_round"
-47-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:28:9-54
-48        android:supportsRtl="true"
-48-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:29:9-35
-49        android:theme="@style/Theme.RfidReader" >
-49-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:30:9-48
-50
-51        <!-- Tela inicial: seleção de leitor -->
-52        <activity
-52-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:33:9-41:20
-53            android:name="com.smartx.rfidreader.ui.selection.ReaderSelectionActivity"
-53-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:34:13-65
-54            android:exported="true"
-54-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:35:13-36
-55            android:windowSoftInputMode="adjustResize" >
-55-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:36:13-55
-56            <intent-filter>
-56-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:37:13-40:29
-57                <action android:name="android.intent.action.MAIN" />
-57-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:38:17-69
-57-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:38:25-66
-58
-59                <category android:name="android.intent.category.LAUNCHER" />
-59-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:39:17-77
-59-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:39:27-74
-60            </intent-filter>
-61        </activity>
-62
-63        <!-- Tela principal: config + leitura -->
-64        <activity
-64-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:44:9-47:58
-65            android:name="com.smartx.rfidreader.ui.main.MainActivity"
-65-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:45:13-49
-66            android:exported="false"
-66-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:46:13-37
-67            android:windowSoftInputMode="adjustResize" />
-67-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:47:13-55
-68
-69        <provider
-69-->[androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
-70            android:name="androidx.startup.InitializationProvider"
-70-->[androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:25:13-67
-71            android:authorities="com.smartx.rfidreader.androidx-startup"
-71-->[androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:26:13-68
-72            android:exported="false" >
-72-->[androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:27:13-37
-73            <meta-data
-73-->[androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
-74                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-74-->[androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:30:17-75
-75                android:value="androidx.startup" />
-75-->[androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:31:17-49
-76            <meta-data
-76-->[androidx.lifecycle:lifecycle-process:2.8.5] /home/gabriel/.gradle/caches/8.10.2/transforms/676be3a3d23f4aaa11fdaa03081f3486/transformed/jetified-lifecycle-process-2.8.5/AndroidManifest.xml:29:13-31:52
-77                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-77-->[androidx.lifecycle:lifecycle-process:2.8.5] /home/gabriel/.gradle/caches/8.10.2/transforms/676be3a3d23f4aaa11fdaa03081f3486/transformed/jetified-lifecycle-process-2.8.5/AndroidManifest.xml:30:17-78
-78                android:value="androidx.startup" />
-78-->[androidx.lifecycle:lifecycle-process:2.8.5] /home/gabriel/.gradle/caches/8.10.2/transforms/676be3a3d23f4aaa11fdaa03081f3486/transformed/jetified-lifecycle-process-2.8.5/AndroidManifest.xml:31:17-49
-79            <meta-data
-79-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
-80                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-80-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
-81                android:value="androidx.startup" />
-81-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
-82        </provider>
-83
-84        <receiver
-84-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
-85            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-85-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
-86            android:directBootAware="false"
-86-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
-87            android:enabled="true"
-87-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
-88            android:exported="true"
-88-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
-89            android:permission="android.permission.DUMP" >
-89-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
-90            <intent-filter>
-90-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
-91                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-91-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
-91-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
-92            </intent-filter>
-93            <intent-filter>
-93-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
-94                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-94-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
-94-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
-95            </intent-filter>
-96            <intent-filter>
-96-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
-97                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-97-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
-97-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
-98            </intent-filter>
-99            <intent-filter>
-99-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
-100                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-100-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
-100-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
-101            </intent-filter>
-102        </receiver>
-103
-104        <service android:name="com.honeywell.rfidservice.RfidService" >
-104-->[:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transforms/c6e4831b8df8f3489bd81da198ea13c5/transformed/jetified-honeywell_rfid_sdk/AndroidManifest.xml:15:9-16:19
-104-->[:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transforms/c6e4831b8df8f3489bd81da198ea13c5/transformed/jetified-honeywell_rfid_sdk/AndroidManifest.xml:15:18-70
-105        </service>
-106    </application>
-107
-108</manifest>
+29    <uses-permission android:name="android.permission.VIBRATE" />
+29-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:22:5-66
+29-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:22:22-63
+30
+31    <permission
+31-->[androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+32        android:name="com.smartx.rfidreader.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+32-->[androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+33        android:protectionLevel="signature" />
+33-->[androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+34
+35    <uses-permission android:name="com.smartx.rfidreader.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+35-->[androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+35-->[androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
+36    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+36-->[:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:11:5-79
+36-->[:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:11:22-76
+37    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+37-->[:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:14:5-76
+37-->[:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:14:22-73
+38    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+38-->[:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:15:5-76
+38-->[:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:15:22-73
+39
+40    <application
+40-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:24:5-58:19
+41        android:name="com.smartx.rfidreader.RfidApplication"
+41-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:25:9-40
+42        android:allowBackup="true"
+42-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:26:9-35
+43        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+43-->[androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
+44        android:debuggable="true"
+45        android:extractNativeLibs="false"
+46        android:icon="@mipmap/ic_launcher"
+46-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:27:9-43
+47        android:label="@string/app_name"
+47-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:28:9-41
+48        android:roundIcon="@mipmap/ic_launcher_round"
+48-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:29:9-54
+49        android:supportsRtl="true"
+49-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:30:9-35
+50        android:theme="@style/Theme.RfidReader"
+50-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:32:9-48
+51        android:usesCleartextTraffic="true" >
+51-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:31:9-44
+52
+53        <!-- Tela principal: seleção de leitor + config + leitura (3 abas) -->
+54        <activity
+54-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:35:9-43:20
+55            android:name="com.smartx.rfidreader.ui.main.MainActivity"
+55-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:36:13-49
+56            android:exported="true"
+56-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:37:13-36
+57            android:windowSoftInputMode="adjustResize" >
+57-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:38:13-55
+58            <intent-filter>
+58-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:39:13-42:29
+59                <action android:name="android.intent.action.MAIN" />
+59-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:40:17-69
+59-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:40:25-66
+60
+61                <category android:name="android.intent.category.LAUNCHER" />
+61-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:41:17-77
+61-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:41:27-74
+62            </intent-filter>
+63        </activity>
+64
+65        <!-- Tela legada de seleção de leitor (não usada como launcher) -->
+66        <activity
+66-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:46:9-49:58
+67            android:name="com.smartx.rfidreader.ui.selection.ReaderSelectionActivity"
+67-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:47:13-65
+68            android:exported="false"
+68-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:48:13-37
+69            android:windowSoftInputMode="adjustResize" />
+69-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:49:13-55
+70
+71        <!-- Tela de sincronização -->
+72        <activity
+72-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:52:9-56:66
+73            android:name="com.smartx.rfidreader.ui.sync.SyncActivity"
+73-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:53:13-49
+74            android:exported="false"
+74-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:54:13-37
+75            android:parentActivityName="com.smartx.rfidreader.ui.main.MainActivity"
+75-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:56:13-63
+76            android:windowSoftInputMode="adjustResize" />
+76-->/home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:55:13-55
+77        <activity
+77-->[com.google.android.gms:play-services-base:18.5.0] /home/gabriel/.gradle/caches/8.10.2/transforms/7b45dff998929ab6133d36421692903d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:9-173
+78            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+78-->[com.google.android.gms:play-services-base:18.5.0] /home/gabriel/.gradle/caches/8.10.2/transforms/7b45dff998929ab6133d36421692903d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:19-85
+79            android:exported="false"
+79-->[com.google.android.gms:play-services-base:18.5.0] /home/gabriel/.gradle/caches/8.10.2/transforms/7b45dff998929ab6133d36421692903d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:146-170
+80            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+80-->[com.google.android.gms:play-services-base:18.5.0] /home/gabriel/.gradle/caches/8.10.2/transforms/7b45dff998929ab6133d36421692903d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:86-145
+81
+82        <meta-data
+82-->[com.google.android.gms:play-services-basement:18.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/2392143ef7ff716bf5cf1fff172e0790/transformed/jetified-play-services-basement-18.4.0/AndroidManifest.xml:6:9-122
+83            android:name="com.google.android.gms.version"
+83-->[com.google.android.gms:play-services-basement:18.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/2392143ef7ff716bf5cf1fff172e0790/transformed/jetified-play-services-basement-18.4.0/AndroidManifest.xml:6:20-65
+84            android:value="@integer/google_play_services_version" />
+84-->[com.google.android.gms:play-services-basement:18.4.0] /home/gabriel/.gradle/caches/8.10.2/transforms/2392143ef7ff716bf5cf1fff172e0790/transformed/jetified-play-services-basement-18.4.0/AndroidManifest.xml:6:66-119
+85
+86        <provider
+86-->[androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+87            android:name="androidx.startup.InitializationProvider"
+87-->[androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:25:13-67
+88            android:authorities="com.smartx.rfidreader.androidx-startup"
+88-->[androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:26:13-68
+89            android:exported="false" >
+89-->[androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:27:13-37
+90            <meta-data
+90-->[androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+91                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+91-->[androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:30:17-75
+92                android:value="androidx.startup" />
+92-->[androidx.emoji2:emoji2:1.3.0] /home/gabriel/.gradle/caches/8.10.2/transforms/eba329333aca7c5cd83236a647ef4589/transformed/jetified-emoji2-1.3.0/AndroidManifest.xml:31:17-49
+93            <meta-data
+93-->[androidx.lifecycle:lifecycle-process:2.8.5] /home/gabriel/.gradle/caches/8.10.2/transforms/676be3a3d23f4aaa11fdaa03081f3486/transformed/jetified-lifecycle-process-2.8.5/AndroidManifest.xml:29:13-31:52
+94                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+94-->[androidx.lifecycle:lifecycle-process:2.8.5] /home/gabriel/.gradle/caches/8.10.2/transforms/676be3a3d23f4aaa11fdaa03081f3486/transformed/jetified-lifecycle-process-2.8.5/AndroidManifest.xml:30:17-78
+95                android:value="androidx.startup" />
+95-->[androidx.lifecycle:lifecycle-process:2.8.5] /home/gabriel/.gradle/caches/8.10.2/transforms/676be3a3d23f4aaa11fdaa03081f3486/transformed/jetified-lifecycle-process-2.8.5/AndroidManifest.xml:31:17-49
+96            <meta-data
+96-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+97                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+97-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+98                android:value="androidx.startup" />
+98-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+99        </provider>
+100
+101        <service
+101-->[androidx.room:room-runtime:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/dde55b63fcf6256a30f54784fc7a3ed1/transformed/room-runtime-2.6.1/AndroidManifest.xml:24:9-28:63
+102            android:name="androidx.room.MultiInstanceInvalidationService"
+102-->[androidx.room:room-runtime:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/dde55b63fcf6256a30f54784fc7a3ed1/transformed/room-runtime-2.6.1/AndroidManifest.xml:25:13-74
+103            android:directBootAware="true"
+103-->[androidx.room:room-runtime:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/dde55b63fcf6256a30f54784fc7a3ed1/transformed/room-runtime-2.6.1/AndroidManifest.xml:26:13-43
+104            android:exported="false" />
+104-->[androidx.room:room-runtime:2.6.1] /home/gabriel/.gradle/caches/8.10.2/transforms/dde55b63fcf6256a30f54784fc7a3ed1/transformed/room-runtime-2.6.1/AndroidManifest.xml:27:13-37
+105
+106        <receiver
+106-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+107            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+107-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+108            android:directBootAware="false"
+108-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+109            android:enabled="true"
+109-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+110            android:exported="true"
+110-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+111            android:permission="android.permission.DUMP" >
+111-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+112            <intent-filter>
+112-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+113                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+113-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+113-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+114            </intent-filter>
+115            <intent-filter>
+115-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+116                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+116-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+116-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+117            </intent-filter>
+118            <intent-filter>
+118-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+119                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+119-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+119-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+120            </intent-filter>
+121            <intent-filter>
+121-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+122                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+122-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+122-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/gabriel/.gradle/caches/8.10.2/transforms/fd03a32e595dadf86d236d088c33676a/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
+123            </intent-filter>
+124        </receiver>
+125
+126        <service android:name="com.honeywell.rfidservice.RfidService" >
+126-->[:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transforms/c6e4831b8df8f3489bd81da198ea13c5/transformed/jetified-honeywell_rfid_sdk/AndroidManifest.xml:15:9-16:19
+126-->[:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transforms/c6e4831b8df8f3489bd81da198ea13c5/transformed/jetified-honeywell_rfid_sdk/AndroidManifest.xml:15:18-70
+127        </service>
+128    </application>
+129
+130</manifest>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="pending_events_count">
+        <item quantity="one">%d evento pendente</item>
+        <item quantity="other">%d eventos pendentes</item>
+    </plurals>
+    <plurals name="tag_count_plural">
+        <item quantity="one">%d tag</item>
+        <item quantity="other">%d tags</item>
+    </plurals>
+</resources>

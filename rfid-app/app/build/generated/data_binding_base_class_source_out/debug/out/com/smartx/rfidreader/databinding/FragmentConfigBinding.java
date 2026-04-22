@@ -13,6 +13,10 @@ import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.slider.Slider;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.smartx.rfidreader.R;
@@ -25,16 +29,34 @@ public final class FragmentConfigBinding implements ViewBinding {
   private final ScrollView rootView;
 
   @NonNull
+  public final MaterialButton btnAddPrefix;
+
+  @NonNull
   public final MaterialButton btnApplyConfig;
+
+  @NonNull
+  public final MaterialButton btnClearPrefixes;
 
   @NonNull
   public final MaterialButton btnReloadConfig;
 
   @NonNull
+  public final MaterialButton btnSaveAppSettings;
+
+  @NonNull
+  public final MaterialCardView cardAppConfig;
+
+  @NonNull
+  public final MaterialCardView cardReaderConfig;
+
+  @NonNull
+  public final ChipGroup chipGroupPrefixes;
+
+  @NonNull
   public final TextInputEditText editPower;
 
   @NonNull
-  public final TextInputEditText editRssiFilter;
+  public final TextInputEditText editPrefix;
 
   @NonNull
   public final TextView labelSession;
@@ -43,30 +65,52 @@ public final class FragmentConfigBinding implements ViewBinding {
   public final TextInputLayout layoutPower;
 
   @NonNull
-  public final TextInputLayout layoutRssiFilter;
+  public final TextInputLayout layoutPrefix;
 
   @NonNull
   public final ProgressBar progressSaving;
 
   @NonNull
+  public final Slider sliderRssi;
+
+  @NonNull
   public final Spinner spinnerSession;
 
-  private FragmentConfigBinding(@NonNull ScrollView rootView,
-      @NonNull MaterialButton btnApplyConfig, @NonNull MaterialButton btnReloadConfig,
-      @NonNull TextInputEditText editPower, @NonNull TextInputEditText editRssiFilter,
-      @NonNull TextView labelSession, @NonNull TextInputLayout layoutPower,
-      @NonNull TextInputLayout layoutRssiFilter, @NonNull ProgressBar progressSaving,
-      @NonNull Spinner spinnerSession) {
+  @NonNull
+  public final SwitchMaterial switchBuzzer;
+
+  @NonNull
+  public final TextView textRssiValue;
+
+  private FragmentConfigBinding(@NonNull ScrollView rootView, @NonNull MaterialButton btnAddPrefix,
+      @NonNull MaterialButton btnApplyConfig, @NonNull MaterialButton btnClearPrefixes,
+      @NonNull MaterialButton btnReloadConfig, @NonNull MaterialButton btnSaveAppSettings,
+      @NonNull MaterialCardView cardAppConfig, @NonNull MaterialCardView cardReaderConfig,
+      @NonNull ChipGroup chipGroupPrefixes, @NonNull TextInputEditText editPower,
+      @NonNull TextInputEditText editPrefix, @NonNull TextView labelSession,
+      @NonNull TextInputLayout layoutPower, @NonNull TextInputLayout layoutPrefix,
+      @NonNull ProgressBar progressSaving, @NonNull Slider sliderRssi,
+      @NonNull Spinner spinnerSession, @NonNull SwitchMaterial switchBuzzer,
+      @NonNull TextView textRssiValue) {
     this.rootView = rootView;
+    this.btnAddPrefix = btnAddPrefix;
     this.btnApplyConfig = btnApplyConfig;
+    this.btnClearPrefixes = btnClearPrefixes;
     this.btnReloadConfig = btnReloadConfig;
+    this.btnSaveAppSettings = btnSaveAppSettings;
+    this.cardAppConfig = cardAppConfig;
+    this.cardReaderConfig = cardReaderConfig;
+    this.chipGroupPrefixes = chipGroupPrefixes;
     this.editPower = editPower;
-    this.editRssiFilter = editRssiFilter;
+    this.editPrefix = editPrefix;
     this.labelSession = labelSession;
     this.layoutPower = layoutPower;
-    this.layoutRssiFilter = layoutRssiFilter;
+    this.layoutPrefix = layoutPrefix;
     this.progressSaving = progressSaving;
+    this.sliderRssi = sliderRssi;
     this.spinnerSession = spinnerSession;
+    this.switchBuzzer = switchBuzzer;
+    this.textRssiValue = textRssiValue;
   }
 
   @Override
@@ -96,9 +140,21 @@ public final class FragmentConfigBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.btnAddPrefix;
+      MaterialButton btnAddPrefix = ViewBindings.findChildViewById(rootView, id);
+      if (btnAddPrefix == null) {
+        break missingId;
+      }
+
       id = R.id.btnApplyConfig;
       MaterialButton btnApplyConfig = ViewBindings.findChildViewById(rootView, id);
       if (btnApplyConfig == null) {
+        break missingId;
+      }
+
+      id = R.id.btnClearPrefixes;
+      MaterialButton btnClearPrefixes = ViewBindings.findChildViewById(rootView, id);
+      if (btnClearPrefixes == null) {
         break missingId;
       }
 
@@ -108,15 +164,39 @@ public final class FragmentConfigBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.btnSaveAppSettings;
+      MaterialButton btnSaveAppSettings = ViewBindings.findChildViewById(rootView, id);
+      if (btnSaveAppSettings == null) {
+        break missingId;
+      }
+
+      id = R.id.cardAppConfig;
+      MaterialCardView cardAppConfig = ViewBindings.findChildViewById(rootView, id);
+      if (cardAppConfig == null) {
+        break missingId;
+      }
+
+      id = R.id.cardReaderConfig;
+      MaterialCardView cardReaderConfig = ViewBindings.findChildViewById(rootView, id);
+      if (cardReaderConfig == null) {
+        break missingId;
+      }
+
+      id = R.id.chipGroupPrefixes;
+      ChipGroup chipGroupPrefixes = ViewBindings.findChildViewById(rootView, id);
+      if (chipGroupPrefixes == null) {
+        break missingId;
+      }
+
       id = R.id.editPower;
       TextInputEditText editPower = ViewBindings.findChildViewById(rootView, id);
       if (editPower == null) {
         break missingId;
       }
 
-      id = R.id.editRssiFilter;
-      TextInputEditText editRssiFilter = ViewBindings.findChildViewById(rootView, id);
-      if (editRssiFilter == null) {
+      id = R.id.editPrefix;
+      TextInputEditText editPrefix = ViewBindings.findChildViewById(rootView, id);
+      if (editPrefix == null) {
         break missingId;
       }
 
@@ -132,9 +212,9 @@ public final class FragmentConfigBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.layoutRssiFilter;
-      TextInputLayout layoutRssiFilter = ViewBindings.findChildViewById(rootView, id);
-      if (layoutRssiFilter == null) {
+      id = R.id.layoutPrefix;
+      TextInputLayout layoutPrefix = ViewBindings.findChildViewById(rootView, id);
+      if (layoutPrefix == null) {
         break missingId;
       }
 
@@ -144,15 +224,34 @@ public final class FragmentConfigBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.sliderRssi;
+      Slider sliderRssi = ViewBindings.findChildViewById(rootView, id);
+      if (sliderRssi == null) {
+        break missingId;
+      }
+
       id = R.id.spinnerSession;
       Spinner spinnerSession = ViewBindings.findChildViewById(rootView, id);
       if (spinnerSession == null) {
         break missingId;
       }
 
-      return new FragmentConfigBinding((ScrollView) rootView, btnApplyConfig, btnReloadConfig,
-          editPower, editRssiFilter, labelSession, layoutPower, layoutRssiFilter, progressSaving,
-          spinnerSession);
+      id = R.id.switchBuzzer;
+      SwitchMaterial switchBuzzer = ViewBindings.findChildViewById(rootView, id);
+      if (switchBuzzer == null) {
+        break missingId;
+      }
+
+      id = R.id.textRssiValue;
+      TextView textRssiValue = ViewBindings.findChildViewById(rootView, id);
+      if (textRssiValue == null) {
+        break missingId;
+      }
+
+      return new FragmentConfigBinding((ScrollView) rootView, btnAddPrefix, btnApplyConfig,
+          btnClearPrefixes, btnReloadConfig, btnSaveAppSettings, cardAppConfig, cardReaderConfig,
+          chipGroupPrefixes, editPower, editPrefix, labelSession, layoutPower, layoutPrefix,
+          progressSaving, sliderRssi, spinnerSession, switchBuzzer, textRssiValue);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

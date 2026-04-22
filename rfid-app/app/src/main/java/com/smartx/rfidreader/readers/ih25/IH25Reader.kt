@@ -154,8 +154,9 @@ class IH25Reader : IRfidReader {
         val reader = rfidReader ?: return@withContext false
         var success = true
         try {
-            // AntennaPower(id, readPower, writePower)
-            val ap = AntennaPower(1, config.txPower, config.txPower)
+            // SDK IH25 usa centidBm (cdBm): 30 dBm → 3000 cdBm
+            val cdBm = config.txPower.coerceIn(5, 30) * 100
+            val ap = AntennaPower(1, cdBm, cdBm)
             reader.setAntennaPower(arrayOf(ap))
 
             val session = when (config.session) {
@@ -176,7 +177,9 @@ class IH25Reader : IRfidReader {
         val reader = rfidReader ?: return@withContext ReaderConfig()
         return@withContext try {
             val powers = reader.getAntennaPower()
-            val power = powers?.firstOrNull()?.readPower ?: 30
+            // SDK retorna cdBm; converte para dBm dividindo por 100
+            val cdBm = powers?.firstOrNull()?.readPower ?: 3000
+            val dBm = (cdBm / 100).coerceIn(5, 30)
             val sessionEnum = reader.getSession()
             val sessionInt = when (sessionEnum) {
                 Gen2.Session.Session0 -> 0
@@ -185,7 +188,7 @@ class IH25Reader : IRfidReader {
                 Gen2.Session.Session3 -> 3
                 else -> 1
             }
-            ReaderConfig(txPower = power, session = sessionInt)
+            ReaderConfig(txPower = dBm, session = sessionInt)
         } catch (e: Exception) {
             Log.e(TAG, "Erro ao ler configuração IH25", e)
             ReaderConfig()

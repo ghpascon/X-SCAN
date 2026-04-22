@@ -32,6 +32,9 @@ class ReadingFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
     private lateinit var tagAdapter: TagListAdapter
 
+    /** ToneGenerator reutilizado — criado em onStart, liberado em onStop */
+    private var toneGenerator: ToneGenerator? = null
+
     // Launcher para solicitar permissão de localização
     private val locationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -49,12 +52,7 @@ class ReadingFragment : Fragment() {
         ) == PackageManager.PERMISSION_GRANTED
 
     private fun playBeep() {
-        try {
-            ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME).also { tg ->
-                tg.startTone(ToneGenerator.TONE_PROP_BEEP, 150)
-                binding.root.postDelayed({ tg.release() }, 400)
-            }
-        } catch (_: Exception) {}
+        toneGenerator?.startTone(ToneGenerator.TONE_PROP_BEEP, 150)
     }
 
     override fun onCreateView(
@@ -164,8 +162,8 @@ class ReadingFragment : Fragment() {
                         val suffix = if (limit != null && total > limit) " (${limit})" else ""
                         binding.textTagCount.text = getString(R.string.tag_count, total) + suffix
 
-                        // Faz scroll ao topo apenas quando uma nova tag é adicionada
-                        if (total > prevTotal && visible.isNotEmpty()) {
+                        // Rola ao topo apenas na primeira tag (lista vazia → 1ª leitura)
+                        if (prevTotal == 0 && total > 0 && visible.isNotEmpty()) {
                             binding.recyclerViewTags.scrollToPosition(0)
                         }
                         prevTotal = if (total == 0) 0 else total
@@ -212,8 +210,17 @@ class ReadingFragment : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        try {
+            toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME)
+        } catch (_: Exception) {}
+    }
+
     override fun onStop() {
         super.onStop()
+        toneGenerator?.release()
+        toneGenerator = null
         viewModel.stopInventoryAndClear()
     }
 

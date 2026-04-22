@@ -39,6 +39,12 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     /** Armazenamento rápido para lookup O(1) por EPC */
     private val _tagMap = LinkedHashMap<String, RfidTag>()
 
+    /** Flag para atualizar a UI apenas quando necessário (throttle de 200 ms) */
+    @Volatile private var _tagsDirty = false
+
+    /** Timestamp da última emissão do buzzer (throttle de 300 ms, apenas novas tags) */
+    @Volatile private var _lastBuzzerMs = 0L
+
     private val _tags = MutableStateFlow<List<RfidTag>>(emptyList())
     val tags: StateFlow<List<RfidTag>> = _tags.asStateFlow()
 
@@ -167,10 +173,27 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                         timestamp = tag.timestamp
                     )
                 }
-                _tags.value = _tagMap.values.toList()
 
-                if (settings.buzzerEnabled) {
-                    _buzzerEvent.tryEmit(Unit)
+                // Marca dirty — a UI será atualizada pelo ticker de 200 ms
+                _tagsDirty = true
+
+                // Buzzer apenas para novas tags, com throttle de 300 ms
+                if (isNew && settings.buzzerEnabled) {
+                    val now = System.currentTimeMillis()
+                    if (now - _lastBuzzerMs >= 300L) {
+                        _lastBuzzerMs = now
+                        _buzzerEvent.tryEmit(Unit)
+                    }
+                }
+            }
+        }
+        // Ticker: atualiza a lista na UI no máximo a cada 200 ms
+        viewModelScope.launch {
+            while (true) {
+                kotlinx.coroutines.delay(200)
+                if (_tagsDirty) {
+                    _tagsDirty = false
+                    _tags.value = _tagMap.values.toList()
                 }
             }
         }
@@ -197,6 +220,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     fun clearTags() {
         _tagMap.clear()
+        _tagsDirty = false
         _tags.value = emptyList()
     }
 
@@ -207,6 +231,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
             _uiState.update { it.copy(isInventorying = false) }
         }
         _tagMap.clear()
+        _tagsDirty = false
         _tags.value = emptyList()
     }
 

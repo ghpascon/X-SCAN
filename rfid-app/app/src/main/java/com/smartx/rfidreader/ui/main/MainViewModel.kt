@@ -42,8 +42,10 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     /** Flag para atualizar a UI apenas quando necessário (throttle de 200 ms) */
     @Volatile private var _tagsDirty = false
 
-    /** Timestamp da última emissão do buzzer (throttle de 300 ms, apenas novas tags) */
+    /** Timestamp do último buzzer (cooldown de 300 ms) */
     @Volatile private var _lastBuzzerMs = 0L
+
+
 
     private val _tags = MutableStateFlow<List<RfidTag>>(emptyList())
     val tags: StateFlow<List<RfidTag>> = _tags.asStateFlow()
@@ -56,7 +58,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         _displayLimit.value = limit
     }
 
-    /** Evento de buzzer: emitido quando nova tag é detectada e buzzer está ativado */
+    /** Evento de buzzer: emitido a cada nova tag detectada (cooldown 300 ms) */
     private val _buzzerEvent = MutableSharedFlow<Unit>(extraBufferCapacity = 8)
     val buzzerEvent: SharedFlow<Unit> = _buzzerEvent.asSharedFlow()
 
@@ -177,10 +179,10 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                 // Marca dirty — a UI será atualizada pelo ticker de 200 ms
                 _tagsDirty = true
 
-                // Buzzer apenas para novas tags, com throttle de 300 ms
-                if (isNew && settings.buzzerEnabled) {
+                // Buzzer para qualquer tag lida, com cooldown de 50 ms
+                if (settings.buzzerEnabled) {
                     val now = System.currentTimeMillis()
-                    if (now - _lastBuzzerMs >= 300L) {
+                    if (now - _lastBuzzerMs >= 100L) {
                         _lastBuzzerMs = now
                         _buzzerEvent.tryEmit(Unit)
                     }

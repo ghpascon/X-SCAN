@@ -52,7 +52,7 @@ class ReadingFragment : Fragment() {
         ) == PackageManager.PERMISSION_GRANTED
 
     private fun playBeep() {
-        toneGenerator?.startTone(ToneGenerator.TONE_PROP_BEEP, 150)
+        toneGenerator?.startTone(ToneGenerator.TONE_PROP_ACK, 100)
     }
 
     override fun onCreateView(

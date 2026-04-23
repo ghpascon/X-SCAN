@@ -24,7 +24,7 @@ public final class MainViewModel extends androidx.lifecycle.AndroidViewModel {
     private volatile boolean _tagsDirty = false;
     
     /**
-     * Timestamp da última emissão do buzzer (throttle de 300 ms, apenas novas tags)
+     * Timestamp do último buzzer (cooldown de 300 ms)
      */
     @kotlin.jvm.Volatile()
     private volatile long _lastBuzzerMs = 0L;
@@ -42,7 +42,7 @@ public final class MainViewModel extends androidx.lifecycle.AndroidViewModel {
     private final kotlinx.coroutines.flow.StateFlow<java.lang.Integer> displayLimit = null;
     
     /**
-     * Evento de buzzer: emitido quando nova tag é detectada e buzzer está ativado
+     * Evento de buzzer: emitido a cada nova tag detectada (cooldown 300 ms)
      */
     @org.jetbrains.annotations.NotNull()
     private final kotlinx.coroutines.flow.MutableSharedFlow<kotlin.Unit> _buzzerEvent = null;

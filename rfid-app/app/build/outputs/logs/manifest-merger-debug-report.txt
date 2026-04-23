@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:2:1-60:12
-INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:2:1-60:12
-INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:2:1-60:12
-INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:2:1-60:12
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:2:1-63:12
+INJECTED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:2:1-63:12
+INJECTED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:2:1-63:12
+INJECTED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:2:1-63:12
 MERGED from [androidx.databinding:viewbinding:8.5.2] /home/gabriel/.gradle/caches/8.10.2/transforms/978bff042124125fe2a3150231281edb/transformed/jetified-viewbinding-8.5.2/AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.12.0] /home/gabriel/.gradle/caches/8.10.2/transforms/d633eaa3e14f0a2dc2160a53ea892ed6/transformed/material-1.12.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/gabriel/.gradle/caches/8.10.2/transforms/5c6632b72bfeb5dd7b772007080f388d/transformed/constraintlayout-2.1.4/AndroidManifest.xml:2:1-11:12
@@ -75,66 +75,66 @@ MERGED from [:atid.util_v1.19.2022062000:] /home/gabriel/.gradle/caches/8.10.2/t
 MERGED from [:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:2:1-17:12
 MERGED from [:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transforms/c6e4831b8df8f3489bd81da198ea13c5/transformed/jetified-honeywell_rfid_sdk/AndroidManifest.xml:2:1-19:12
 	package
-		INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml
+		INJECTED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml
+		INJECTED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml
+		INJECTED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:2:11-69
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:2:11-69
 uses-permission#android.permission.BLUETOOTH
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:5:5-68
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:5:5-68
 MERGED from [:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:12:5-68
 MERGED from [:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:12:5-68
 MERGED from [:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transforms/c6e4831b8df8f3489bd81da198ea13c5/transformed/jetified-honeywell_rfid_sdk/AndroidManifest.xml:11:5-68
 MERGED from [:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transforms/c6e4831b8df8f3489bd81da198ea13c5/transformed/jetified-honeywell_rfid_sdk/AndroidManifest.xml:11:5-68
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:5:22-65
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:5:22-65
 uses-permission#android.permission.BLUETOOTH_ADMIN
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:6:5-74
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:6:5-74
 MERGED from [:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:13:5-74
 MERGED from [:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:13:5-74
 MERGED from [:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transforms/c6e4831b8df8f3489bd81da198ea13c5/transformed/jetified-honeywell_rfid_sdk/AndroidManifest.xml:12:5-74
 MERGED from [:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transforms/c6e4831b8df8f3489bd81da198ea13c5/transformed/jetified-honeywell_rfid_sdk/AndroidManifest.xml:12:5-74
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:6:22-71
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:6:22-71
 uses-permission#android.permission.BLUETOOTH_CONNECT
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:7:5-9:38
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:7:5-9:38
 	android:minSdkVersion
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:9:9-35
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:9:9-35
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:8:9-60
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:8:9-60
 uses-permission#android.permission.BLUETOOTH_SCAN
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:10:5-13:58
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:10:5-13:58
 	android:usesPermissionFlags
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:13:9-55
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:13:9-55
 	android:minSdkVersion
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:12:9-35
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:12:9-35
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:11:9-57
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:11:9-57
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:16:5-79
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:16:5-79
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:16:22-76
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:16:22-76
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:17:5-81
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:17:5-81
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:17:22-78
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:17:22-78
 uses-permission#android.permission.INTERNET
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:20:5-67
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:20:5-67
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:20:22-64
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:20:22-64
 uses-permission#android.permission.FOREGROUND_SERVICE
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:21:5-77
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:21:5-77
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:21:22-74
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:21:22-74
 uses-permission#android.permission.VIBRATE
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:22:5-66
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:22:5-66
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:22:22-63
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:22:22-63
 application
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:24:5-58:19
-INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:24:5-58:19
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:24:5-61:19
+INJECTED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:24:5-61:19
 MERGED from [com.google.android.material:material:1.12.0] /home/gabriel/.gradle/caches/8.10.2/transforms/d633eaa3e14f0a2dc2160a53ea892ed6/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] /home/gabriel/.gradle/caches/8.10.2/transforms/d633eaa3e14f0a2dc2160a53ea892ed6/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/gabriel/.gradle/caches/8.10.2/transforms/5c6632b72bfeb5dd7b772007080f388d/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
@@ -164,65 +164,71 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] /home/gabriel/.gradle/cache
 MERGED from [:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transforms/c6e4831b8df8f3489bd81da198ea13c5/transformed/jetified-honeywell_rfid_sdk/AndroidManifest.xml:14:5-17:19
 MERGED from [:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transforms/c6e4831b8df8f3489bd81da198ea13c5/transformed/jetified-honeywell_rfid_sdk/AndroidManifest.xml:14:5-17:19
 	android:extractNativeLibs
-		INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml
+		INJECTED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:30:9-35
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:30:9-35
 	android:label
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:28:9-41
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:28:9-41
 	android:roundIcon
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:29:9-54
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:29:9-54
 	android:icon
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:27:9-43
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:27:9-43
 	android:allowBackup
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:26:9-35
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:26:9-35
 	android:theme
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:32:9-48
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:32:9-48
 	android:usesCleartextTraffic
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:31:9-44
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:31:9-44
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:25:9-40
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:25:9-40
 activity#com.smartx.rfidreader.ui.main.MainActivity
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:35:9-43:20
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:35:9-44:20
+	android:screenOrientation
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:38:13-49
 	android:windowSoftInputMode
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:38:13-55
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:39:13-55
 	android:exported
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:37:13-36
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:37:13-36
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:36:13-49
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:36:13-49
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:39:13-42:29
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:40:13-43:29
 action#android.intent.action.MAIN
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:40:17-69
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:41:17-69
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:40:25-66
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:41:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:41:17-77
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:42:17-77
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:41:27-74
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:42:27-74
 activity#com.smartx.rfidreader.ui.selection.ReaderSelectionActivity
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:46:9-49:58
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:47:9-51:58
+	android:screenOrientation
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:50:13-49
 	android:windowSoftInputMode
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:49:13-55
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:51:13-55
 	android:exported
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:48:13-37
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:49:13-37
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:47:13-65
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:48:13-65
 activity#com.smartx.rfidreader.ui.sync.SyncActivity
-ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:52:9-56:66
+ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:54:9-59:66
+	android:screenOrientation
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:57:13-49
 	android:parentActivityName
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:56:13-63
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:59:13-63
 	android:windowSoftInputMode
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:55:13-55
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:58:13-55
 	android:exported
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:54:13-37
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:56:13-37
 	android:name
-		ADDED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml:53:13-49
+		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:55:13-49
 uses-sdk
-INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml
-INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml
+INJECTED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml
+INJECTED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml
 MERGED from [androidx.databinding:viewbinding:8.5.2] /home/gabriel/.gradle/caches/8.10.2/transforms/978bff042124125fe2a3150231281edb/transformed/jetified-viewbinding-8.5.2/AndroidManifest.xml:5:5-44
 MERGED from [androidx.databinding:viewbinding:8.5.2] /home/gabriel/.gradle/caches/8.10.2/transforms/978bff042124125fe2a3150231281edb/transformed/jetified-viewbinding-8.5.2/AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.material:material:1.12.0] /home/gabriel/.gradle/caches/8.10.2/transforms/d633eaa3e14f0a2dc2160a53ea892ed6/transformed/material-1.12.0/AndroidManifest.xml:20:5-44
@@ -364,9 +370,9 @@ MERGED from [:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.
 MERGED from [:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transforms/c6e4831b8df8f3489bd81da198ea13c5/transformed/jetified-honeywell_rfid_sdk/AndroidManifest.xml:7:5-9:41
 MERGED from [:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transforms/c6e4831b8df8f3489bd81da198ea13c5/transformed/jetified-honeywell_rfid_sdk/AndroidManifest.xml:7:5-9:41
 	android:targetSdkVersion
-		INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml
+		INJECTED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /home/gabriel/Desktop/_SMARTX/tests/handheld/rfid-app/app/src/main/AndroidManifest.xml
+		INJECTED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml
 activity#com.google.android.gms.common.api.GoogleApiActivity
 ADDED from [com.google.android.gms:play-services-base:18.5.0] /home/gabriel/.gradle/caches/8.10.2/transforms/7b45dff998929ab6133d36421692903d/transformed/jetified-play-services-base-18.5.0/AndroidManifest.xml:5:9-173
 	android:exported

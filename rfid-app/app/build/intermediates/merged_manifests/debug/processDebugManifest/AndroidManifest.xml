@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.smartx.rfidreader"
-    android:versionCode="3"
-    android:versionName="1.1.0" >
+    android:versionCode="5"
+    android:versionName="2.0.1" >
 
     <uses-sdk
         android:minSdkVersion="24"
@@ -54,6 +54,7 @@
         <activity
             android:name="com.smartx.rfidreader.ui.main.MainActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -66,6 +67,7 @@
         <activity
             android:name="com.smartx.rfidreader.ui.selection.ReaderSelectionActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
         <!-- Tela de sincronização -->
@@ -73,6 +75,7 @@
             android:name="com.smartx.rfidreader.ui.sync.SyncActivity"
             android:exported="false"
             android:parentActivityName="com.smartx.rfidreader.ui.main.MainActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.google.android.gms.common.api.GoogleApiActivity"

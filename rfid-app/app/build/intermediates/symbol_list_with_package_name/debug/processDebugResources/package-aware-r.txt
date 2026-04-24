@@ -3317,6 +3317,7 @@ id btnStartSync
 id btnToggleInventory
 id btnToggleRadar
 id btnToggleScanInventory
+id btnUseExampleWebhook
 id buttonPanel
 id cache_measures
 id callMeasure
@@ -4102,6 +4103,7 @@ string btn_start_inventory
 string btn_start_sync
 string btn_stop_inventory
 string btn_sync
+string btn_use_example_webhook
 string call_notification_answer_action
 string call_notification_answer_video_action
 string call_notification_decline_action
@@ -4318,6 +4320,7 @@ string tab_reader
 string tab_reading
 string tag_count
 string tag_count_zero
+string webhook_example_url
 string webhook_saved
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light

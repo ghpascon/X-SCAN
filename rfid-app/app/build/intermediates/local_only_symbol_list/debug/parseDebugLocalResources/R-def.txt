@@ -87,6 +87,7 @@ id btnStartSync
 id btnToggleInventory
 id btnToggleRadar
 id btnToggleScanInventory
+id btnUseExampleWebhook
 id cardAddTarget
 id cardAppConfig
 id cardEvents
@@ -234,6 +235,7 @@ string btn_start_inventory
 string btn_start_sync
 string btn_stop_inventory
 string btn_sync
+string btn_use_example_webhook
 string config_save_error
 string config_saved
 string confirm_delete
@@ -301,6 +303,7 @@ string tab_reader
 string tab_reading
 string tag_count
 string tag_count_zero
+string webhook_example_url
 string webhook_saved
 style Base.Theme.RfidReader
 style Theme.RfidReader

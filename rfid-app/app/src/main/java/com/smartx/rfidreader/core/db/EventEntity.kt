@@ -57,7 +57,7 @@ data class EventEntity(
             put("reader_config", readerConfig)
         }
         return org.json.JSONObject().apply {
-            put("device", deviceId)
+            put("device_name", deviceId)
             put("event_type", eventType)
             put("event_data", eventData)
         }.toString()

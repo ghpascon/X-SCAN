@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import kotlin.math.roundToInt
 import java.util.concurrent.TimeUnit
 
 class EventRepository(private val dao: EventDao) {
@@ -161,10 +162,19 @@ class EventRepository(private val dao: EventDao) {
     private fun buildTagsJson(tags: List<RfidTag>): String {
         val arr = JSONArray()
         tags.forEach { tag ->
+            // Sanitiza possíveis sufixos (" dBm"), vírgulas decimais e outros caracteres
+            val rawRssi = tag.rssi
+            val cleaned = rawRssi
+                .replace(',', '.')
+                .replace(Regex("[^0-9.-]"), "")
+            val rssiInt = cleaned.toFloatOrNull()?.roundToInt()
+                ?: tag.rssi.toIntOrNull()
+                ?: 0
+
             arr.put(JSONObject().apply {
                 put("epc", tag.epc)
                 if (tag.tid.isNotEmpty()) put("tid", tag.tid)
-                put("rssi", tag.rssi)
+                put("rssi", rssiInt)
                 put("read_count", tag.readCount)
             })
         }

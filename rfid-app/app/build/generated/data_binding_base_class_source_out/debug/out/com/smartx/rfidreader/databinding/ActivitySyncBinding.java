@@ -36,6 +36,9 @@ public final class ActivitySyncBinding implements ViewBinding {
   public final MaterialButton btnStartSync;
 
   @NonNull
+  public final MaterialButton btnUseExampleWebhook;
+
+  @NonNull
   public final MaterialCardView cardEvents;
 
   @NonNull
@@ -82,18 +85,20 @@ public final class ActivitySyncBinding implements ViewBinding {
 
   private ActivitySyncBinding(@NonNull CoordinatorLayout rootView,
       @NonNull MaterialButton btnDeleteAll, @NonNull MaterialButton btnSaveWebhook,
-      @NonNull MaterialButton btnStartSync, @NonNull MaterialCardView cardEvents,
-      @NonNull MaterialCardView cardFinalResult, @NonNull MaterialCardView cardSync,
-      @NonNull MaterialCardView cardWebhook, @NonNull TextInputEditText editWebhookUrl,
-      @NonNull HeaderAppBinding headerApp, @NonNull LinearLayout layoutSyncProgress,
-      @NonNull TextInputLayout layoutWebhookUrl, @NonNull LinearProgressIndicator progressSync,
-      @NonNull RecyclerView recyclerViewEvents, @NonNull RecyclerView recyclerViewProgress,
-      @NonNull TextView textEventsEmpty, @NonNull TextView textFinalResult,
-      @NonNull TextView textPendingCount, @NonNull TextView textSyncProgressLabel) {
+      @NonNull MaterialButton btnStartSync, @NonNull MaterialButton btnUseExampleWebhook,
+      @NonNull MaterialCardView cardEvents, @NonNull MaterialCardView cardFinalResult,
+      @NonNull MaterialCardView cardSync, @NonNull MaterialCardView cardWebhook,
+      @NonNull TextInputEditText editWebhookUrl, @NonNull HeaderAppBinding headerApp,
+      @NonNull LinearLayout layoutSyncProgress, @NonNull TextInputLayout layoutWebhookUrl,
+      @NonNull LinearProgressIndicator progressSync, @NonNull RecyclerView recyclerViewEvents,
+      @NonNull RecyclerView recyclerViewProgress, @NonNull TextView textEventsEmpty,
+      @NonNull TextView textFinalResult, @NonNull TextView textPendingCount,
+      @NonNull TextView textSyncProgressLabel) {
     this.rootView = rootView;
     this.btnDeleteAll = btnDeleteAll;
     this.btnSaveWebhook = btnSaveWebhook;
     this.btnStartSync = btnStartSync;
+    this.btnUseExampleWebhook = btnUseExampleWebhook;
     this.cardEvents = cardEvents;
     this.cardFinalResult = cardFinalResult;
     this.cardSync = cardSync;
@@ -153,6 +158,12 @@ public final class ActivitySyncBinding implements ViewBinding {
       id = R.id.btnStartSync;
       MaterialButton btnStartSync = ViewBindings.findChildViewById(rootView, id);
       if (btnStartSync == null) {
+        break missingId;
+      }
+
+      id = R.id.btnUseExampleWebhook;
+      MaterialButton btnUseExampleWebhook = ViewBindings.findChildViewById(rootView, id);
+      if (btnUseExampleWebhook == null) {
         break missingId;
       }
 
@@ -248,10 +259,10 @@ public final class ActivitySyncBinding implements ViewBinding {
       }
 
       return new ActivitySyncBinding((CoordinatorLayout) rootView, btnDeleteAll, btnSaveWebhook,
-          btnStartSync, cardEvents, cardFinalResult, cardSync, cardWebhook, editWebhookUrl,
-          binding_headerApp, layoutSyncProgress, layoutWebhookUrl, progressSync, recyclerViewEvents,
-          recyclerViewProgress, textEventsEmpty, textFinalResult, textPendingCount,
-          textSyncProgressLabel);
+          btnStartSync, btnUseExampleWebhook, cardEvents, cardFinalResult, cardSync, cardWebhook,
+          editWebhookUrl, binding_headerApp, layoutSyncProgress, layoutWebhookUrl, progressSync,
+          recyclerViewEvents, recyclerViewProgress, textEventsEmpty, textFinalResult,
+          textPendingCount, textSyncProgressLabel);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

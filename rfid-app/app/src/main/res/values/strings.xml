@@ -75,6 +75,8 @@
     <string name="section_events">Eventos Salvos</string>
     <string name="hint_webhook_url">URL do Webhook</string>
     <string name="helper_webhook_url">Ex: https://meuservidor.com/api/rfid</string>
+    <string name="btn_use_example_webhook">Usar URL de exemplo</string>
+    <string name="webhook_example_url">http://192.168.1.100:5000/api/v1/receive/x-scan</string>
     <string name="btn_save_webhook">Salvar URL</string>
     <string name="webhook_saved">URL do webhook salva</string>
     <string name="btn_send_all">Enviar Pendentes</string>

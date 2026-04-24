@@ -86,6 +86,9 @@ class SyncActivity : AppCompatActivity() {
             if (actionId == EditorInfo.IME_ACTION_DONE) { onSaveWebhookUrl(); true } else false
         }
         binding.btnSaveWebhook.setOnClickListener { onSaveWebhookUrl() }
+        binding.btnUseExampleWebhook.setOnClickListener {
+            binding.editWebhookUrl.setText(getString(R.string.webhook_example_url))
+        }
     }
 
     private fun setupSyncButton() {

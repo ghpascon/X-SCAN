@@ -24,10 +24,10 @@ public final class FragmentHomeBinding implements ViewBinding {
   public final TextView badgePending;
 
   @NonNull
-  public final MaterialCardView cardConnectionStatus;
+  public final MaterialCardView cardNavConfig;
 
   @NonNull
-  public final MaterialCardView cardNavConfig;
+  public final MaterialCardView cardNavRadar;
 
   @NonNull
   public final MaterialCardView cardNavReader;
@@ -39,10 +39,7 @@ public final class FragmentHomeBinding implements ViewBinding {
   public final MaterialCardView cardNavSync;
 
   @NonNull
-  public final View statusDot;
-
-  @NonNull
-  public final TextView textHomeStatus;
+  public final TextView textRadarHint;
 
   @NonNull
   public final TextView textReadingStatusHint;
@@ -51,20 +48,18 @@ public final class FragmentHomeBinding implements ViewBinding {
   public final TextView textSyncPending;
 
   private FragmentHomeBinding(@NonNull ScrollView rootView, @NonNull TextView badgePending,
-      @NonNull MaterialCardView cardConnectionStatus, @NonNull MaterialCardView cardNavConfig,
+      @NonNull MaterialCardView cardNavConfig, @NonNull MaterialCardView cardNavRadar,
       @NonNull MaterialCardView cardNavReader, @NonNull MaterialCardView cardNavReading,
-      @NonNull MaterialCardView cardNavSync, @NonNull View statusDot,
-      @NonNull TextView textHomeStatus, @NonNull TextView textReadingStatusHint,
-      @NonNull TextView textSyncPending) {
+      @NonNull MaterialCardView cardNavSync, @NonNull TextView textRadarHint,
+      @NonNull TextView textReadingStatusHint, @NonNull TextView textSyncPending) {
     this.rootView = rootView;
     this.badgePending = badgePending;
-    this.cardConnectionStatus = cardConnectionStatus;
     this.cardNavConfig = cardNavConfig;
+    this.cardNavRadar = cardNavRadar;
     this.cardNavReader = cardNavReader;
     this.cardNavReading = cardNavReading;
     this.cardNavSync = cardNavSync;
-    this.statusDot = statusDot;
-    this.textHomeStatus = textHomeStatus;
+    this.textRadarHint = textRadarHint;
     this.textReadingStatusHint = textReadingStatusHint;
     this.textSyncPending = textSyncPending;
   }
@@ -102,15 +97,15 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.cardConnectionStatus;
-      MaterialCardView cardConnectionStatus = ViewBindings.findChildViewById(rootView, id);
-      if (cardConnectionStatus == null) {
-        break missingId;
-      }
-
       id = R.id.cardNavConfig;
       MaterialCardView cardNavConfig = ViewBindings.findChildViewById(rootView, id);
       if (cardNavConfig == null) {
+        break missingId;
+      }
+
+      id = R.id.cardNavRadar;
+      MaterialCardView cardNavRadar = ViewBindings.findChildViewById(rootView, id);
+      if (cardNavRadar == null) {
         break missingId;
       }
 
@@ -132,15 +127,9 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.statusDot;
-      View statusDot = ViewBindings.findChildViewById(rootView, id);
-      if (statusDot == null) {
-        break missingId;
-      }
-
-      id = R.id.textHomeStatus;
-      TextView textHomeStatus = ViewBindings.findChildViewById(rootView, id);
-      if (textHomeStatus == null) {
+      id = R.id.textRadarHint;
+      TextView textRadarHint = ViewBindings.findChildViewById(rootView, id);
+      if (textRadarHint == null) {
         break missingId;
       }
 
@@ -156,8 +145,8 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentHomeBinding((ScrollView) rootView, badgePending, cardConnectionStatus,
-          cardNavConfig, cardNavReader, cardNavReading, cardNavSync, statusDot, textHomeStatus,
+      return new FragmentHomeBinding((ScrollView) rootView, badgePending, cardNavConfig,
+          cardNavRadar, cardNavReader, cardNavReading, cardNavSync, textRadarHint,
           textReadingStatusHint, textSyncPending);
     }
     String missingId = rootView.getResources().getResourceName(id);

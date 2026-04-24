@@ -7,6 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.selection.ReaderSelectionActivity">
 
+    <include
+        android:id="@+id/headerApp"
+        layout="@layout/header_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
     <TextView
         android:id="@+id/textTitle"
         android:layout_width="0dp"
@@ -17,7 +24,7 @@
         android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/headerApp" />
 
     <TextView
         android:id="@+id/textSubtitle"

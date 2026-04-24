@@ -8,6 +8,7 @@ import com.atid.lib.dev.event.RfidReaderEventListener
 import com.atid.lib.dev.rfid.exception.ATRfidReaderException
 import com.atid.lib.dev.rfid.type.ActionState
 import com.atid.lib.dev.rfid.type.ConnectionState
+import java.util.Locale
 import com.atid.lib.dev.rfid.type.GlobalBandType
 import com.atid.lib.dev.rfid.type.InventorySession
 import com.atid.lib.dev.rfid.type.ResultCode
@@ -78,7 +79,7 @@ class AT907Reader : IRfidReader {
                 _tagChannel.tryEmit(
                     RfidTag(
                         epc = cleanEpc,
-                        rssi = "%.1f".format(rssi)
+                        rssi = "%.1f".format(Locale.US, rssi)
                     )
                 )
             }

@@ -12,8 +12,8 @@ android {
         applicationId "com.smartx.rfidreader"
         minSdk 24
         targetSdk 34
-        versionCode 6
-        versionName "2.0.2"
+        versionCode 7
+        versionName "3.0.0"
     }
 
     buildTypes {
@@ -85,4 +85,25 @@ dependencies {
 
     // --- SDK IH25 (Honeywell) ---
     implementation(name: 'honeywell_rfid_sdk', ext: 'aar')
+}
+
+// -----------------------------------------------------------------------------
+// Branding: copiar imagens a partir da pasta única `static/` para recursos
+// gerados antes do build. Mantém apenas uma fonte dos assets.
+// -----------------------------------------------------------------------------
+
+// tarefa que copia os arquivos do diretório raiz/static para build/generated/res/branding
+task copyBranding(type: Copy) {
+    from "$rootDir/static"
+    include 'smtx.png', 'smtx_w.png', 'logo.png'
+    into "$buildDir/generated/res/branding/drawable"
+}
+
+// Garante que a cópia execute antes do build
+preBuild.dependsOn copyBranding
+
+android.applicationVariants.all { variant ->
+    def genRes = file("$buildDir/generated/res/branding")
+    // registra a pasta gerada como fonte de resources
+    variant.registerGeneratedResFolders(files(genRes))
 }

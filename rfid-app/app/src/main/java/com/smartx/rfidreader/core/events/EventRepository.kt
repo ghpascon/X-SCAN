@@ -163,8 +163,8 @@ class EventRepository(private val dao: EventDao) {
         tags.forEach { tag ->
             arr.put(JSONObject().apply {
                 put("epc", tag.epc)
-                put("rssi", tag.rssi)
                 if (tag.tid.isNotEmpty()) put("tid", tag.tid)
+                put("rssi", tag.rssi)
                 put("read_count", tag.readCount)
             })
         }

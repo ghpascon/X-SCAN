@@ -17,6 +17,7 @@
         <item>S2</item>
         <item>S3</item>
     </string-array>
+    <attr format="reference" name="appLogo"/>
     <color name="md_theme_background">#F8F9FF</color>
     <color name="md_theme_error">#BA1A1A</color>
     <color name="md_theme_errorContainer">#FFDAD6</color>
@@ -42,12 +43,18 @@
     <color name="md_theme_tertiary">#6B5778</color>
     <color name="md_theme_tertiaryContainer">#F2DAFF</color>
     <color name="status_active">#4CAF50</color>
+    <color name="status_connected">#FFC107</color>
+    <color name="status_disconnected">#F44336</color>
     <color name="status_error">#F44336</color>
     <color name="status_inactive">#9E9E9E</color>
     <color name="status_pending_bg">#FFF3E0</color>
     <color name="status_pending_text">#E65100</color>
     <color name="status_synced_bg">#E8F5E9</color>
     <color name="status_synced_text">#2E7D32</color>
+    <dimen name="logo_header_height">24dp</dimen>
+    <dimen name="logo_header_width">64dp</dimen>
+    <dimen name="logo_toolbar_height">32dp</dimen>
+    <dimen name="reader_icon_size">48dp</dimen>
     <plurals name="pending_events_count">
         <item quantity="one">%d evento pendente</item>
         <item quantity="other">%d eventos pendentes</item>
@@ -56,7 +63,7 @@
         <item quantity="one">%d tag</item>
         <item quantity="other">%d tags</item>
     </plurals>
-    <string name="app_name">RFID Reader</string>
+    <string name="app_name">X-SCAN</string>
     <string name="app_settings_saved">Configurações salvas</string>
     <string name="badge_ble">BLE</string>
     <string name="ble_disabled">Bluetooth está desligado</string>
@@ -176,6 +183,8 @@
         <item name="colorOnSurfaceVariant">@color/md_theme_onSurfaceVariant</item>
         <item name="colorOutline">@color/md_theme_outline</item>
         <item name="colorOutlineVariant">@color/md_theme_outlineVariant</item>
+        
+        <item name="appLogo">@drawable/logo</item>
     </style>
     <style name="Theme.RfidReader" parent="Base.Theme.RfidReader"/>
 </resources>

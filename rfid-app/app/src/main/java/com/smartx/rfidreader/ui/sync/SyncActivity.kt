@@ -29,9 +29,15 @@ class SyncActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySyncBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.toolbar.setNavigationOnClickListener { finish() }
+        // Use the global header include for navigation (no toolbar in this layout)
+        binding.headerApp.headerLogo.setOnClickListener { finish() }
+
+        // Inicializa header na tela de sincronização (não possui acesso ao MainViewModel aqui)
+        try {
+            binding.headerApp.headerReaderName.text = getString(R.string.nav_sync)
+            binding.headerApp.headerConnectionStatus.text = getString(R.string.status_disconnected)
+            binding.headerApp.headerStatusDot.setBackgroundResource(com.smartx.rfidreader.R.drawable.ic_status_disconnected)
+        } catch (_: Exception) {}
 
         setupEventsList()
         setupProgressList()

@@ -130,20 +130,11 @@ class ReadingFragment : Fragment() {
 
                         if (state.isInventorying) {
                             binding.btnToggleInventory.text = getString(R.string.btn_stop_inventory)
-                            binding.inventoryStatusIndicator.visibility = View.VISIBLE
                             binding.btnSaveReading.isEnabled = false
                         } else {
                             binding.btnToggleInventory.text = getString(R.string.btn_start_inventory)
-                            binding.inventoryStatusIndicator.visibility = View.GONE
                             binding.btnSaveReading.isEnabled =
                                 connected && viewModel.tags.value.isNotEmpty()
-                        }
-
-                        binding.textConnectionStatus.text = when (state.connectionState) {
-                            ReaderConnectionState.CONNECTED ->
-                                getString(R.string.status_connected, viewModel.reader?.displayName ?: "")
-                            ReaderConnectionState.CONNECTING -> getString(R.string.status_connecting)
-                            else -> getString(R.string.status_disconnected)
                         }
                     }
                 }

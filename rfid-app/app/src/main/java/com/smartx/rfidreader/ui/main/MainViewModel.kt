@@ -62,6 +62,14 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     private val _buzzerEvent = MutableSharedFlow<Unit>(extraBufferCapacity = 8)
     val buzzerEvent: SharedFlow<Unit> = _buzzerEvent.asSharedFlow()
 
+    /**
+     * Emite cada tag individual após passar pelos filtros de prefixo e RSSI.
+     * Consumível por múltiplos collectors (SharedFlow). Usado pelo RadarFragment
+     * para atualizar RSSI dos targets sem coletar tagFlow diretamente do hardware.
+     */
+    private val _tagEventFlow = MutableSharedFlow<RfidTag>(extraBufferCapacity = 64)
+    val tagEventFlow: SharedFlow<RfidTag> = _tagEventFlow.asSharedFlow()
+
     /** Evento de navegação para a tela de leitura após conexão bem-sucedida */
     private val _navigateToReading = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val navigateToReading: SharedFlow<Unit> = _navigateToReading.asSharedFlow()
@@ -110,7 +118,11 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         if (_uiState.value.isConnecting) return
         viewModelScope.launch {
             _uiState.update { it.copy(isConnecting = true, errorMessage = null) }
+            val startMs = System.currentTimeMillis()
+            Log.i(TAG, "connect start reader=${rfidReader.readerId} t=%d".format(startMs))
             val ok = rfidReader.connect(getApplication())
+            val endMs = System.currentTimeMillis()
+            Log.i(TAG, "connect end reader=${rfidReader.readerId} ok=%s t=%d total=%d".format(ok, endMs, endMs - startMs))
             if (ok) {
                 reader = rfidReader
                 val settings = _uiState.value.appSettings
@@ -178,6 +190,9 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
                 // Marca dirty — a UI será atualizada pelo ticker de 200 ms
                 _tagsDirty = true
+
+                // Emite o evento individual para o radar (SharedFlow — safe para múltiplos collectors)
+                _tagEventFlow.tryEmit(tag)
 
                 // Buzzer para qualquer tag lida, com cooldown de 50 ms
                 if (settings.buzzerEnabled) {
@@ -278,6 +293,26 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     fun consumeConfigSaveResult() {
         _uiState.update { it.copy(configSaveSuccess = null) }
+    }
+
+    /**
+     * Aplica Session 0 ao entrar no modo radar (sem alterar a config salva no estado).
+     * Session 0 garante que todas as tags respondam sequencialmente na mesma sessão,
+     * ideal para localização/radar.
+     */
+    fun enterRadarMode() {
+        val r = reader ?: return
+        val current = _uiState.value.config
+        viewModelScope.launch { r.applyConfig(current.copy(session = 0)) }
+    }
+
+    /**
+     * Restaura a session original configurada pelo usuário ao sair do modo radar.
+     */
+    fun exitRadarMode() {
+        val r = reader ?: return
+        val current = _uiState.value.config
+        viewModelScope.launch { r.applyConfig(current) }
     }
 
     // -------------------------------------------------------------------------

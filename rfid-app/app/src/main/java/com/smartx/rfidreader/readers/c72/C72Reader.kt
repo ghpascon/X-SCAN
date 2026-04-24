@@ -96,6 +96,15 @@ class C72Reader : IRfidReader {
 
     override suspend fun applyConfig(config: ReaderConfig): Boolean = withContext(Dispatchers.IO) {
         val r = rfid ?: return@withContext false
+
+        // O C72 não aceita alterações de config enquanto o inventário está rodando.
+        // Para, aplica e reinicia se necessário.
+        val wasInventorying = _isInventorying
+        if (wasInventorying) {
+            r.stopInventory()
+            _isInventorying = false
+        }
+
         var success = true
 
         // Potência: setPower(dBm) aceita valor direto em dBm
@@ -118,6 +127,12 @@ class C72Reader : IRfidReader {
         if (gen2 != null) {
             gen2.setQuerySession(config.session)
             success = success && r.setGen2(gen2)
+        }
+
+        // Reinicia inventário se estava rodando antes
+        if (wasInventorying) {
+            val restarted = r.startInventoryTag()
+            if (restarted) _isInventorying = true
         }
 
         success

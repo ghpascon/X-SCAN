@@ -1,4 +1,4 @@
-# RFID Reader — SmartX Handheld
+# X-SCAN
 
 Aplicativo Android para leitura de tags RFID UHF em coletores/handhelds industriais.  
 Suporta múltiplos modelos de leitor por meio de uma interface unificada; adicionar um novo modelo exige implementar **uma única interface** e registrá-la em **um único lugar**.

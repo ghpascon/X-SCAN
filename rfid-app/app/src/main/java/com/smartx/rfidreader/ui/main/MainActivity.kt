@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.databinding.ActivityMainBinding
+import com.smartx.rfidreader.core.reader.ReaderConnectionState
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -52,12 +53,47 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Observe and populate header badge (reader + connection)
+        observeHeader()
+
         if (savedInstanceState == null) {
             loadHome()
         }
 
         setupBackHandler()
         observeNavigation()
+    }
+
+    private fun observeHeader() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    val name = viewModel.reader?.displayName ?: getString(R.string.nav_reader)
+                    try {
+                        binding.headerApp.headerReaderName.text = name
+
+                        val statusText = when {
+                            state.isInventorying -> "Lendo"
+                            state.connectionState == ReaderConnectionState.CONNECTING -> "Conectando..."
+                            state.connectionState == ReaderConnectionState.CONNECTED -> "Conectado"
+                            state.connectionState == ReaderConnectionState.ERROR -> "Erro"
+                            else -> "Desconectado"
+                        }
+                        binding.headerApp.headerConnectionStatus.text = statusText
+
+                        val statusDrawable = when {
+                            state.isInventorying -> R.drawable.ic_status_active
+                            state.connectionState == ReaderConnectionState.CONNECTED -> R.drawable.ic_status_connected
+                            state.connectionState == ReaderConnectionState.CONNECTING -> R.drawable.ic_status_connected
+                            else -> R.drawable.ic_status_disconnected
+                        }
+                        binding.headerApp.headerStatusDot.setBackgroundResource(statusDrawable)
+                    } catch (_: Exception) {
+                        // Header may not be present in some layouts; ignore
+                    }
+                }
+            }
+        }
     }
 
     private fun loadHome() {

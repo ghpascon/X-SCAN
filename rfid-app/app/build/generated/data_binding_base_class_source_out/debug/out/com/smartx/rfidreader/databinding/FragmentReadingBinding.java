@@ -52,19 +52,10 @@ public final class FragmentReadingBinding implements ViewBinding {
   public final ChipGroup chipGroupLimit;
 
   @NonNull
-  public final View inventoryStatusIndicator;
-
-  @NonNull
   public final LinearLayout limitBar;
 
   @NonNull
   public final RecyclerView recyclerViewTags;
-
-  @NonNull
-  public final LinearLayout statusBar;
-
-  @NonNull
-  public final TextView textConnectionStatus;
 
   @NonNull
   public final TextView textTagCount;
@@ -73,10 +64,8 @@ public final class FragmentReadingBinding implements ViewBinding {
       @NonNull LinearLayout actionBar, @NonNull MaterialButton btnClearTags,
       @NonNull MaterialButton btnSaveReading, @NonNull MaterialButton btnToggleInventory,
       @NonNull Chip chip100, @NonNull Chip chip200, @NonNull Chip chip50, @NonNull Chip chipAll,
-      @NonNull ChipGroup chipGroupLimit, @NonNull View inventoryStatusIndicator,
-      @NonNull LinearLayout limitBar, @NonNull RecyclerView recyclerViewTags,
-      @NonNull LinearLayout statusBar, @NonNull TextView textConnectionStatus,
-      @NonNull TextView textTagCount) {
+      @NonNull ChipGroup chipGroupLimit, @NonNull LinearLayout limitBar,
+      @NonNull RecyclerView recyclerViewTags, @NonNull TextView textTagCount) {
     this.rootView = rootView;
     this.actionBar = actionBar;
     this.btnClearTags = btnClearTags;
@@ -87,11 +76,8 @@ public final class FragmentReadingBinding implements ViewBinding {
     this.chip50 = chip50;
     this.chipAll = chipAll;
     this.chipGroupLimit = chipGroupLimit;
-    this.inventoryStatusIndicator = inventoryStatusIndicator;
     this.limitBar = limitBar;
     this.recyclerViewTags = recyclerViewTags;
-    this.statusBar = statusBar;
-    this.textConnectionStatus = textConnectionStatus;
     this.textTagCount = textTagCount;
   }
 
@@ -176,12 +162,6 @@ public final class FragmentReadingBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.inventoryStatusIndicator;
-      View inventoryStatusIndicator = ViewBindings.findChildViewById(rootView, id);
-      if (inventoryStatusIndicator == null) {
-        break missingId;
-      }
-
       id = R.id.limitBar;
       LinearLayout limitBar = ViewBindings.findChildViewById(rootView, id);
       if (limitBar == null) {
@@ -194,18 +174,6 @@ public final class FragmentReadingBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.statusBar;
-      LinearLayout statusBar = ViewBindings.findChildViewById(rootView, id);
-      if (statusBar == null) {
-        break missingId;
-      }
-
-      id = R.id.textConnectionStatus;
-      TextView textConnectionStatus = ViewBindings.findChildViewById(rootView, id);
-      if (textConnectionStatus == null) {
-        break missingId;
-      }
-
       id = R.id.textTagCount;
       TextView textTagCount = ViewBindings.findChildViewById(rootView, id);
       if (textTagCount == null) {
@@ -214,8 +182,7 @@ public final class FragmentReadingBinding implements ViewBinding {
 
       return new FragmentReadingBinding((ConstraintLayout) rootView, actionBar, btnClearTags,
           btnSaveReading, btnToggleInventory, chip100, chip200, chip50, chipAll, chipGroupLimit,
-          inventoryStatusIndicator, limitBar, recyclerViewTags, statusBar, textConnectionStatus,
-          textTagCount);
+          limitBar, recyclerViewTags, textTagCount);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

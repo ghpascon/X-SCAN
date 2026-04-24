@@ -12,8 +12,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -27,9 +25,6 @@ import java.lang.String;
 public final class ActivitySyncBinding implements ViewBinding {
   @NonNull
   private final CoordinatorLayout rootView;
-
-  @NonNull
-  public final AppBarLayout appBarLayout;
 
   @NonNull
   public final MaterialButton btnDeleteAll;
@@ -54,6 +49,9 @@ public final class ActivitySyncBinding implements ViewBinding {
 
   @NonNull
   public final TextInputEditText editWebhookUrl;
+
+  @NonNull
+  public final HeaderAppBinding headerApp;
 
   @NonNull
   public final LinearLayout layoutSyncProgress;
@@ -82,22 +80,17 @@ public final class ActivitySyncBinding implements ViewBinding {
   @NonNull
   public final TextView textSyncProgressLabel;
 
-  @NonNull
-  public final MaterialToolbar toolbar;
-
   private ActivitySyncBinding(@NonNull CoordinatorLayout rootView,
-      @NonNull AppBarLayout appBarLayout, @NonNull MaterialButton btnDeleteAll,
-      @NonNull MaterialButton btnSaveWebhook, @NonNull MaterialButton btnStartSync,
-      @NonNull MaterialCardView cardEvents, @NonNull MaterialCardView cardFinalResult,
-      @NonNull MaterialCardView cardSync, @NonNull MaterialCardView cardWebhook,
-      @NonNull TextInputEditText editWebhookUrl, @NonNull LinearLayout layoutSyncProgress,
+      @NonNull MaterialButton btnDeleteAll, @NonNull MaterialButton btnSaveWebhook,
+      @NonNull MaterialButton btnStartSync, @NonNull MaterialCardView cardEvents,
+      @NonNull MaterialCardView cardFinalResult, @NonNull MaterialCardView cardSync,
+      @NonNull MaterialCardView cardWebhook, @NonNull TextInputEditText editWebhookUrl,
+      @NonNull HeaderAppBinding headerApp, @NonNull LinearLayout layoutSyncProgress,
       @NonNull TextInputLayout layoutWebhookUrl, @NonNull LinearProgressIndicator progressSync,
       @NonNull RecyclerView recyclerViewEvents, @NonNull RecyclerView recyclerViewProgress,
       @NonNull TextView textEventsEmpty, @NonNull TextView textFinalResult,
-      @NonNull TextView textPendingCount, @NonNull TextView textSyncProgressLabel,
-      @NonNull MaterialToolbar toolbar) {
+      @NonNull TextView textPendingCount, @NonNull TextView textSyncProgressLabel) {
     this.rootView = rootView;
-    this.appBarLayout = appBarLayout;
     this.btnDeleteAll = btnDeleteAll;
     this.btnSaveWebhook = btnSaveWebhook;
     this.btnStartSync = btnStartSync;
@@ -106,6 +99,7 @@ public final class ActivitySyncBinding implements ViewBinding {
     this.cardSync = cardSync;
     this.cardWebhook = cardWebhook;
     this.editWebhookUrl = editWebhookUrl;
+    this.headerApp = headerApp;
     this.layoutSyncProgress = layoutSyncProgress;
     this.layoutWebhookUrl = layoutWebhookUrl;
     this.progressSync = progressSync;
@@ -115,7 +109,6 @@ public final class ActivitySyncBinding implements ViewBinding {
     this.textFinalResult = textFinalResult;
     this.textPendingCount = textPendingCount;
     this.textSyncProgressLabel = textSyncProgressLabel;
-    this.toolbar = toolbar;
   }
 
   @Override
@@ -145,12 +138,6 @@ public final class ActivitySyncBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.appBarLayout;
-      AppBarLayout appBarLayout = ViewBindings.findChildViewById(rootView, id);
-      if (appBarLayout == null) {
-        break missingId;
-      }
-
       id = R.id.btnDeleteAll;
       MaterialButton btnDeleteAll = ViewBindings.findChildViewById(rootView, id);
       if (btnDeleteAll == null) {
@@ -198,6 +185,13 @@ public final class ActivitySyncBinding implements ViewBinding {
       if (editWebhookUrl == null) {
         break missingId;
       }
+
+      id = R.id.headerApp;
+      View headerApp = ViewBindings.findChildViewById(rootView, id);
+      if (headerApp == null) {
+        break missingId;
+      }
+      HeaderAppBinding binding_headerApp = HeaderAppBinding.bind(headerApp);
 
       id = R.id.layoutSyncProgress;
       LinearLayout layoutSyncProgress = ViewBindings.findChildViewById(rootView, id);
@@ -253,17 +247,11 @@ public final class ActivitySyncBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.toolbar;
-      MaterialToolbar toolbar = ViewBindings.findChildViewById(rootView, id);
-      if (toolbar == null) {
-        break missingId;
-      }
-
-      return new ActivitySyncBinding((CoordinatorLayout) rootView, appBarLayout, btnDeleteAll,
-          btnSaveWebhook, btnStartSync, cardEvents, cardFinalResult, cardSync, cardWebhook,
-          editWebhookUrl, layoutSyncProgress, layoutWebhookUrl, progressSync, recyclerViewEvents,
+      return new ActivitySyncBinding((CoordinatorLayout) rootView, btnDeleteAll, btnSaveWebhook,
+          btnStartSync, cardEvents, cardFinalResult, cardSync, cardWebhook, editWebhookUrl,
+          binding_headerApp, layoutSyncProgress, layoutWebhookUrl, progressSync, recyclerViewEvents,
           recyclerViewProgress, textEventsEmpty, textFinalResult, textPendingCount,
-          textSyncProgressLabel, toolbar);
+          textSyncProgressLabel);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -26,6 +26,8 @@
     <color name="status_active">#4CAF50</color>
     <color name="status_inactive">#9E9E9E</color>
     <color name="status_error">#F44336</color>
+    <color name="status_connected">#FFC107</color>
+    <color name="status_disconnected">#F44336</color>
 
     <!-- Status de eventos na tela de sincronização -->
     <color name="status_pending_bg">#FFF3E0</color>

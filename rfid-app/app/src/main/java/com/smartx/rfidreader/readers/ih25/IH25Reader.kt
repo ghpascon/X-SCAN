@@ -13,9 +13,11 @@ import com.honeywell.rfidservice.rfid.TagAdditionData
 import com.honeywell.rfidservice.rfid.TagReadData
 import com.honeywell.rfidservice.rfid.TagReadOption
 import com.smartx.rfidreader.core.reader.*
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 
 /**
  * Adaptador para o leitor Honeywell IH25.
@@ -44,6 +46,11 @@ class IH25Reader : IRfidReader {
     private var rfidManager: RfidManager? = null
     private var rfidReader: RfidReader? = null
     private var _isInventorying = false
+    // Timestamp para instrumentação de conexão (ms)
+    private var connectStartMs: Long = 0L
+
+    /** Completa quando onReaderCreated dispara; permite suspender connect() até o leitor estar pronto. */
+    private var connectionDeferred: CompletableDeferred<Boolean>? = null
 
     private val _tagChannel = MutableSharedFlow<RfidTag>(extraBufferCapacity = 64)
     override val tagFlow: Flow<RfidTag> = _tagChannel.asSharedFlow()
@@ -65,7 +72,9 @@ class IH25Reader : IRfidReader {
 
     private val eventListener = object : EventListener {
         override fun onDeviceConnected(device: Any) {
-            Log.i(TAG, "IH25 dispositivo conectado")
+            val now = System.currentTimeMillis()
+            Log.i(TAG, "IH25 dispositivo conectado t=%d".format(now))
+            if (connectStartMs != 0L) Log.d(TAG, "IH25 delta desde connect=%d ms".format(now - connectStartMs))
             _connectionState.value = ReaderConnectionState.CONNECTING
             // Dispositivo conectado — solicita criação do leitor RFID
             rfidManager?.createReader()
@@ -80,7 +89,9 @@ class IH25Reader : IRfidReader {
 
         override fun onReaderCreated(success: Boolean, reader: RfidReader) {
             if (success) {
-                Log.i(TAG, "IH25 reader criado com sucesso")
+                val now = System.currentTimeMillis()
+                Log.i(TAG, "IH25 reader criado com sucesso t=%d".format(now))
+                if (connectStartMs != 0L) Log.d(TAG, "IH25 readerCreated delta since connect=%d ms".format(now - connectStartMs))
                 rfidReader = reader
                 reader.setOnTagReadListener(tagReadListener)
                 rfidManager?.setTriggerMode(TriggerMode.RFID)
@@ -89,6 +100,9 @@ class IH25Reader : IRfidReader {
                 Log.e(TAG, "IH25 falha ao criar reader")
                 _connectionState.value = ReaderConnectionState.ERROR
             }
+            // Desbloqueia connect() que está aguardando
+            connectionDeferred?.complete(success)
+            connectionDeferred = null
         }
 
         override fun onRfidTriggered(pressed: Boolean) {
@@ -103,17 +117,44 @@ class IH25Reader : IRfidReader {
     override suspend fun connect(context: Context): Boolean = withContext(Dispatchers.IO) {
         _connectionState.value = ReaderConnectionState.CONNECTING
         return@withContext try {
+            val deferred = CompletableDeferred<Boolean>()
+            connectionDeferred = deferred
+
+            // Instrumentação: marca o início da tentativa de conexão
+            connectStartMs = System.currentTimeMillis()
+            Log.i(TAG, "IH25.connect start t=%d".format(connectStartMs))
+
             val manager = RfidManager.getInstance(context)
             manager.addEventListener(eventListener)
-            val ok = manager.connect(targetMacAddress)
+            val bleStarted = manager.connect(targetMacAddress)
             rfidManager = manager
-            if (!ok) {
+
+            val afterConnectCallMs = System.currentTimeMillis()
+            Log.d(TAG, "IH25.manager.connect returned=%s t=%d delta=%d".format(bleStarted, afterConnectCallMs, afterConnectCallMs - connectStartMs))
+
+            if (!bleStarted) {
+                // BLE nem conseguiu iniciar — falha imediata
+                connectionDeferred = null
+                _connectionState.value = ReaderConnectionState.ERROR
+                return@withContext false
+            }
+
+            // Aguarda onReaderCreated (timeout 20s para pareamento BLE + criação do reader)
+            val ready = withTimeoutOrNull(20_000L) { deferred.await() } ?: false
+            if (!ready) {
+                Log.e(TAG, "IH25 timeout aguardando reader")
                 _connectionState.value = ReaderConnectionState.ERROR
             }
-            ok
+            // Limpa timestamp de conexão após término
+            val endMs = System.currentTimeMillis()
+            Log.i(TAG, "IH25.connect end ready=%s t=%d total=%d".format(ready, endMs, endMs - connectStartMs))
+            connectStartMs = 0L
+            ready
         } catch (e: Exception) {
             Log.e(TAG, "Falha ao conectar IH25", e)
+            connectionDeferred = null
             _connectionState.value = ReaderConnectionState.ERROR
+            connectStartMs = 0L
             false
         }
     }
@@ -135,7 +176,10 @@ class IH25Reader : IRfidReader {
 
     override fun startInventory(): Boolean {
         val reader = rfidReader ?: return false
-        val option = TagReadOption().apply { setData(true) }
+        val option = TagReadOption().apply {
+            setData(true)
+            setRssi(true)
+        }
         val ok = reader.read(TagAdditionData.TID_BANK, option)
         if (ok) _isInventorying = true
         return ok
@@ -157,7 +201,11 @@ class IH25Reader : IRfidReader {
             // SDK IH25 usa centidBm (cdBm): 30 dBm → 3000 cdBm
             val cdBm = config.txPower.coerceIn(5, 30) * 100
             val ap = AntennaPower(1, cdBm, cdBm)
+            val t0 = System.currentTimeMillis()
+            Log.d(TAG, "applyConfig: setAntennaPower start t=%d power=%d".format(t0, config.txPower))
             reader.setAntennaPower(arrayOf(ap))
+            val t1 = System.currentTimeMillis()
+            Log.d(TAG, "applyConfig: setAntennaPower end t=%d delta=%d".format(t1, t1 - t0))
 
             val session = when (config.session) {
                 0 -> Gen2.Session.Session0
@@ -165,7 +213,9 @@ class IH25Reader : IRfidReader {
                 2 -> Gen2.Session.Session2
                 else -> Gen2.Session.Session3
             }
+            Log.d(TAG, "applyConfig: setSession start t=%d session=%d".format(System.currentTimeMillis(), config.session))
             reader.setSession(session)
+            Log.d(TAG, "applyConfig: setSession end t=%d".format(System.currentTimeMillis()))
         } catch (e: Exception) {
             Log.e(TAG, "Erro ao aplicar configuração IH25", e)
             success = false

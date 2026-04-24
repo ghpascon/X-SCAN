@@ -22,6 +22,9 @@ public final class ActivitySelectionBinding implements ViewBinding {
   private final ConstraintLayout rootView;
 
   @NonNull
+  public final HeaderAppBinding headerApp;
+
+  @NonNull
   public final ProgressBar progressBar;
 
   @NonNull
@@ -34,9 +37,11 @@ public final class ActivitySelectionBinding implements ViewBinding {
   public final TextView textTitle;
 
   private ActivitySelectionBinding(@NonNull ConstraintLayout rootView,
-      @NonNull ProgressBar progressBar, @NonNull RecyclerView recyclerViewReaders,
-      @NonNull TextView textSubtitle, @NonNull TextView textTitle) {
+      @NonNull HeaderAppBinding headerApp, @NonNull ProgressBar progressBar,
+      @NonNull RecyclerView recyclerViewReaders, @NonNull TextView textSubtitle,
+      @NonNull TextView textTitle) {
     this.rootView = rootView;
+    this.headerApp = headerApp;
     this.progressBar = progressBar;
     this.recyclerViewReaders = recyclerViewReaders;
     this.textSubtitle = textSubtitle;
@@ -70,6 +75,13 @@ public final class ActivitySelectionBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.headerApp;
+      View headerApp = ViewBindings.findChildViewById(rootView, id);
+      if (headerApp == null) {
+        break missingId;
+      }
+      HeaderAppBinding binding_headerApp = HeaderAppBinding.bind(headerApp);
+
       id = R.id.progressBar;
       ProgressBar progressBar = ViewBindings.findChildViewById(rootView, id);
       if (progressBar == null) {
@@ -94,8 +106,8 @@ public final class ActivitySelectionBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivitySelectionBinding((ConstraintLayout) rootView, progressBar,
-          recyclerViewReaders, textSubtitle, textTitle);
+      return new ActivitySelectionBinding((ConstraintLayout) rootView, binding_headerApp,
+          progressBar, recyclerViewReaders, textSubtitle, textTitle);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -1,0 +1,4 @@
+<resources>
+    <!-- App-wide branding drawable attribute (reference to drawable/mipmap) -->
+    <attr name="appLogo" format="reference" />
+</resources>

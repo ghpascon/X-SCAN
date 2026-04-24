@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Center app logo as the adaptive icon foreground -->
+    <item>
+        <bitmap
+            android:src="@drawable/logo"
+            android:gravity="center"
+            android:antialias="true" />
+    </item>
+
+</layer-list>

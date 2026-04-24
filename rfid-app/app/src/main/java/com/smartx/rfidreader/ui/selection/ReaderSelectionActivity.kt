@@ -44,6 +44,26 @@ class ReaderSelectionActivity : AppCompatActivity() {
                 viewModel.uiState.collect { state ->
                     adapter.submitList(state.readers)
 
+                    // Atualiza header (badge) na activity de seleção
+                    try {
+                        binding.headerApp.headerReaderName.text = state.connectedReader?.displayName
+                            ?: getString(com.smartx.rfidreader.R.string.selection_title)
+
+                        val statusText = when {
+                            state.isConnecting -> "Conectando..."
+                            state.connectedReader != null -> "Conectado"
+                            else -> "Desconectado"
+                        }
+                        binding.headerApp.headerConnectionStatus.text = statusText
+
+                        val statusDrawable = when {
+                            state.connectedReader != null -> com.smartx.rfidreader.R.drawable.ic_status_connected
+                            state.isConnecting -> com.smartx.rfidreader.R.drawable.ic_status_connected
+                            else -> com.smartx.rfidreader.R.drawable.ic_status_disconnected
+                        }
+                        binding.headerApp.headerStatusDot.setBackgroundResource(statusDrawable)
+                    } catch (_: Exception) {}
+
                     binding.progressBar.visibility =
                         if (state.isConnecting) View.VISIBLE else View.GONE
 

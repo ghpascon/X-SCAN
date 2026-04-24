@@ -14,7 +14,9 @@ import com.smartx.rfidreader.R
 import com.smartx.rfidreader.RfidApplication
 import com.smartx.rfidreader.core.reader.ReaderConnectionState
 import com.smartx.rfidreader.databinding.FragmentHomeBinding
+import com.google.android.material.snackbar.Snackbar
 import com.smartx.rfidreader.ui.main.config.ConfigFragment
+import com.smartx.rfidreader.ui.main.radar.RadarFragment
 import com.smartx.rfidreader.ui.main.reader.ReaderSelectionFragment
 import com.smartx.rfidreader.ui.main.reading.ReadingFragment
 import com.smartx.rfidreader.ui.sync.SyncActivity
@@ -65,6 +67,15 @@ class HomeFragment : Fragment() {
         binding.cardNavSync.setOnClickListener {
             startActivity(Intent(requireContext(), SyncActivity::class.java))
         }
+        binding.cardNavRadar.setOnClickListener {
+            val connected =
+                viewModel.uiState.value.connectionState == ReaderConnectionState.CONNECTED
+            if (connected) {
+                (requireActivity() as MainActivity).navigateTo(RadarFragment())
+            } else {
+                Snackbar.make(binding.root, getString(R.string.error_no_reader), Snackbar.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun observeState() {
@@ -76,20 +87,6 @@ class HomeFragment : Fragment() {
                     viewModel.uiState.collect { state ->
                         val connected = state.connectionState == ReaderConnectionState.CONNECTED
                         val connecting = state.isConnecting
-
-                        binding.textHomeStatus.text = when {
-                            connecting -> getString(R.string.status_connecting)
-                            connected -> getString(
-                                R.string.status_connected,
-                                viewModel.reader?.displayName ?: ""
-                            )
-                            else -> getString(R.string.status_disconnected)
-                        }
-
-                        binding.statusDot.setBackgroundResource(
-                            if (connected) R.drawable.ic_status_active
-                            else R.drawable.ic_status_inactive
-                        )
 
                         // Hint no card de leitura
                         binding.textReadingStatusHint.text = if (connected)

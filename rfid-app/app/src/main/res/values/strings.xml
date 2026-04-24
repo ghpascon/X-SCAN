@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RFID Reader</string>
+    <string name="app_name">X-SCAN</string>
 
     <!-- Tela de seleção legada -->
     <string name="selection_title">Selecionar Leitor RFID</string>

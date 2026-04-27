@@ -3305,6 +3305,7 @@ id btnConnect
 id btnDeleteAll
 id btnDeleteEvent
 id btnDisconnect
+id btnLogClose
 id btnReloadConfig
 id btnRemoveTarget
 id btnSaveAppSettings
@@ -3626,6 +3627,7 @@ id postLayout
 id pressed
 id progressBar
 id progressBleScan
+id progressConnect
 id progressSaving
 id progressSignal
 id progressSync
@@ -3658,6 +3660,7 @@ id screen
 id scroll
 id scrollIndicatorDown
 id scrollIndicatorUp
+id scrollLog
 id scrollView
 id scrollable
 id search_badge
@@ -3743,6 +3746,8 @@ id textEventDate
 id textEventsEmpty
 id textFinalResult
 id textFoundCount
+id textLog
+id textLogTitle
 id textNoTargets
 id textPendingCount
 id textPowerValue
@@ -3959,6 +3964,7 @@ layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
 layout dialog_ble_scan
+layout dialog_connection_log
 layout dialog_radar_scan
 layout fragment_config
 layout fragment_home
@@ -4094,6 +4100,7 @@ string btn_clear_tags
 string btn_connect
 string btn_delete_all
 string btn_disconnect
+string btn_log_close
 string btn_reload_config
 string btn_save_app_settings
 string btn_save_reading
@@ -4137,6 +4144,8 @@ string config_save_error
 string config_saved
 string confirm_delete
 string connecting
+string connection_log_connected
+string connection_log_failed
 string delete_all_message
 string delete_all_title
 string delete_event

@@ -4,6 +4,7 @@ import com.smartx.rfidreader.core.reader.IRfidReader
 import com.smartx.rfidreader.readers.at907.AT907Reader
 import com.smartx.rfidreader.readers.c72.C72Reader
 import com.smartx.rfidreader.readers.ih25.IH25Reader
+import com.smartx.rfidreader.readers.x714.X714Reader
 
 /**
  * Registro central de todos os leitores RFID suportados.
@@ -19,7 +20,8 @@ object ReaderRegistry {
         listOf(
             AT907Reader(),
             C72Reader(),
-            IH25Reader()
+            IH25Reader(),
+            X714Reader()
         )
     }
 

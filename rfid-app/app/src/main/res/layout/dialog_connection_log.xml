@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="?attr/colorSurface"
+    android:padding="20dp">
+
+    <!-- Título + spinner -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
+
+        <ProgressBar
+            android:id="@+id/progressConnect"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="12dp" />
+
+        <TextView
+            android:id="@+id/textLogTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/status_connecting"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+
+    </LinearLayout>
+
+    <!-- Área de log estilo terminal -->
+    <ScrollView
+        android:id="@+id/scrollLog"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="#0D1117"
+        android:padding="10dp"
+        android:fillViewport="true">
+
+        <TextView
+            android:id="@+id/textLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:textColor="#C9D1D9"
+            android:textSize="11sp"
+            android:lineSpacingExtra="2dp" />
+
+    </ScrollView>
+
+    <!-- Botão fechar -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLogClose"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="8dp"
+        android:text="@string/btn_log_close" />
+
+</LinearLayout>

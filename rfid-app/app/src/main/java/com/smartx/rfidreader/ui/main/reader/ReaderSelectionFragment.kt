@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.core.reader.ReaderConnectionState
 import com.smartx.rfidreader.readers.ih25.IH25Reader
+import com.smartx.rfidreader.readers.x714.X714Reader
 import com.smartx.rfidreader.databinding.FragmentReaderSelectionBinding
 import com.smartx.rfidreader.ui.main.MainViewModel
 import com.smartx.rfidreader.ui.selection.ReaderListAdapter
@@ -52,13 +53,21 @@ class ReaderSelectionFragment : Fragment() {
             // Leitores BLE: mostra escaner antes de conectar
             val dialog = BleScanDialogFragment()
             dialog.onDeviceSelected = { _, address ->
-                // Repassa o MAC para o leitor BLE (somente IH25 por ora)
-                (reader as? IH25Reader)?.targetMacAddress = address
+                // Repassa o MAC para qualquer leitor BLE
+                when (reader) {
+                    is IH25Reader -> reader.targetMacAddress = address
+                    is X714Reader -> reader.targetMacAddress = address
+                }
                 viewModel.connect(reader)
+                // Abre o log de conexão para todos os leitores
+                ConnectionLogDialogFragment()
+                    .show(childFragmentManager, "connection_log")
             }
             dialog.show(childFragmentManager, "ble_scan")
         } else {
             viewModel.connect(reader)
+            ConnectionLogDialogFragment()
+                .show(childFragmentManager, "connection_log")
         }
     }
 

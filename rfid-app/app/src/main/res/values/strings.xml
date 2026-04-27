@@ -118,6 +118,11 @@
     <string name="ble_scan_done">%d dispositivo(s) encontrado(s)</string>
     <string name="ble_no_devices">Nenhum dispositivo encontrado</string>
     <string name="ble_scan_again">Escanear novamente</string>
+
+    <!-- Log de conexão -->
+    <string name="connection_log_connected">Conectado com sucesso!</string>
+    <string name="connection_log_failed">Falha ao conectar</string>
+    <string name="btn_log_close">Fechar</string>
     <string name="ble_disabled">Bluetooth está desligado</string>
     <string name="ble_permission_denied">Permissão Bluetooth negada</string>
     <string name="btn_cancel">Cancelar</string>

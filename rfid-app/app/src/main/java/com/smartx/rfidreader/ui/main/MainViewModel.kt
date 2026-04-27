@@ -14,6 +14,7 @@ import com.smartx.rfidreader.core.reader.RfidTag
 import com.smartx.rfidreader.core.registry.ReaderRegistry
 import com.smartx.rfidreader.core.settings.AppSettings
 import com.smartx.rfidreader.core.settings.AppSettingsRepository
+import com.smartx.rfidreader.readers.x714.X714Reader
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -78,6 +79,17 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     private val _saveInventoryResult = MutableSharedFlow<Boolean>(extraBufferCapacity = 1)
     val saveInventoryResult: SharedFlow<Boolean> = _saveInventoryResult.asSharedFlow()
 
+    /** Log de conexão — lista acumulada de linhas exibida no ConnectionLogDialogFragment */
+    private val _connectionLog = MutableStateFlow<List<String>>(emptyList())
+    val connectionLog: StateFlow<List<String>> = _connectionLog.asStateFlow()
+    private var connectionStartMs: Long = 0L
+
+    private fun emitLog(msg: String) {
+        val elapsed = (System.currentTimeMillis() - connectionStartMs) / 1000.0
+        val line = "[+%1$.2fs] $msg".format(elapsed)
+        _connectionLog.update { it + line }
+    }
+
     val availableReaders: List<IRfidReader> = ReaderRegistry.availableReaders
 
     var reader: IRfidReader? = null
@@ -117,14 +129,29 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     fun connect(rfidReader: IRfidReader) {
         if (_uiState.value.isConnecting) return
         viewModelScope.launch {
+            connectionStartMs = System.currentTimeMillis()
+            _connectionLog.value = emptyList()
+            emitLog("Iniciando conexão com ${rfidReader.displayName}...")
             _uiState.update { it.copy(isConnecting = true, errorMessage = null) }
-            val startMs = System.currentTimeMillis()
-            Log.i(TAG, "connect start reader=${rfidReader.readerId} t=%d".format(startMs))
+            Log.i(TAG, "connect start reader=${rfidReader.readerId} t=$connectionStartMs")
+
+            // Conecta logSink para receber eventos BLE internos do X714
+            (rfidReader as? X714Reader)?.logSink = { msg -> emitLog(msg) }
+
             val ok = rfidReader.connect(getApplication())
-            val endMs = System.currentTimeMillis()
-            Log.i(TAG, "connect end reader=${rfidReader.readerId} ok=%s t=%d total=%d".format(ok, endMs, endMs - startMs))
+            val elapsed = System.currentTimeMillis() - connectionStartMs
+            Log.i(TAG, "connect end reader=${rfidReader.readerId} ok=$ok total=${elapsed}ms")
+
             if (ok) {
                 reader = rfidReader
+                // Marca explicitamente como conectado — o collector em observeReader pode demorar
+                _uiState.update {
+                    it.copy(
+                        isConnecting = false,
+                        connectionState = ReaderConnectionState.CONNECTED
+                    )
+                }
+                emitLog("Lendo configuração do leitor...")
                 val settings = _uiState.value.appSettings
                 settingsRepo.save(settings.copy(lastReaderId = rfidReader.readerId))
                 observeReader(rfidReader)
@@ -132,12 +159,16 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                 val config = rfidReader.readConfig()
                 rfidReader.applyConfig(config)
                 _uiState.update { it.copy(config = config) }
+                emitLog("✓ Pronto! (%.1fs)".format(elapsed / 1000.0))
                 _navigateToReading.emit(Unit)
             } else {
+                emitLog("✗ Falha ao conectar. Verifique se o leitor está ligado e próximo.")
                 _uiState.update {
                     it.copy(isConnecting = false, errorMessage = "Falha ao conectar ${rfidReader.displayName}")
                 }
             }
+            // Limpa logSink para evitar referência ao ViewModel
+            (rfidReader as? X714Reader)?.logSink = null
         }
     }
 
@@ -159,6 +190,15 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                 _uiState.update { it.copy(connectionState = state, isConnecting = false) }
                 if (state == ReaderConnectionState.DISCONNECTED) {
                     _uiState.update { it.copy(isInventorying = false) }
+                }
+            }
+        }
+        // Observa mudanças de estado de inventário acionadas via GPI (botão físico BLE).
+        // Necessário pois o GPI chega por BLE diretamente no X714Reader, sem passar pelo ViewModel.
+        (r as? X714Reader)?.let { x714 ->
+            viewModelScope.launch {
+                x714.inventoryStateFlow.collect { isOn ->
+                    _uiState.update { it.copy(isInventorying = isOn) }
                 }
             }
         }

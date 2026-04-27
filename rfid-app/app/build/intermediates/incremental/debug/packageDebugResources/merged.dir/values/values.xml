@@ -81,6 +81,7 @@
     <string name="btn_connect">Conectar</string>
     <string name="btn_delete_all">Apagar tudo</string>
     <string name="btn_disconnect">Desconectar</string>
+    <string name="btn_log_close">Fechar</string>
     <string name="btn_reload_config">Recarregar</string>
     <string name="btn_save_app_settings">Salvar</string>
     <string name="btn_save_reading">Salvar Leitura</string>
@@ -95,6 +96,8 @@
     <string name="config_saved">Configuração aplicada com sucesso!</string>
     <string name="confirm_delete">Apagar</string>
     <string name="connecting">Conectando…</string>
+    <string name="connection_log_connected">Conectado com sucesso!</string>
+    <string name="connection_log_failed">Falha ao conectar</string>
     <string name="delete_all_message">Todos os eventos salvos serão removidos permanentemente.</string>
     <string name="delete_all_title">Apagar todos?</string>
     <string name="delete_event">Apagar evento</string>

@@ -14,8 +14,12 @@ import com.honeywell.rfidservice.rfid.TagReadData
 import com.honeywell.rfidservice.rfid.TagReadOption
 import com.smartx.rfidreader.core.reader.*
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 
@@ -55,18 +59,51 @@ class IH25Reader : IRfidReader {
     private val _tagChannel = MutableSharedFlow<RfidTag>(extraBufferCapacity = 64)
     override val tagFlow: Flow<RfidTag> = _tagChannel.asSharedFlow()
 
+    // Scope para operações de leitura síncronas de fallback (ex: readTagData)
+    private val ioScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
     private val tagReadListener = OnTagReadListener { data: Array<TagReadData> ->
         data.forEach { tagData ->
             val tidBytes = tagData.getAdditionData()
             val tid = if (tidBytes != null && tidBytes.isNotEmpty()) {
                 tidBytes.joinToString("") { "%02X".format(it) }
             } else ""
-            val tag = RfidTag(
-                epc = tagData.getEpcHexStr() ?: "",
-                rssi = tagData.getRssi().toString(),
-                tid = tid
-            )
-            _tagChannel.tryEmit(tag)
+
+            val epc = tagData.getEpcHexStr() ?: ""
+            val rssiStr = tagData.getRssi().toString()
+
+            // Only emit tags that include a TID. If TID is missing, attempt a fallback
+            // synchronous read and emit only if TID is obtained.
+            if (tid.isNotEmpty()) {
+                _tagChannel.tryEmit(RfidTag(epc = epc, rssi = rssiStr, tid = tid))
+            } else if (epc.isNotBlank()) {
+                val readerRef = rfidReader
+                if (readerRef != null) {
+                    ioScope.launch {
+                        try {
+                            // bank: 2 = TID (Gen2 banks: 0=RESERVED,1=EPC,2=TID,3=USER)
+                            // Lê até 6 blocos (cada bloco = 2 words) — ajuste se necessário
+                            val tidHex = try {
+                                // use a short timeout to avoid long blocking calls
+                                withTimeoutOrNull(1500L) {
+                                    readerRef.readTagData(epc, 2, 0, 6, "")
+                                }
+                            } catch (e: Exception) {
+                                null
+                            }
+
+                            val tidClean = tidHex?.replace("\\s".toRegex(), "")?.uppercase()
+                            if (!tidClean.isNullOrBlank()) {
+                                _tagChannel.tryEmit(RfidTag(epc = epc, rssi = rssiStr, tid = tidClean))
+                            } else {
+                                Log.d(TAG, "IH25 no TID found for $epc (fallback)")
+                            }
+                        } catch (e: Exception) {
+                            Log.d(TAG, "IH25 fallback readTagData failed for $epc", e)
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -162,6 +199,8 @@ class IH25Reader : IRfidReader {
     override suspend fun disconnect() = withContext(Dispatchers.IO) {
         try {
             if (_isInventorying) stopInventory()
+            // Cancel any pending fallback reads
+            try { ioScope.coroutineContext[Job]?.cancel() } catch (_: Exception) {}
             rfidReader?.release()
             rfidManager?.removeEventListener(eventListener)
             rfidManager?.disconnect()

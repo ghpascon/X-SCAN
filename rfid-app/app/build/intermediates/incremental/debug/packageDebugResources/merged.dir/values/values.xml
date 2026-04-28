@@ -103,6 +103,7 @@
     <string name="delete_event">Apagar evento</string>
     <string name="delete_event_message">Este evento será removido permanentemente.</string>
     <string name="delete_event_title">Apagar evento?</string>
+    <string name="desc_open_webhook_config">Abrir configurações do webhook</string>
     <string name="error_connection_failed">Falha ao conectar. Verifique se o dispositivo é compatível.</string>
     <string name="error_invalid_power">Valor inválido</string>
     <string name="error_invalid_region">Região inválida</string>
@@ -126,6 +127,7 @@
     <string name="label_prefix">Filtro de Prefixo EPC</string>
     <string name="label_rssi_filter">Filtro RSSI mínimo</string>
     <string name="label_session">Sessão Gen2</string>
+    <string name="label_webhook">Webhook</string>
     <string name="nav_config">Configuração</string>
     <string name="nav_config_desc">Ajustar parâmetros</string>
     <string name="nav_reader">Leitor</string>
@@ -162,6 +164,7 @@
     <string name="tag_count">%d tags</string>
     <string name="tag_count_zero">0 tags</string>
     <string name="webhook_example_url">http://192.168.1.100:5000/api/v1/receive/x-scan</string>
+    <string name="webhook_not_configured">Nenhum webhook configurado</string>
     <string name="webhook_saved">URL do webhook salva</string>
     <style name="Base.Theme.RfidReader" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/md_theme_primary</item>

@@ -3104,6 +3104,7 @@ drawable ic_nav_reading
 drawable ic_nav_sync
 drawable ic_rfid_reader
 drawable ic_search_black_24
+drawable ic_settings
 drawable ic_status_active
 drawable ic_status_connected
 drawable ic_status_disconnected
@@ -3304,13 +3305,14 @@ id btnClearTargets
 id btnConnect
 id btnDeleteAll
 id btnDeleteEvent
+id btnDialogSave
+id btnDialogUseExample
 id btnDisconnect
 id btnLogClose
 id btnReloadConfig
 id btnRemoveTarget
 id btnSaveAppSettings
 id btnSaveReading
-id btnSaveWebhook
 id btnScanAgain
 id btnScanTargets
 id btnSelectAll
@@ -3318,7 +3320,7 @@ id btnStartSync
 id btnToggleInventory
 id btnToggleRadar
 id btnToggleScanInventory
-id btnUseExampleWebhook
+id btnWebhookConfig
 id buttonPanel
 id cache_measures
 id callMeasure
@@ -3415,10 +3417,10 @@ id easeInOut
 id easeOut
 id east
 id edge
+id editDialogWebhookUrl
 id editEpc
 id editPower
 id editPrefix
-id editWebhookUrl
 id edit_query
 id edit_text_id
 id elastic
@@ -3496,11 +3498,11 @@ id jumpToStart
 id labelSession
 id labeled
 id layout
+id layoutDialogWebhookUrl
 id layoutEpcInput
 id layoutPower
 id layoutPrefix
 id layoutSyncProgress
-id layoutWebhookUrl
 id left
 id leftToRight
 id legacy
@@ -3777,6 +3779,7 @@ id textTid
 id textTime
 id textTitle
 id textTop
+id textWebhookSummary
 id text_input_end_icon
 id text_input_error_icon
 id text_input_start_icon
@@ -3966,6 +3969,7 @@ layout design_text_input_start_icon
 layout dialog_ble_scan
 layout dialog_connection_log
 layout dialog_radar_scan
+layout dialog_webhook_config
 layout fragment_config
 layout fragment_home
 layout fragment_radar
@@ -4151,6 +4155,7 @@ string delete_all_title
 string delete_event
 string delete_event_message
 string delete_event_title
+string desc_open_webhook_config
 string error_a11y_label
 string error_connection_failed
 string error_icon_content_description
@@ -4182,6 +4187,7 @@ string label_buzzer
 string label_prefix
 string label_rssi_filter
 string label_session
+string label_webhook
 string m3_exceed_max_badge_text_suffix
 string m3_ref_typeface_brand_medium
 string m3_ref_typeface_brand_regular
@@ -4330,6 +4336,7 @@ string tab_reading
 string tag_count
 string tag_count_zero
 string webhook_example_url
+string webhook_not_configured
 string webhook_saved
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light

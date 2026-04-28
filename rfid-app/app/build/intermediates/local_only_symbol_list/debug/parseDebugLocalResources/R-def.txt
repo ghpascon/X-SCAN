@@ -50,6 +50,7 @@ drawable ic_nav_reader
 drawable ic_nav_reading
 drawable ic_nav_sync
 drawable ic_rfid_reader
+drawable ic_settings
 drawable ic_status_active
 drawable ic_status_connected
 drawable ic_status_disconnected
@@ -74,13 +75,14 @@ id btnClearTargets
 id btnConnect
 id btnDeleteAll
 id btnDeleteEvent
+id btnDialogSave
+id btnDialogUseExample
 id btnDisconnect
 id btnLogClose
 id btnReloadConfig
 id btnRemoveTarget
 id btnSaveAppSettings
 id btnSaveReading
-id btnSaveWebhook
 id btnScanAgain
 id btnScanTargets
 id btnSelectAll
@@ -88,7 +90,7 @@ id btnStartSync
 id btnToggleInventory
 id btnToggleRadar
 id btnToggleScanInventory
-id btnUseExampleWebhook
+id btnWebhookConfig
 id cardAddTarget
 id cardAppConfig
 id cardEvents
@@ -111,10 +113,10 @@ id chipBle
 id chipGroupLimit
 id chipGroupPrefixes
 id chipStatus
+id editDialogWebhookUrl
 id editEpc
 id editPower
 id editPrefix
-id editWebhookUrl
 id fragmentContainer
 id headerApp
 id headerBadgeRow
@@ -128,11 +130,11 @@ id iconReader
 id iconStatus
 id imgSyncStatus
 id labelSession
+id layoutDialogWebhookUrl
 id layoutEpcInput
 id layoutPower
 id layoutPrefix
 id layoutSyncProgress
-id layoutWebhookUrl
 id limitBar
 id progressBar
 id progressBleScan
@@ -191,12 +193,14 @@ id textTargetStatus
 id textTid
 id textTime
 id textTitle
+id textWebhookSummary
 layout activity_main
 layout activity_selection
 layout activity_sync
 layout dialog_ble_scan
 layout dialog_connection_log
 layout dialog_radar_scan
+layout dialog_webhook_config
 layout fragment_config
 layout fragment_home
 layout fragment_radar
@@ -254,6 +258,7 @@ string delete_all_title
 string delete_event
 string delete_event_message
 string delete_event_title
+string desc_open_webhook_config
 string error_connection_failed
 string error_invalid_power
 string error_invalid_region
@@ -277,6 +282,7 @@ string label_buzzer
 string label_prefix
 string label_rssi_filter
 string label_session
+string label_webhook
 string nav_config
 string nav_config_desc
 string nav_reader
@@ -313,6 +319,7 @@ string tab_reading
 string tag_count
 string tag_count_zero
 string webhook_example_url
+string webhook_not_configured
 string webhook_saved
 style Base.Theme.RfidReader
 style Theme.RfidReader

@@ -27,56 +27,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Card 1: Webhook URL -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardWebhook"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:text="@string/section_webhook_config"
-                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/layoutWebhookUrl"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/hint_webhook_url"
-                        app:helperText="@string/helper_webhook_url">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/editWebhookUrl"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textUri"
-                            android:imeOptions="actionDone"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnUseExampleWebhook"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/btn_use_example_webhook" />
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnSaveWebhook"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/btn_save_webhook" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            <!-- (Webhook config moved to bottom for a simpler compact UI) -->
 
             <!-- Card 2: Progresso de sincronização -->
             <com.google.android.material.card.MaterialCardView
@@ -217,6 +168,53 @@
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="false" />
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Footer: compact webhook config (simpler, bottom of content) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardWebhook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_webhook"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
+                    <TextView
+                        android:id="@+id/textWebhookSummary"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/webhook_not_configured"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:ellipsize="end"
+                        android:maxLines="1" />
+
+                    <ImageButton
+                        android:id="@+id/btnWebhookConfig"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:contentDescription="@string/desc_open_webhook_config"
+                        android:src="@drawable/ic_settings"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:scaleType="centerInside"
+                        android:padding="6dp" />
+
+                </LinearLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>

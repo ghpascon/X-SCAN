@@ -2,8 +2,6 @@ package com.smartx.rfidreader.ui.sync
 
 import android.os.Bundle
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -82,12 +80,9 @@ class SyncActivity : AppCompatActivity() {
     }
 
     private fun setupWebhookSection() {
-        binding.editWebhookUrl.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) { onSaveWebhookUrl(); true } else false
-        }
-        binding.btnSaveWebhook.setOnClickListener { onSaveWebhookUrl() }
-        binding.btnUseExampleWebhook.setOnClickListener {
-            binding.editWebhookUrl.setText(getString(R.string.webhook_example_url))
+        binding.btnWebhookConfig.setOnClickListener {
+            val dlg = WebhookConfigDialogFragment()
+            dlg.show(supportFragmentManager, "webhook_config")
         }
     }
 
@@ -103,16 +98,7 @@ class SyncActivity : AppCompatActivity() {
     // Actions
     // ─────────────────────────────────────────────────────────────────────────
 
-    private fun onSaveWebhookUrl() {
-        val url = binding.editWebhookUrl.text.toString().trim()
-        if (url.isNotBlank() && !url.startsWith("http")) {
-            Snackbar.make(binding.root, getString(R.string.error_invalid_url), Snackbar.LENGTH_SHORT).show()
-            return
-        }
-        viewModel.saveWebhookUrl(url)
-        hideKeyboard()
-        Snackbar.make(binding.root, getString(R.string.webhook_saved), Snackbar.LENGTH_SHORT).show()
-    }
+    // Webhook edit now handled via WebhookConfigDialogFragment
 
     private fun confirmDelete(event: EventEntity) {
         AlertDialog.Builder(this)
@@ -145,11 +131,12 @@ class SyncActivity : AppCompatActivity() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                // Webhook URL
+                // Webhook URL summary
                 launch {
                     viewModel.uiState.collect { state ->
-                        if (binding.editWebhookUrl.text.toString() != state.webhookUrl) {
-                            binding.editWebhookUrl.setText(state.webhookUrl)
+                        val text = if (state.webhookUrl.isBlank()) getString(R.string.webhook_not_configured) else state.webhookUrl
+                        if (binding.textWebhookSummary.text.toString() != text) {
+                            binding.textWebhookSummary.text = text
                         }
                     }
                 }
@@ -222,8 +209,5 @@ class SyncActivity : AppCompatActivity() {
         }
     }
 
-    private fun hideKeyboard() {
-        val imm = getSystemService(InputMethodManager::class.java)
-        imm?.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
-    }
+    // no-op: keyboard handled in dialog
 }

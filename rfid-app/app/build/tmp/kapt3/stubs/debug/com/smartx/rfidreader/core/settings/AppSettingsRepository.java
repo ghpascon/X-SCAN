@@ -13,6 +13,8 @@ public final class AppSettingsRepository {
     @org.jetbrains.annotations.NotNull()
     private static final androidx.datastore.preferences.core.Preferences.Key<java.lang.String> KEY_PREFIXES = null;
     @org.jetbrains.annotations.NotNull()
+    private static final androidx.datastore.preferences.core.Preferences.Key<java.lang.String> KEY_LAST_BLE = null;
+    @org.jetbrains.annotations.NotNull()
     private static final androidx.datastore.preferences.core.Preferences.Key<java.lang.String> KEY_WEBHOOK = null;
     @org.jetbrains.annotations.NotNull()
     private final kotlinx.coroutines.flow.Flow<com.smartx.rfidreader.core.settings.AppSettings> flow = null;
@@ -36,7 +38,7 @@ public final class AppSettingsRepository {
         return null;
     }
     
-    @kotlin.Metadata(mv = {1, 9, 0}, k = 1, xi = 48, d1 = {"\u0000&\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0002\u0010\u000b\n\u0000\n\u0002\u0010\u000e\n\u0002\b\u0002\n\u0002\u0010\b\n\u0002\b\u0002\b\u0086\u0003\u0018\u00002\u00020\u0001B\u0007\b\u0002\u00a2\u0006\u0002\u0010\u0002R\u0014\u0010\u0003\u001a\b\u0012\u0004\u0012\u00020\u00050\u0004X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0014\u0010\u0006\u001a\b\u0012\u0004\u0012\u00020\u00070\u0004X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0014\u0010\b\u001a\b\u0012\u0004\u0012\u00020\u00070\u0004X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0014\u0010\t\u001a\b\u0012\u0004\u0012\u00020\n0\u0004X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0014\u0010\u000b\u001a\b\u0012\u0004\u0012\u00020\u00070\u0004X\u0082\u0004\u00a2\u0006\u0002\n\u0000\u00a8\u0006\f"}, d2 = {"Lcom/smartx/rfidreader/core/settings/AppSettingsRepository$Companion;", "", "()V", "KEY_BUZZER", "Landroidx/datastore/preferences/core/Preferences$Key;", "", "KEY_PREFIXES", "", "KEY_READER_ID", "KEY_RSSI", "", "KEY_WEBHOOK", "app_debug"})
+    @kotlin.Metadata(mv = {1, 9, 0}, k = 1, xi = 48, d1 = {"\u0000&\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0002\u0010\u000b\n\u0000\n\u0002\u0010\u000e\n\u0002\b\u0003\n\u0002\u0010\b\n\u0002\b\u0002\b\u0086\u0003\u0018\u00002\u00020\u0001B\u0007\b\u0002\u00a2\u0006\u0002\u0010\u0002R\u0014\u0010\u0003\u001a\b\u0012\u0004\u0012\u00020\u00050\u0004X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0014\u0010\u0006\u001a\b\u0012\u0004\u0012\u00020\u00070\u0004X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0014\u0010\b\u001a\b\u0012\u0004\u0012\u00020\u00070\u0004X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0014\u0010\t\u001a\b\u0012\u0004\u0012\u00020\u00070\u0004X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0014\u0010\n\u001a\b\u0012\u0004\u0012\u00020\u000b0\u0004X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0014\u0010\f\u001a\b\u0012\u0004\u0012\u00020\u00070\u0004X\u0082\u0004\u00a2\u0006\u0002\n\u0000\u00a8\u0006\r"}, d2 = {"Lcom/smartx/rfidreader/core/settings/AppSettingsRepository$Companion;", "", "()V", "KEY_BUZZER", "Landroidx/datastore/preferences/core/Preferences$Key;", "", "KEY_LAST_BLE", "", "KEY_PREFIXES", "KEY_READER_ID", "KEY_RSSI", "", "KEY_WEBHOOK", "app_debug"})
     public static final class Companion {
         
         private Companion() {

@@ -68,6 +68,8 @@ class ReadingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupButtons()
+        // Limpa lista de tags ao entrar na tela de leitura
+        viewModel.clearTags()
         observeState()
     }
 

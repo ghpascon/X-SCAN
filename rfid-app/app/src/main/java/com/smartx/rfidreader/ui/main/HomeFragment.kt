@@ -18,6 +18,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.smartx.rfidreader.ui.main.config.ConfigFragment
 import com.smartx.rfidreader.ui.main.radar.RadarFragment
 import com.smartx.rfidreader.ui.main.reader.ReaderSelectionFragment
+import com.smartx.rfidreader.ui.main.reader.BleScanDialogFragment
+import com.smartx.rfidreader.ui.main.reader.ConnectionLogDialogFragment
+import com.smartx.rfidreader.readers.ih25.IH25Reader
+import com.smartx.rfidreader.readers.x714.X714Reader
 import com.smartx.rfidreader.ui.main.reading.ReadingFragment
 import com.smartx.rfidreader.ui.sync.SyncActivity
 import kotlinx.coroutines.launch
@@ -82,7 +86,7 @@ class HomeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                // Status de conexão no banner
+                // Status de conexão no banner (e fecha modais ao conectar)
                 launch {
                     viewModel.uiState.collect { state ->
                         val connected = state.connectionState == ReaderConnectionState.CONNECTED
@@ -96,6 +100,22 @@ class HomeFragment : Fragment() {
 
                         // Opacidade do card de leitura
                         binding.cardNavReading.alpha = if (connected) 1f else 0.6f
+
+                        // Se conectado, fecha quaisquer modais de conexão/scan abertos
+                        if (connected) {
+                            try {
+                                val ble = childFragmentManager.findFragmentByTag("ble_scan")
+                                if (ble != null && ble is androidx.fragment.app.DialogFragment) {
+                                    ble.dismissAllowingStateLoss()
+                                }
+                            } catch (_: Exception) {}
+                            try {
+                                val log = childFragmentManager.findFragmentByTag("connection_log")
+                                if (log != null && log is androidx.fragment.app.DialogFragment) {
+                                    log.dismissAllowingStateLoss()
+                                }
+                            } catch (_: Exception) {}
+                        }
                     }
                 }
 
@@ -113,6 +133,31 @@ class HomeFragment : Fragment() {
                             binding.badgePending.visibility = View.GONE
                             binding.textSyncPending.text = getString(R.string.nav_sync_desc)
                         }
+                    }
+                }
+
+                // Mostrar modal de scan BLE quando solicitado pelo ViewModel
+                launch {
+                    viewModel.showBleScanDialog.collect { readerId ->
+                        val reader = viewModel.availableReaders.firstOrNull { it.readerId == readerId } ?: return@collect
+                        val dialog = BleScanDialogFragment()
+                        dialog.onDeviceSelected = { _, address ->
+                            when (reader) {
+                                is IH25Reader -> reader.targetMacAddress = address
+                                is X714Reader -> reader.targetMacAddress = address
+                            }
+                            viewModel.connect(reader)
+                            ConnectionLogDialogFragment()
+                                .show(childFragmentManager, "connection_log")
+                        }
+                        dialog.show(childFragmentManager, "ble_scan")
+                    }
+                }
+                // Abrir diálogo de logs quando solicitado (auto-connect)
+                launch {
+                    viewModel.showConnectionLog.collect {
+                        ConnectionLogDialogFragment()
+                            .show(childFragmentManager, "connection_log")
                     }
                 }
             }

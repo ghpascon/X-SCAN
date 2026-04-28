@@ -14,7 +14,9 @@ data class AppSettings(
     val buzzerEnabled: Boolean = true,
     val rssiFilter: Int = -120,
     val prefixes: List<String> = emptyList(),
-    val webhookUrl: String = ""
+    val webhookUrl: String = "",
+    /** Último endereço MAC BLE selecionado (global) */
+    val lastBleAddress: String = ""
 )
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "app_settings")
@@ -28,6 +30,7 @@ class AppSettingsRepository(context: Context) {
         private val KEY_BUZZER = booleanPreferencesKey("buzzer_enabled")
         private val KEY_RSSI = intPreferencesKey("rssi_filter")
         private val KEY_PREFIXES = stringPreferencesKey("prefixes")
+        private val KEY_LAST_BLE = stringPreferencesKey("last_ble_address")
         private val KEY_WEBHOOK = stringPreferencesKey("webhook_url")
     }
 
@@ -43,7 +46,8 @@ class AppSettingsRepository(context: Context) {
                 rssiFilter = prefs[KEY_RSSI] ?: -120,
                 prefixes = if (prefixStr.isBlank()) emptyList()
                            else prefixStr.split("|").filter { it.isNotBlank() },
-                webhookUrl = prefs[KEY_WEBHOOK] ?: ""
+                webhookUrl = prefs[KEY_WEBHOOK] ?: "",
+                lastBleAddress = prefs[KEY_LAST_BLE] ?: ""
             )
         }
 
@@ -54,6 +58,7 @@ class AppSettingsRepository(context: Context) {
             prefs[KEY_RSSI] = settings.rssiFilter
             prefs[KEY_PREFIXES] = settings.prefixes.joinToString("|")
             prefs[KEY_WEBHOOK] = settings.webhookUrl
+            prefs[KEY_LAST_BLE] = settings.lastBleAddress
         }
     }
 }

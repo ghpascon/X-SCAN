@@ -15,6 +15,7 @@ import com.smartx.rfidreader.core.registry.ReaderRegistry
 import com.smartx.rfidreader.core.settings.AppSettings
 import com.smartx.rfidreader.core.settings.AppSettingsRepository
 import com.smartx.rfidreader.readers.x714.X714Reader
+import com.smartx.rfidreader.readers.ih25.IH25Reader
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -92,6 +93,13 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     val availableReaders: List<IRfidReader> = ReaderRegistry.availableReaders
 
+    // Evento para instruir a UI a abrir o modal de escaneamento BLE (readerId)
+    private val _showBleScanDialog = MutableSharedFlow<String>(extraBufferCapacity = 1)
+    val showBleScanDialog: SharedFlow<String> = _showBleScanDialog.asSharedFlow()
+    // Evento para instruir a UI a abrir o diálogo de logs durante conexão
+    private val _showConnectionLog = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    val showConnectionLog: SharedFlow<Unit> = _showConnectionLog.asSharedFlow()
+
     var reader: IRfidReader? = null
         private set
 
@@ -117,8 +125,24 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         if (state.connectionState == ReaderConnectionState.CONNECTED || state.isConnecting) return
         viewModelScope.launch {
             // Aguarda o primeiro valor válido de settings (pode ainda não ter chegado no init)
-            val lastId = settingsRepo.flow.first().lastReaderId.ifBlank { return@launch }
+            val settings = settingsRepo.flow.first()
+            val lastId = settings.lastReaderId.ifBlank { return@launch }
             val rfidReader = ReaderRegistry.findById(lastId) ?: return@launch
+
+            // Se leitor BLE, restaura o último MAC salvo — sem MAC não tentamos reconectar
+            if (rfidReader.isBle) {
+                // Solicita que a UI exiba o modal de scan BLE para o usuário acompanhar
+                _showBleScanDialog.tryEmit(rfidReader.readerId)
+                // Solicita que a UI exiba também o diálogo de logs de conexão
+                _showConnectionLog.tryEmit(Unit)
+                val mac = settings.lastBleAddress.ifBlank { null }
+                if (mac == null) return@launch
+                when (rfidReader) {
+                    is X714Reader -> rfidReader.targetMacAddress = mac
+                    is IH25Reader -> rfidReader.targetMacAddress = mac
+                }
+            }
+
             // Verifica novamente após await para evitar dupla conexão
             if (_uiState.value.connectionState == ReaderConnectionState.CONNECTED ||
                 _uiState.value.isConnecting) return@launch
@@ -138,7 +162,27 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
             // Conecta logSink para receber eventos BLE internos do X714
             (rfidReader as? X714Reader)?.logSink = { msg -> emitLog(msg) }
 
-            val ok = rfidReader.connect(getApplication())
+            // Tenta conectar até 3 vezes antes de declarar falha (pequeno delay entre tentativas)
+            var ok = false
+            val maxAttempts = 3
+            val retryDelayMs = 1000L
+            for (attempt in 1..maxAttempts) {
+                emitLog("Tentativa $attempt de $maxAttempts...")
+                Log.i(TAG, "connect attempt=$attempt/$maxAttempts reader=${rfidReader.readerId}")
+                try {
+                    ok = rfidReader.connect(getApplication())
+                } catch (e: Exception) {
+                    Log.e(TAG, "connect attempt exception", e)
+                    ok = false
+                }
+                val attemptElapsed = System.currentTimeMillis() - connectionStartMs
+                Log.i(TAG, "connect attempt end reader=${rfidReader.readerId} attempt=$attempt ok=$ok elapsed=${attemptElapsed}ms")
+                if (ok) break
+                if (attempt < maxAttempts) {
+                    emitLog("Tentativa $attempt falhou — nova tentativa em ${retryDelayMs}ms...")
+                    kotlinx.coroutines.delay(retryDelayMs)
+                }
+            }
             val elapsed = System.currentTimeMillis() - connectionStartMs
             Log.i(TAG, "connect end reader=${rfidReader.readerId} ok=$ok total=${elapsed}ms")
 
@@ -153,7 +197,13 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                 }
                 emitLog("Lendo configuração do leitor...")
                 val settings = _uiState.value.appSettings
-                settingsRepo.save(settings.copy(lastReaderId = rfidReader.readerId))
+                // Se for BLE, persiste também o MAC selecionado para permitir auto-reconexão
+                val macToSave = when (rfidReader) {
+                    is X714Reader -> rfidReader.targetMacAddress ?: settings.lastBleAddress
+                    is IH25Reader -> rfidReader.targetMacAddress ?: settings.lastBleAddress
+                    else -> settings.lastBleAddress
+                } ?: ""
+                settingsRepo.save(settings.copy(lastReaderId = rfidReader.readerId, lastBleAddress = macToSave))
                 observeReader(rfidReader)
                 // Lê config atual e aplica imediatamente para garantir modo correto (ex: EPC+TID)
                 val config = rfidReader.readConfig()

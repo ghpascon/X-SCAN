@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.smartx.rfidreader.app-mergeDebugResources-56:/values-zh/values-zh.xml",
+            "outputFile": "com.smartx.rfidreader.app-mergeDebugResources-58:/values-zh/values-zh.xml",
             "map": [
                 {
                     "source": "/home/gabriel/.gradle/caches/8.10.2/transforms/4c016fabf7edb8d57c49bcfd0e867dad/transformed/jetified-URFIDLibrary-v2.4.0307/res/values-zh/values-zh.xml",

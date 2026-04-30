@@ -21,6 +21,7 @@ import com.smartx.rfidreader.ui.main.reader.ReaderSelectionFragment
 import com.smartx.rfidreader.ui.main.reader.BleScanDialogFragment
 import com.smartx.rfidreader.ui.main.reader.ConnectionLogDialogFragment
 import com.smartx.rfidreader.readers.ih25.IH25Reader
+import com.smartx.rfidreader.readers.tsl1128.Tsl1128Reader
 import com.smartx.rfidreader.readers.x714.X714Reader
 import com.smartx.rfidreader.ui.main.reading.ReadingFragment
 import com.smartx.rfidreader.ui.sync.SyncActivity
@@ -144,6 +145,7 @@ class HomeFragment : Fragment() {
                         dialog.onDeviceSelected = { _, address ->
                             when (reader) {
                                 is IH25Reader -> reader.targetMacAddress = address
+                                is Tsl1128Reader -> reader.targetMacAddress = address
                                 is X714Reader -> reader.targetMacAddress = address
                             }
                             viewModel.connect(reader)

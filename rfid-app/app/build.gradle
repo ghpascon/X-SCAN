@@ -12,8 +12,8 @@ android {
         applicationId "com.smartx.rfidreader"
         minSdk 24
         targetSdk 34
-        versionCode 15
-        versionName "4.0.0"
+        versionCode 16
+        versionName "4.1.0"
     }
 
     buildTypes {
@@ -93,6 +93,10 @@ dependencies {
 
     // --- SDK IH25 (Honeywell) ---
     implementation(name: 'honeywell_rfid_sdk', ext: 'aar')
+
+    // --- SDK TSL 1128 ---
+    implementation(name: 'Rfid.AsciiProtocol-3.5.0-release', ext: 'aar')
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
 
     // --- SDK XR2 (Ubx / URFIDLibrary) ---
     implementation(name: 'URFIDLibrary-v2.4.0307', ext: 'aar')

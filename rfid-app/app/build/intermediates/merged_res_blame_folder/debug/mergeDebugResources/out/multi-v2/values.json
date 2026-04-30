@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.smartx.rfidreader.app-mergeDebugResources-56:/values/values.xml",
+            "outputFile": "com.smartx.rfidreader.app-mergeDebugResources-58:/values/values.xml",
             "map": [
                 {
                     "source": "/home/gabriel/.gradle/caches/8.10.2/transforms/deb2524203b19b78d20b0117712ee632/transformed/recyclerview-1.3.2/res/values/values.xml",

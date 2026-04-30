@@ -4,6 +4,7 @@ import com.smartx.rfidreader.core.reader.IRfidReader
 import com.smartx.rfidreader.readers.at907.AT907Reader
 import com.smartx.rfidreader.readers.c72.C72Reader
 import com.smartx.rfidreader.readers.ih25.IH25Reader
+import com.smartx.rfidreader.readers.tsl1128.Tsl1128Reader
 import com.smartx.rfidreader.readers.x714.X714Reader
 import com.smartx.rfidreader.readers.xr2.XR2Reader
 
@@ -22,6 +23,7 @@ object ReaderRegistry {
             AT907Reader(),
             C72Reader(),
             IH25Reader(),
+            Tsl1128Reader(),
             X714Reader(),
             XR2Reader()
         )

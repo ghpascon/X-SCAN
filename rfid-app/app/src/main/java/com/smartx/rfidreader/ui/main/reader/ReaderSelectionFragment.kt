@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.core.reader.ReaderConnectionState
 import com.smartx.rfidreader.readers.ih25.IH25Reader
+import com.smartx.rfidreader.readers.tsl1128.Tsl1128Reader
 import com.smartx.rfidreader.readers.x714.X714Reader
 import com.smartx.rfidreader.databinding.FragmentReaderSelectionBinding
 import com.smartx.rfidreader.ui.main.MainViewModel
@@ -56,6 +57,7 @@ class ReaderSelectionFragment : Fragment() {
                 // Repassa o MAC para qualquer leitor BLE
                 when (reader) {
                     is IH25Reader -> reader.targetMacAddress = address
+                    is Tsl1128Reader -> reader.targetMacAddress = address
                     is X714Reader -> reader.targetMacAddress = address
                 }
                 viewModel.connect(reader)

@@ -9,12 +9,17 @@ class BleDeviceAdapter(
     private val onSelect: (name: String, address: String) -> Unit
 ) : RecyclerView.Adapter<BleDeviceAdapter.ViewHolder>() {
 
-    private val devices = mutableListOf<Pair<String, String>>() // name, address
+    private val devices = mutableListOf<Triple<String, String, Boolean>>() // name, address, isPaired
 
-    fun addDevice(name: String, address: String) {
-        if (devices.none { it.second == address }) {
-            devices.add(Pair(name, address))
+    fun addDevice(name: String, address: String, isPaired: Boolean = false) {
+        val existing = devices.indexOfFirst { it.second == address }
+        if (existing == -1) {
+            devices.add(Triple(name, address, isPaired))
             notifyItemInserted(devices.size - 1)
+        } else if (isPaired && !devices[existing].third) {
+            // atualiza para sinalizar como pareado se ainda não estava
+            devices[existing] = Triple(devices[existing].first, address, true)
+            notifyItemChanged(existing)
         }
     }
 
@@ -26,9 +31,9 @@ class BleDeviceAdapter(
 
     inner class ViewHolder(private val binding: ItemBleDeviceBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(name: String, address: String) {
+        fun bind(name: String, address: String, isPaired: Boolean) {
             binding.textBleName.text = name
-            binding.textBleAddress.text = address
+            binding.textBleAddress.text = if (isPaired) "$address  •  Pareado" else address
             binding.root.setOnClickListener { onSelect(name, address) }
         }
     }
@@ -39,7 +44,7 @@ class BleDeviceAdapter(
     override fun getItemCount() = devices.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val (name, address) = devices[position]
-        holder.bind(name, address)
+        val (name, address, isPaired) = devices[position]
+        holder.bind(name, address, isPaired)
     }
 }

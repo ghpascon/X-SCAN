@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.smartx.rfidreader.app-mergeDebugResources-56:/values-sr/values-sr.xml",
+            "outputFile": "com.smartx.rfidreader.app-mergeDebugResources-58:/values-sr/values-sr.xml",
             "map": [
                 {
                     "source": "/home/gabriel/.gradle/caches/8.10.2/transforms/7b45dff998929ab6133d36421692903d/transformed/jetified-play-services-base-18.5.0/res/values-sr/values.xml",

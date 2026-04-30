@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.smartx.rfidreader"
-    android:versionCode="14"
-    android:versionName="3.2.0" >
-
+    android:versionCode="15"
+    android:versionName="4.0.0" > <!-- Allow TSL SDK (minSdk 26) to be merged without raising project minSdk -->
     <uses-sdk
         android:minSdkVersion="24"
         android:targetSdkVersion="34" />
 
     <!-- Permissões Bluetooth (cobre API 21–30 e 31+) -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
     <uses-permission
         android:name="android.permission.BLUETOOTH_CONNECT"
         android:minSdkVersion="31" />

@@ -72,7 +72,8 @@ class BleScanDialogFragment : DialogFragment() {
             val device = result.device
             val name = device.name?.takeIf { it.isNotBlank() } ?: "Desconhecido"
             val address = device.address ?: return
-            bleAdapter.addDevice(name, address)
+            val isPaired = device.bondState == android.bluetooth.BluetoothDevice.BOND_BONDED
+            bleAdapter.addDevice(name, address, isPaired)
         }
     }
 
@@ -145,6 +146,12 @@ class BleScanDialogFragment : DialogFragment() {
         binding.progressBleScan.visibility = View.VISIBLE
         binding.textBleScanStatus.text = getString(R.string.ble_scanning)
         binding.btnScanAgain.visibility = View.GONE
+
+        // Carrega primeiro os dispositivos já pareados (BT clássico + BLE pareado)
+        adapter.bondedDevices?.forEach { device ->
+            val name = device.name?.takeIf { it.isNotBlank() } ?: "Desconhecido"
+            bleAdapter.addDevice(name, device.address, isPaired = true)
+        }
 
         val settings = ScanSettings.Builder()
             .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)

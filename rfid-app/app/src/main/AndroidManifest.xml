@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Allow TSL SDK (minSdk 26) to be merged without raising project minSdk -->
+    <uses-sdk tools:overrideLibrary="com.uk.tsl.rfid.asciiprotocol" />
 
     <!-- Permissões Bluetooth (cobre API 21–30 e 31+) -->
     <uses-permission android:name="android.permission.BLUETOOTH" />

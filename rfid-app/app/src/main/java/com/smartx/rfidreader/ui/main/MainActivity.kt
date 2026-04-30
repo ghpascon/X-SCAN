@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import android.view.KeyEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
@@ -160,7 +161,7 @@ class MainActivity : AppCompatActivity() {
             addAction("android.rfid.FUN_KEY")
             addAction("android.intent.action.FUN_KEY")
         }
-        registerReceiver(at907TriggerReceiver, filter)
+        ContextCompat.registerReceiver(this, at907TriggerReceiver, filter, ContextCompat.RECEIVER_EXPORTED)
     }
 
     override fun onPause() {

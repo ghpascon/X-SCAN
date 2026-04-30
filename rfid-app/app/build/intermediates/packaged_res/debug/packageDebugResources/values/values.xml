@@ -166,7 +166,7 @@
     <string name="webhook_example_url">http://192.168.1.100:5000/api/v1/receive/x-scan</string>
     <string name="webhook_not_configured">Nenhum webhook configurado</string>
     <string name="webhook_saved">URL do webhook salva</string>
-    <style name="Base.Theme.RfidReader" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.RfidReader" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_primaryContainer</item>

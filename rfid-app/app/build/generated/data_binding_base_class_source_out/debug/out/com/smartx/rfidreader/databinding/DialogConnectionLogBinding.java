@@ -23,6 +23,9 @@ public final class DialogConnectionLogBinding implements ViewBinding {
   private final LinearLayout rootView;
 
   @NonNull
+  public final MaterialButton btnLogCancel;
+
+  @NonNull
   public final MaterialButton btnLogClose;
 
   @NonNull
@@ -38,9 +41,11 @@ public final class DialogConnectionLogBinding implements ViewBinding {
   public final TextView textLogTitle;
 
   private DialogConnectionLogBinding(@NonNull LinearLayout rootView,
-      @NonNull MaterialButton btnLogClose, @NonNull ProgressBar progressConnect,
-      @NonNull ScrollView scrollLog, @NonNull TextView textLog, @NonNull TextView textLogTitle) {
+      @NonNull MaterialButton btnLogCancel, @NonNull MaterialButton btnLogClose,
+      @NonNull ProgressBar progressConnect, @NonNull ScrollView scrollLog,
+      @NonNull TextView textLog, @NonNull TextView textLogTitle) {
     this.rootView = rootView;
+    this.btnLogCancel = btnLogCancel;
     this.btnLogClose = btnLogClose;
     this.progressConnect = progressConnect;
     this.scrollLog = scrollLog;
@@ -75,6 +80,12 @@ public final class DialogConnectionLogBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.btnLogCancel;
+      MaterialButton btnLogCancel = ViewBindings.findChildViewById(rootView, id);
+      if (btnLogCancel == null) {
+        break missingId;
+      }
+
       id = R.id.btnLogClose;
       MaterialButton btnLogClose = ViewBindings.findChildViewById(rootView, id);
       if (btnLogClose == null) {
@@ -105,8 +116,8 @@ public final class DialogConnectionLogBinding implements ViewBinding {
         break missingId;
       }
 
-      return new DialogConnectionLogBinding((LinearLayout) rootView, btnLogClose, progressConnect,
-          scrollLog, textLog, textLogTitle);
+      return new DialogConnectionLogBinding((LinearLayout) rootView, btnLogCancel, btnLogClose,
+          progressConnect, scrollLog, textLog, textLogTitle);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

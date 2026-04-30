@@ -46,6 +46,10 @@ class ConnectionLogDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnLogClose.setOnClickListener { dismiss() }
+        binding.btnLogCancel.setOnClickListener {
+            viewModel.cancelConnection()
+            dismiss()
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -65,6 +69,8 @@ class ConnectionLogDialogFragment : DialogFragment() {
                     viewModel.uiState.collect { state ->
                         val connecting = state.isConnecting
                         binding.progressConnect.visibility =
+                            if (connecting) View.VISIBLE else View.GONE
+                        binding.btnLogCancel.visibility =
                             if (connecting) View.VISIBLE else View.GONE
 
                         if (!connecting) {

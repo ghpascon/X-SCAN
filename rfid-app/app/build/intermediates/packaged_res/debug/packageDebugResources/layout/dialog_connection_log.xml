@@ -50,14 +50,29 @@
 
     </ScrollView>
 
-    <!-- Botão fechar -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogClose"
-        style="@style/Widget.Material3.Button.TextButton"
-        android:layout_width="wrap_content"
+    <!-- Botões de ação -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="8dp"
-        android:text="@string/btn_log_close" />
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="8dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogCancel"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_cancel"
+            android:visibility="gone" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogClose"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_log_close" />
+
+    </LinearLayout>
 
 </LinearLayout>

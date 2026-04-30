@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.SystemClock
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import android.view.KeyEvent
 import androidx.activity.OnBackPressedCallback
@@ -37,6 +39,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     val viewModel: MainViewModel by viewModels()
+
+    private var backPressedTime = 0L
 
     private val at907TriggerReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -128,7 +132,17 @@ class MainActivity : AppCompatActivity() {
                 if (supportFragmentManager.backStackEntryCount > 0) {
                     supportFragmentManager.popBackStack()
                 } else {
-                    finish()
+                    val now = SystemClock.elapsedRealtime()
+                    if (now - backPressedTime < 2000L) {
+                        finish()
+                    } else {
+                        backPressedTime = now
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Pressione voltar novamente para sair",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         })

@@ -78,6 +78,7 @@ id btnDeleteEvent
 id btnDialogSave
 id btnDialogUseExample
 id btnDisconnect
+id btnLogCancel
 id btnLogClose
 id btnReloadConfig
 id btnRemoveTarget

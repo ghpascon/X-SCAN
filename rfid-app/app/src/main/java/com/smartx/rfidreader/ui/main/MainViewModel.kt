@@ -16,6 +16,7 @@ import com.smartx.rfidreader.core.settings.AppSettings
 import com.smartx.rfidreader.core.settings.AppSettingsRepository
 import com.smartx.rfidreader.readers.x714.X714Reader
 import com.smartx.rfidreader.readers.ih25.IH25Reader
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -84,6 +85,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     private val _connectionLog = MutableStateFlow<List<String>>(emptyList())
     val connectionLog: StateFlow<List<String>> = _connectionLog.asStateFlow()
     private var connectionStartMs: Long = 0L
+    private var connectJob: Job? = null
 
     private fun emitLog(msg: String) {
         val elapsed = (System.currentTimeMillis() - connectionStartMs) / 1000.0
@@ -150,9 +152,16 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    fun cancelConnection() {
+        connectJob?.cancel()
+        connectJob = null
+        _uiState.update { it.copy(isConnecting = false, errorMessage = null) }
+        emitLog("Conexão cancelada pelo usuário.")
+    }
+
     fun connect(rfidReader: IRfidReader) {
         if (_uiState.value.isConnecting) return
-        viewModelScope.launch {
+        connectJob = viewModelScope.launch {
             connectionStartMs = System.currentTimeMillis()
             _connectionLog.value = emptyList()
             emitLog("Iniciando conexão com ${rfidReader.displayName}...")
@@ -219,6 +228,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
             }
             // Limpa logSink para evitar referência ao ViewModel
             (rfidReader as? X714Reader)?.logSink = null
+            connectJob = null
         }
     }
 

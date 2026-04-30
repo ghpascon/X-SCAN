@@ -27,7 +27,8 @@ class MainActivity : AppCompatActivity() {
             KeyEvent.KEYCODE_FOCUS,
             293,
             KeyEvent.KEYCODE_HEADSETHOOK,
-            KeyEvent.KEYCODE_BUTTON_R1
+            KeyEvent.KEYCODE_BUTTON_R1,
+            523   // XR2 handle trigger
         )
         private val AT907_TRIGGER_KEYCODES = intArrayOf(133, 134, 135)
 

@@ -12,7 +12,7 @@ public final class RadarScanSelectDialog extends com.google.android.material.bot
     @org.jetbrains.annotations.NotNull()
     private final kotlin.jvm.functions.Function1<java.util.List<java.lang.String>, kotlin.Unit> onTagsSelected = null;
     @org.jetbrains.annotations.NotNull()
-    private static final int[] TRIGGER_KEYCODES = {131, 80, 293, 79, 103};
+    private static final int[] TRIGGER_KEYCODES = {131, 80, 293, 79, 103, 523};
     @org.jetbrains.annotations.Nullable()
     private com.smartx.rfidreader.databinding.DialogRadarScanBinding _binding;
     @org.jetbrains.annotations.NotNull()

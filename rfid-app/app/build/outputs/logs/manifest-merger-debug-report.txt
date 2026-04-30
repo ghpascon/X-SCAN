@@ -74,6 +74,7 @@ MERGED from [:atid.system.jcomm_v1.23.2022062000:] /home/gabriel/.gradle/caches/
 MERGED from [:atid.util_v1.19.2022062000:] /home/gabriel/.gradle/caches/8.10.2/transforms/83771e1e7f870f7edf9c5cc592fca963/transformed/jetified-atid.util_v1.19.2022062000/AndroidManifest.xml:2:1-11:12
 MERGED from [:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:2:1-17:12
 MERGED from [:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transforms/c6e4831b8df8f3489bd81da198ea13c5/transformed/jetified-honeywell_rfid_sdk/AndroidManifest.xml:2:1-19:12
+MERGED from [:URFIDLibrary-v2.4.0307:] /home/gabriel/.gradle/caches/8.10.2/transforms/4c016fabf7edb8d57c49bcfd0e867dad/transformed/jetified-URFIDLibrary-v2.4.0307/AndroidManifest.xml:2:1-9:12
 	package
 		INJECTED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml
 	android:versionName
@@ -369,6 +370,8 @@ MERGED from [:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.
 MERGED from [:DeviceAPI_ver20251103_release:] /home/gabriel/.gradle/caches/8.10.2/transforms/432b581c89bc8153685696d644303e00/transformed/jetified-DeviceAPI_ver20251103_release/AndroidManifest.xml:7:5-9:41
 MERGED from [:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transforms/c6e4831b8df8f3489bd81da198ea13c5/transformed/jetified-honeywell_rfid_sdk/AndroidManifest.xml:7:5-9:41
 MERGED from [:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transforms/c6e4831b8df8f3489bd81da198ea13c5/transformed/jetified-honeywell_rfid_sdk/AndroidManifest.xml:7:5-9:41
+MERGED from [:URFIDLibrary-v2.4.0307:] /home/gabriel/.gradle/caches/8.10.2/transforms/4c016fabf7edb8d57c49bcfd0e867dad/transformed/jetified-URFIDLibrary-v2.4.0307/AndroidManifest.xml:5:5-7:41
+MERGED from [:URFIDLibrary-v2.4.0307:] /home/gabriel/.gradle/caches/8.10.2/transforms/4c016fabf7edb8d57c49bcfd0e867dad/transformed/jetified-URFIDLibrary-v2.4.0307/AndroidManifest.xml:5:5-7:41
 	android:targetSdkVersion
 		INJECTED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml
 	android:minSdkVersion

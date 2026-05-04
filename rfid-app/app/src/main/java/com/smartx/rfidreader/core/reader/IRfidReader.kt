@@ -14,10 +14,10 @@ import kotlinx.coroutines.flow.StateFlow
  */
 interface IRfidReader {
 
-    /** Identificador único do modelo (ex.: "AT907", "C72", "IH25") */
+    /** Identificador único do modelo (ex.: "C72", "IH25") */
     val readerId: String
 
-    /** Nome legível para exibição (ex.: "Chainway AT907") */
+    /** Nome legível para exibição (ex.: "Chainway C72") */
     val displayName: String
 
     /** true se o leitor se conecta via Bluetooth LE (requer seleção de dispositivo) */

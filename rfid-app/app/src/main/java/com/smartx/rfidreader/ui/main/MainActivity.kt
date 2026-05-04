@@ -1,9 +1,5 @@
 package com.smartx.rfidreader.ui.main
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.os.SystemClock
 import android.widget.Toast
@@ -32,8 +28,6 @@ class MainActivity : AppCompatActivity() {
             KeyEvent.KEYCODE_BUTTON_R1,
             523   // XR2 handle trigger
         )
-        private val AT907_TRIGGER_KEYCODES = intArrayOf(133, 134, 135)
-
         const val TAG_HOME = "home"
     }
 
@@ -41,18 +35,6 @@ class MainActivity : AppCompatActivity() {
     val viewModel: MainViewModel by viewModels()
 
     private var backPressedTime = 0L
-
-    private val at907TriggerReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val keyCode = intent.getIntExtra("keyCode", 0)
-                .let { if (it == 0) intent.getIntExtra("keycode", 0) else it }
-            val isKeyDown = intent.getBooleanExtra("keydown", false)
-            if (keyCode in AT907_TRIGGER_KEYCODES) {
-                if (isKeyDown) viewModel.onTriggerPressed()
-                else viewModel.onTriggerReleased()
-            }
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -170,17 +152,4 @@ class MainActivity : AppCompatActivity() {
         return super.dispatchKeyEvent(event)
     }
 
-    override fun onResume() {
-        super.onResume()
-        val filter = IntentFilter().apply {
-            addAction("android.rfid.FUN_KEY")
-            addAction("android.intent.action.FUN_KEY")
-        }
-        ContextCompat.registerReceiver(this, at907TriggerReceiver, filter, ContextCompat.RECEIVER_EXPORTED)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        try { unregisterReceiver(at907TriggerReceiver) } catch (_: Exception) {}
-    }
 }

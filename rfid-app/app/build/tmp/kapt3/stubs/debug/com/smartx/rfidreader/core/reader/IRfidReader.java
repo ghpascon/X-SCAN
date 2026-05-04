@@ -12,13 +12,13 @@ package com.smartx.rfidreader.core.reader;
 public abstract interface IRfidReader {
     
     /**
-     * Identificador único do modelo (ex.: "AT907", "C72", "IH25")
+     * Identificador único do modelo (ex.: "C72", "IH25")
      */
     @org.jetbrains.annotations.NotNull()
     public abstract java.lang.String getReaderId();
     
     /**
-     * Nome legível para exibição (ex.: "Chainway AT907")
+     * Nome legível para exibição (ex.: "Chainway C72")
      */
     @org.jetbrains.annotations.NotNull()
     public abstract java.lang.String getDisplayName();

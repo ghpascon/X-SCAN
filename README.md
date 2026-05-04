@@ -17,9 +17,8 @@ Suporta múltiplos modelos de leitor por meio de uma interface unificada; adicio
    - 4.4 [ReaderConnectionState](#44-readerconnectionstate)
    - 4.5 [ReaderRegistry](#45-readerregistry)
 5. [Leitores Implementados](#5-leitores-implementados)
-   - 5.1 [AT907 (Chainway)](#51-at907-chainway)
-   - 5.2 [C72 (Chainway)](#52-c72-chainway)
-   - 5.3 [IH25 (Honeywell) — BLE](#53-ih25-honeywell--ble)
+   - 5.1 [C72 (Chainway)](#51-c72-chainway)
+   - 5.2 [IH25 (Honeywell) — BLE](#52-ih25-honeywell--ble)
 6. [Como Adicionar um Novo Leitor](#6-como-adicionar-um-novo-leitor)
 7. [Camada de Persistência](#7-camada-de-persistência)
    - 7.1 [AppSettings / DataStore](#71-appsettings--datastore)
@@ -83,7 +82,7 @@ O app permite:
                      │  IRfidReader.tagFlow / connect / etc.
 ┌────────────────────▼────────────────────────────────┐
 │              Reader Layer (readers/*)                │
-│  AT907Reader  │  C72Reader  │  IH25Reader            │
+│       C72Reader  │  IH25Reader                      │
 │        implements IRfidReader                        │
 └────────────────────┬────────────────────────────────┘
                      │
@@ -130,8 +129,6 @@ app/src/main/java/com/smartx/rfidreader/
 │       └── GpsHelper.kt             # Captura localização GPS (FusedLocation, timeout 5s)
 │
 ├── readers/
-│   ├── at907/
-│   │   └── AT907Reader.kt           # SDK ATID (AAR)
 │   ├── c72/
 │   │   └── C72Reader.kt             # SDK Chainway DeviceAPI (AAR)
 │   └── ih25/
@@ -174,8 +171,8 @@ Interface que deve ser implementada por **todo leitor RFID**. O ViewModel e o re
 
 ```kotlin
 interface IRfidReader {
-    val readerId: String           // ID único como "AT907", "C72", "IH25"
-    val displayName: String        // Nome de exibição como "Chainway AT907"
+    val readerId: String           // ID único como "C72", "IH25"
+    val displayName: String        // Nome de exibição como "Chainway C72"
     val isBle: Boolean             // true → fluxo de seleção BLE é ativado
 
     val connectionState: StateFlow<ReaderConnectionState>
@@ -242,7 +239,6 @@ data class ReaderConfig(
 >
 > | Leitor | Unidade interna do SDK     | Conversão                                          |
 > | ------ | -------------------------- | -------------------------------------------------- |
-> | AT907  | Décimos de dBm             | `txPower × 10` → `setPower(300)` = 30 dBm          |
 > | C72    | dBm                        | direto `setPower(30)`                              |
 > | IH25   | Centidécimos de dBm (cdBm) | `txPower × 100` → `setAntennaPower(3000)` = 30 dBm |
 
@@ -273,7 +269,6 @@ Lista centrale de todos os leitores disponíveis. **Este é o único lugar onde 
 object ReaderRegistry {
     val availableReaders: List<IRfidReader> by lazy {
         listOf(
-            AT907Reader(),
             C72Reader(),
             IH25Reader()
             // ← adicione NovoLeitorReader() aqui
@@ -289,26 +284,7 @@ object ReaderRegistry {
 
 ## 5. Leitores Implementados
 
-### 5.1 AT907 (Chainway)
-
-**Arquivo:** `readers/at907/AT907Reader.kt`  
-**SDK:** `com.atid.lib.dev` (AAR: `atid.dev.rfid_v2.32.*` + auxiliares)
-
-| Característica      | Detalhe                                                                                       |
-| ------------------- | --------------------------------------------------------------------------------------------- |
-| `readerId`          | `"AT907"`                                                                                     |
-| `isBle`             | `false` — módulo RFID embarcado                                                               |
-| Conexão             | `ATRfidManager.getInstance().connect()`                                                       |
-| Inventário          | `r.inventory6cTag()`                                                                          |
-| Unidade de potência | Décimos de dBm (`30 dBm → 300`)                                                               |
-| TID                 | Não suportado neste SDK — `tid` sempre vazio                                                  |
-| Thread obrigatória  | **Main thread** — SDK cria Handlers internamente                                              |
-| Gatilho físico      | Broadcast `android.rfid.FUN_KEY` / `android.intent.action.FUN_KEY` com keycodes 133, 134, 135 |
-| EPC strip           | SDK prefixa 2 bytes de PC word na string EPC → remove os 4 primeiros chars hex                |
-
----
-
-### 5.2 C72 (Chainway)
+### 5.1 C72 (Chainway)
 
 **Arquivo:** `readers/c72/C72Reader.kt`  
 **SDK:** `com.rscja.deviceapi` (AAR: `DeviceAPI_ver20251103_release`)
@@ -326,7 +302,7 @@ object ReaderRegistry {
 
 ---
 
-### 5.3 IH25 (Honeywell) — BLE
+### 5.2 IH25 (Honeywell) — BLE
 
 **Arquivo:** `readers/ih25/IH25Reader.kt`  
 **SDK:** `com.honeywell.rfidservice` (AAR: `honeywell_rfid_sdk`)
@@ -459,7 +435,6 @@ Em `core/registry/ReaderRegistry.kt`:
 ```kotlin
 val availableReaders: List<IRfidReader> by lazy {
     listOf(
-        AT907Reader(),
         C72Reader(),
         IH25Reader(),
         NovoModeloReader()   // ← adicionar aqui
@@ -483,12 +458,6 @@ private val TRIGGER_KEYCODES = intArrayOf(
     293,
     // ← adicionar novo keycode aqui
 )
-
-// Para leitores que usam BroadcastReceiver (como AT907):
-val filter = IntentFilter().apply {
-    addAction("android.rfid.FUN_KEY")
-    addAction("seu.custom.ACTION")   // ← adicionar aqui
-}
 ```
 
 ---
@@ -595,7 +564,6 @@ Host único (Single-Activity). Responsabilidades:
 
 - Hospedar os Fragments em `fragmentContainer`
 - Capturar `KeyEvent` do gatilho físico e delegar a `viewModel.onTriggerPressed/Released()`
-- Registrar `BroadcastReceiver` para o AT907 (broadcast de tecla especial)
 - Gerenciar back stack
 
 ### `HomeFragment`
@@ -647,17 +615,11 @@ O gatilho físico pode chegar de **três formas** diferentes dependendo do hardw
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │ 1. KeyEvent (padrão Android)                                 │
-│    Keycodes: F1, FOCUS, 293, HEADSETHOOK, BUTTON_R1          │
+│    Keycodes: F1, FOCUS, 293, HEADSETHOOK, BUTTON_R1, 523    │
 │    → MainActivity.dispatchKeyEvent()                         │
 │       └─► viewModel.onTriggerPressed() / onTriggerReleased() │
 │                                                              │
-│ 2. BroadcastReceiver (AT907)                                 │
-│    Actions: "android.rfid.FUN_KEY" / "android.intent.action.FUN_KEY" │
-│    Keycodes: 133, 134, 135                                   │
-│    → at907TriggerReceiver.onReceive()                        │
-│       └─► viewModel.onTriggerPressed() / onTriggerReleased() │
-│                                                              │
-│ 3. Callback do SDK (IH25)                                    │
+│ 2. Callback do SDK (IH25)                                    │
 │    → EventListener.onRfidTriggered(pressed)                  │
 │       └─► IH25Reader.onTriggerPressed() / onTriggerReleased()│
 └─────────────────────────────────────────────────────────────┘
@@ -737,7 +699,6 @@ Cada inventário é enviado como um único HTTP POST `Content-Type: application/
 | `com.google.android.gms:play-services-location`    | 21.3.0   | GPS (FusedLocation)               |
 | `androidx.lifecycle:lifecycle-viewmodel-ktx`       | 2.8.5    | ViewModel + coroutines            |
 | `org.jetbrains.kotlinx:kotlinx-coroutines-android` | 1.8.1    | Coroutines                        |
-| SDK AT907 (AAR)                                    | v2.32    | `com.atid.lib.dev`                |
 | SDK C72 (AAR)                                      | 20251103 | `com.rscja.deviceapi`             |
 | SDK IH25 (AAR)                                     | —        | `com.honeywell.rfidservice`       |
 

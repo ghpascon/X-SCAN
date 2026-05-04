@@ -52,6 +52,9 @@ class ConfigFragment : Fragment() {
     // -------------------------------------------------------------------------
 
     private fun setupReaderConfigSection() {
+        binding.sliderPower.addOnChangeListener { _, value, _ ->
+            binding.textPowerValue.text = "${value.toInt()} dBm"
+        }
         binding.btnApplyConfig.setOnClickListener {
             val config = buildReaderConfigFromInputs() ?: return@setOnClickListener
             viewModel.saveConfig(config)
@@ -62,14 +65,7 @@ class ConfigFragment : Fragment() {
     }
 
     private fun buildReaderConfigFromInputs(): ReaderConfig? {
-        val power = binding.editPower.text.toString().toIntOrNull() ?: run {
-            showSnackbar(getString(R.string.error_invalid_power))
-            return null
-        }
-        if (power !in 5..33) {
-            showSnackbar(getString(R.string.error_power_range))
-            return null
-        }
+        val power = binding.sliderPower.value.toInt()
         val session = binding.spinnerSession.selectedItemPosition
         return ReaderConfig(txPower = power, session = session)
     }
@@ -179,7 +175,9 @@ class ConfigFragment : Fragment() {
         binding.progressSaving.visibility = if (state.isSavingConfig) View.VISIBLE else View.GONE
 
         if (!state.isSavingConfig) {
-            binding.editPower.setText(state.config.txPower.toString())
+            val power = state.config.txPower.toFloat().coerceIn(5f, 33f)
+            binding.sliderPower.value = power
+            binding.textPowerValue.text = "${power.toInt()} dBm"
             binding.spinnerSession.setSelection(state.config.session.coerceIn(0, 3))
         }
     }

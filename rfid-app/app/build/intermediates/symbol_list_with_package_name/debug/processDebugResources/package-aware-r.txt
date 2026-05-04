@@ -3420,7 +3420,6 @@ id east
 id edge
 id editDialogWebhookUrl
 id editEpc
-id editPower
 id editPrefix
 id edit_query
 id edit_text_id
@@ -3501,7 +3500,6 @@ id labeled
 id layout
 id layoutDialogWebhookUrl
 id layoutEpcInput
-id layoutPower
 id layoutPrefix
 id layoutSyncProgress
 id left

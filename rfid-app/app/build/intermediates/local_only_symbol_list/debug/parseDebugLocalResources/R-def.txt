@@ -116,7 +116,6 @@ id chipGroupPrefixes
 id chipStatus
 id editDialogWebhookUrl
 id editEpc
-id editPower
 id editPrefix
 id fragmentContainer
 id headerApp
@@ -133,7 +132,6 @@ id imgSyncStatus
 id labelSession
 id layoutDialogWebhookUrl
 id layoutEpcInput
-id layoutPower
 id layoutPrefix
 id layoutSyncProgress
 id limitBar

@@ -343,6 +343,14 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         _tags.value = emptyList()
     }
 
+    fun stopInventory() {
+        val r = reader ?: return
+        if (r.isInventorying()) {
+            r.stopInventory()
+            _uiState.update { it.copy(isInventorying = false) }
+        }
+    }
+
     fun stopInventoryAndClear() {
         val r = reader ?: return
         if (r.isInventorying()) {

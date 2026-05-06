@@ -68,8 +68,6 @@ class ReadingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupButtons()
-        // Limpa lista de tags ao entrar na tela de leitura
-        viewModel.clearTags()
         observeState()
     }
 
@@ -214,7 +212,7 @@ class ReadingFragment : Fragment() {
         super.onStop()
         toneGenerator?.release()
         toneGenerator = null
-        viewModel.stopInventoryAndClear()
+        viewModel.stopInventory()
     }
 
     override fun onDestroyView() {

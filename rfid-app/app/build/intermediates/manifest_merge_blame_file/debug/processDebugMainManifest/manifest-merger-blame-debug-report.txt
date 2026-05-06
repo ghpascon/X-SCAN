@@ -1,8 +1,8 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 3    package="com.smartx.rfidreader"
-4    android:versionCode="17"
-5    android:versionName="5.0.0" > <!-- Allow TSL SDK (minSdk 26) to be merged without raising project minSdk -->
+4    android:versionCode="18"
+5    android:versionName="5.0.1" > <!-- Allow TSL SDK (minSdk 26) to be merged without raising project minSdk -->
 6    <uses-sdk
 6-->/home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:6:5-71
 7        android:minSdkVersion="24"

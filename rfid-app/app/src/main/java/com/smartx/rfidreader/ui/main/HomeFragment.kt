@@ -63,6 +63,7 @@ class HomeFragment : Fragment() {
             val connected =
                 viewModel.uiState.value.connectionState == ReaderConnectionState.CONNECTED
             if (connected) {
+                viewModel.clearTags()
                 (requireActivity() as MainActivity).navigateTo(ReadingFragment())
             } else {
                 // Redireciona para o leitor se não estiver conectado

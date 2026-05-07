@@ -20,6 +20,10 @@
         "source": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-main-62:/drawable/ic_nav_config.xml"
     },
     {
+        "merged": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-debug-60:/layout_activity_base.xml.flat",
+        "source": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-main-62:/layout/activity_base.xml"
+    },
+    {
         "merged": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-debug-60:/drawable_ic_launcher_foreground.xml.flat",
         "source": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-main-62:/drawable/ic_launcher_foreground.xml"
     },
@@ -104,8 +108,8 @@
         "source": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-main-62:/drawable/bg_chip_inactive.xml"
     },
     {
-        "merged": "com.smartx.rfidreader.app-debug-60:/layout_fragment_config.xml.flat",
-        "source": "com.smartx.rfidreader.app-main-62:/layout/fragment_config.xml"
+        "merged": "com.smartx.rfidreader.app-debug-60:/layout_header_app.xml.flat",
+        "source": "com.smartx.rfidreader.app-main-62:/layout/header_app.xml"
     },
     {
         "merged": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-debug-60:/layout_fragment_home.xml.flat",
@@ -136,12 +140,20 @@
         "source": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-main-62:/drawable/badge_background.xml"
     },
     {
+        "merged": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-debug-60:/layout_fragment_sync.xml.flat",
+        "source": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-main-62:/layout/fragment_sync.xml"
+    },
+    {
         "merged": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-debug-60:/drawable_bg_spinner.xml.flat",
         "source": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-main-62:/drawable/bg_spinner.xml"
     },
     {
         "merged": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-debug-60:/layout_header_app.xml.flat",
         "source": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-main-62:/layout/header_app.xml"
+    },
+    {
+        "merged": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-debug-60:/layout_footer_app.xml.flat",
+        "source": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-main-62:/layout/footer_app.xml"
     },
     {
         "merged": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-debug-60:/layout_activity_selection.xml.flat",

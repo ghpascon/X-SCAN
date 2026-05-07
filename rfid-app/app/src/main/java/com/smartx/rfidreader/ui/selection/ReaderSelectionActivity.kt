@@ -2,9 +2,9 @@ package com.smartx.rfidreader.ui.selection
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -12,20 +12,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.smartx.rfidreader.databinding.ActivitySelectionBinding
+import com.smartx.rfidreader.ui.base.BaseActivity
 import com.smartx.rfidreader.ui.main.MainActivity
 import kotlinx.coroutines.launch
 
-class ReaderSelectionActivity : AppCompatActivity() {
+class ReaderSelectionActivity : BaseActivity<ActivitySelectionBinding>() {
 
-    private lateinit var binding: ActivitySelectionBinding
     private val viewModel: ReaderSelectionViewModel by viewModels()
     private lateinit var adapter: ReaderListAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySelectionBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun inflateBinding(inflater: LayoutInflater) = ActivitySelectionBinding.inflate(inflater)
 
+    override fun onActivityReady(savedInstanceState: Bundle?) {
         setupRecyclerView()
         observeState()
     }
@@ -44,25 +42,22 @@ class ReaderSelectionActivity : AppCompatActivity() {
                 viewModel.uiState.collect { state ->
                     adapter.submitList(state.readers)
 
-                    // Atualiza header (badge) na activity de seleção
-                    try {
-                        binding.headerApp.headerReaderName.text = state.connectedReader?.displayName
-                            ?: getString(com.smartx.rfidreader.R.string.selection_title)
-
-                        val statusText = when {
-                            state.isConnecting -> "Conectando..."
-                            state.connectedReader != null -> "Conectado"
-                            else -> "Desconectado"
-                        }
-                        binding.headerApp.headerConnectionStatus.text = statusText
-
-                        val statusDrawable = when {
-                            state.connectedReader != null -> com.smartx.rfidreader.R.drawable.ic_status_connected
-                            state.isConnecting -> com.smartx.rfidreader.R.drawable.ic_status_connected
-                            else -> com.smartx.rfidreader.R.drawable.ic_status_disconnected
-                        }
-                        binding.headerApp.headerStatusDot.setBackgroundResource(statusDrawable)
-                    } catch (_: Exception) {}
+                    val statusText = when {
+                        state.isConnecting -> "Conectando..."
+                        state.connectedReader != null -> "Conectado"
+                        else -> "Desconectado"
+                    }
+                    val statusDrawable = when {
+                        state.connectedReader != null -> com.smartx.rfidreader.R.drawable.ic_status_connected
+                        state.isConnecting -> com.smartx.rfidreader.R.drawable.ic_status_connected
+                        else -> com.smartx.rfidreader.R.drawable.ic_status_disconnected
+                    }
+                    updateHeader(
+                        state.connectedReader?.displayName
+                            ?: getString(com.smartx.rfidreader.R.string.selection_title),
+                        statusText,
+                        statusDrawable
+                    )
 
                     binding.progressBar.visibility =
                         if (state.isConnecting) View.VISIBLE else View.GONE

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Apenas conteúdo — header e footer ficam em activity_base.xml -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,13 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.selection.ReaderSelectionActivity">
-
-    <include
-        android:id="@+id/headerApp"
-        layout="@layout/header_app"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
 
     <TextView
         android:id="@+id/textTitle"
@@ -24,7 +18,7 @@
         android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerApp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textSubtitle"

@@ -1,10 +1,10 @@
 package com.smartx.rfidreader.ui.sync
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -13,29 +13,21 @@ import com.google.android.material.snackbar.Snackbar
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.core.db.EventEntity
 import com.smartx.rfidreader.databinding.ActivitySyncBinding
+import com.smartx.rfidreader.ui.base.BaseActivity
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-class SyncActivity : AppCompatActivity() {
+class SyncActivity : BaseActivity<ActivitySyncBinding>() {
 
-    private lateinit var binding: ActivitySyncBinding
     private val viewModel: SyncViewModel by viewModels()
     private lateinit var eventAdapter: EventListAdapter
     private lateinit var progressAdapter: SyncProgressAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySyncBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        // Use the global header include for navigation (no toolbar in this layout)
-        binding.headerApp.headerLogo.setOnClickListener { finish() }
+    override fun inflateBinding(inflater: LayoutInflater) = ActivitySyncBinding.inflate(inflater)
 
-        // Inicializa header na tela de sincronização (não possui acesso ao MainViewModel aqui)
-        try {
-            binding.headerApp.headerReaderName.text = getString(R.string.nav_sync)
-            binding.headerApp.headerConnectionStatus.text = getString(R.string.status_disconnected)
-            binding.headerApp.headerStatusDot.setBackgroundResource(com.smartx.rfidreader.R.drawable.ic_status_disconnected)
-        } catch (_: Exception) {}
+    override fun onActivityReady(savedInstanceState: Bundle?) {
+        // Clique no logo volta para a tela anterior
+        headerBinding.headerLogo.setOnClickListener { finish() }
 
         setupEventsList()
         setupProgressList()

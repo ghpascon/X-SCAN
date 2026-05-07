@@ -3281,6 +3281,7 @@ id autoCompleteToEnd
 id autoCompleteToStart
 id badgePending
 id barrier
+id baseContent
 id baseline
 id beginOnFirstDraw
 id beginning
@@ -3446,6 +3447,8 @@ id fitXY
 id fixed
 id flip
 id floating
+id footerApp
+id footerDeviceId
 id forever
 id fragmentContainer
 id fragment_container_view_tag
@@ -3946,6 +3949,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_base
 layout activity_main
 layout activity_selection
 layout activity_sync
@@ -3969,11 +3973,13 @@ layout dialog_ble_scan
 layout dialog_connection_log
 layout dialog_radar_scan
 layout dialog_webhook_config
+layout footer_app
 layout fragment_config
 layout fragment_home
 layout fragment_radar
 layout fragment_reader_selection
 layout fragment_reading
+layout fragment_sync
 layout header_app
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity

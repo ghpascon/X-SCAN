@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.smartx.rfidreader.RfidApplication
 import com.smartx.rfidreader.core.location.GpsHelper
 import com.smartx.rfidreader.core.reader.IRfidReader
+import com.smartx.rfidreader.core.reader.ActiveReaderState
 import com.smartx.rfidreader.core.reader.ReaderConfig
 import com.smartx.rfidreader.core.reader.ReaderConnectionState
 import com.smartx.rfidreader.core.reader.RfidTag
@@ -110,6 +111,16 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             settingsRepo.flow.collect { settings ->
                 _uiState.update { it.copy(appSettings = settings) }
+            }
+        }
+        // Publica estado do leitor no singleton global — visível por qualquer Activity
+        viewModelScope.launch {
+            _uiState.collect { state ->
+                ActiveReaderState.update(
+                    readerName = reader?.displayName ?: "Nenhum leitor",
+                    connectionState = state.connectionState,
+                    isInventorying = state.isInventorying
+                )
             }
         }
     }

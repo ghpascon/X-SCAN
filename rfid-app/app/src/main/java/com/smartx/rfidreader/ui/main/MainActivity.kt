@@ -2,12 +2,11 @@ package com.smartx.rfidreader.ui.main
 
 import android.os.Bundle
 import android.os.SystemClock
+import android.view.LayoutInflater
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import android.view.KeyEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,9 +14,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.databinding.ActivityMainBinding
 import com.smartx.rfidreader.core.reader.ReaderConnectionState
+import com.smartx.rfidreader.ui.base.BaseActivity
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     companion object {
         private val TRIGGER_KEYCODES = intArrayOf(
@@ -31,17 +31,14 @@ class MainActivity : AppCompatActivity() {
         const val TAG_HOME = "home"
     }
 
-    private lateinit var binding: ActivityMainBinding
     val viewModel: MainViewModel by viewModels()
 
     private var backPressedTime = 0L
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun inflateBinding(inflater: LayoutInflater) = ActivityMainBinding.inflate(inflater)
 
-        // Observe and populate header badge (reader + connection)
+    override fun onActivityReady(savedInstanceState: Bundle?) {
+        // Observa e atualiza o header global (leitor + status de conexão)
         observeHeader()
 
         if (savedInstanceState == null) {
@@ -57,28 +54,20 @@ class MainActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     val name = viewModel.reader?.displayName ?: getString(R.string.nav_reader)
-                    try {
-                        binding.headerApp.headerReaderName.text = name
-
-                        val statusText = when {
-                            state.isInventorying -> "Lendo"
-                            state.connectionState == ReaderConnectionState.CONNECTING -> "Conectando..."
-                            state.connectionState == ReaderConnectionState.CONNECTED -> "Conectado"
-                            state.connectionState == ReaderConnectionState.ERROR -> "Erro"
-                            else -> "Desconectado"
-                        }
-                        binding.headerApp.headerConnectionStatus.text = statusText
-
-                        val statusDrawable = when {
-                            state.isInventorying -> R.drawable.ic_status_active
-                            state.connectionState == ReaderConnectionState.CONNECTED -> R.drawable.ic_status_connected
-                            state.connectionState == ReaderConnectionState.CONNECTING -> R.drawable.ic_status_connected
-                            else -> R.drawable.ic_status_disconnected
-                        }
-                        binding.headerApp.headerStatusDot.setBackgroundResource(statusDrawable)
-                    } catch (_: Exception) {
-                        // Header may not be present in some layouts; ignore
+                    val statusText = when {
+                        state.isInventorying -> "Lendo"
+                        state.connectionState == ReaderConnectionState.CONNECTING -> "Conectando..."
+                        state.connectionState == ReaderConnectionState.CONNECTED -> "Conectado"
+                        state.connectionState == ReaderConnectionState.ERROR -> "Erro"
+                        else -> "Desconectado"
                     }
+                    val statusDrawable = when {
+                        state.isInventorying -> R.drawable.ic_status_active
+                        state.connectionState == ReaderConnectionState.CONNECTED -> R.drawable.ic_status_connected
+                        state.connectionState == ReaderConnectionState.CONNECTING -> R.drawable.ic_status_connected
+                        else -> R.drawable.ic_status_disconnected
+                    }
+                    updateHeader(name, statusText, statusDrawable)
                 }
             }
         }

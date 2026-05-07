@@ -1,7 +1,7 @@
 <resources>
     <!-- Logo sizes (use in layouts to avoid hardcoded dp values) -->
-    <dimen name="logo_header_width">64dp</dimen>
-    <dimen name="logo_header_height">24dp</dimen>
+    <dimen name="logo_header_width">120dp</dimen>
+    <dimen name="logo_header_height">48dp</dimen>
     <dimen name="logo_toolbar_height">32dp</dimen>
     <!-- Reader list icon size -->
     <dimen name="reader_icon_size">48dp</dimen>

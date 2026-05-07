@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
@@ -23,7 +23,7 @@ import java.lang.String;
 
 public final class ActivitySyncBinding implements ViewBinding {
   @NonNull
-  private final CoordinatorLayout rootView;
+  private final NestedScrollView rootView;
 
   @NonNull
   public final MaterialButton btnDeleteAll;
@@ -45,9 +45,6 @@ public final class ActivitySyncBinding implements ViewBinding {
 
   @NonNull
   public final MaterialCardView cardWebhook;
-
-  @NonNull
-  public final HeaderAppBinding headerApp;
 
   @NonNull
   public final LinearLayout layoutSyncProgress;
@@ -76,16 +73,15 @@ public final class ActivitySyncBinding implements ViewBinding {
   @NonNull
   public final TextView textWebhookSummary;
 
-  private ActivitySyncBinding(@NonNull CoordinatorLayout rootView,
+  private ActivitySyncBinding(@NonNull NestedScrollView rootView,
       @NonNull MaterialButton btnDeleteAll, @NonNull MaterialButton btnStartSync,
       @NonNull ImageButton btnWebhookConfig, @NonNull MaterialCardView cardEvents,
       @NonNull MaterialCardView cardFinalResult, @NonNull MaterialCardView cardSync,
-      @NonNull MaterialCardView cardWebhook, @NonNull HeaderAppBinding headerApp,
-      @NonNull LinearLayout layoutSyncProgress, @NonNull LinearProgressIndicator progressSync,
-      @NonNull RecyclerView recyclerViewEvents, @NonNull RecyclerView recyclerViewProgress,
-      @NonNull TextView textEventsEmpty, @NonNull TextView textFinalResult,
-      @NonNull TextView textPendingCount, @NonNull TextView textSyncProgressLabel,
-      @NonNull TextView textWebhookSummary) {
+      @NonNull MaterialCardView cardWebhook, @NonNull LinearLayout layoutSyncProgress,
+      @NonNull LinearProgressIndicator progressSync, @NonNull RecyclerView recyclerViewEvents,
+      @NonNull RecyclerView recyclerViewProgress, @NonNull TextView textEventsEmpty,
+      @NonNull TextView textFinalResult, @NonNull TextView textPendingCount,
+      @NonNull TextView textSyncProgressLabel, @NonNull TextView textWebhookSummary) {
     this.rootView = rootView;
     this.btnDeleteAll = btnDeleteAll;
     this.btnStartSync = btnStartSync;
@@ -94,7 +90,6 @@ public final class ActivitySyncBinding implements ViewBinding {
     this.cardFinalResult = cardFinalResult;
     this.cardSync = cardSync;
     this.cardWebhook = cardWebhook;
-    this.headerApp = headerApp;
     this.layoutSyncProgress = layoutSyncProgress;
     this.progressSync = progressSync;
     this.recyclerViewEvents = recyclerViewEvents;
@@ -108,7 +103,7 @@ public final class ActivitySyncBinding implements ViewBinding {
 
   @Override
   @NonNull
-  public CoordinatorLayout getRoot() {
+  public NestedScrollView getRoot() {
     return rootView;
   }
 
@@ -175,13 +170,6 @@ public final class ActivitySyncBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.headerApp;
-      View headerApp = ViewBindings.findChildViewById(rootView, id);
-      if (headerApp == null) {
-        break missingId;
-      }
-      HeaderAppBinding binding_headerApp = HeaderAppBinding.bind(headerApp);
-
       id = R.id.layoutSyncProgress;
       LinearLayout layoutSyncProgress = ViewBindings.findChildViewById(rootView, id);
       if (layoutSyncProgress == null) {
@@ -236,11 +224,10 @@ public final class ActivitySyncBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivitySyncBinding((CoordinatorLayout) rootView, btnDeleteAll, btnStartSync,
-          btnWebhookConfig, cardEvents, cardFinalResult, cardSync, cardWebhook, binding_headerApp,
-          layoutSyncProgress, progressSync, recyclerViewEvents, recyclerViewProgress,
-          textEventsEmpty, textFinalResult, textPendingCount, textSyncProgressLabel,
-          textWebhookSummary);
+      return new ActivitySyncBinding((NestedScrollView) rootView, btnDeleteAll, btnStartSync,
+          btnWebhookConfig, cardEvents, cardFinalResult, cardSync, cardWebhook, layoutSyncProgress,
+          progressSync, recyclerViewEvents, recyclerViewProgress, textEventsEmpty, textFinalResult,
+          textPendingCount, textSyncProgressLabel, textWebhookSummary);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

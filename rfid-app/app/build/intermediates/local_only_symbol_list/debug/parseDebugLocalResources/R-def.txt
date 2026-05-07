@@ -61,6 +61,7 @@ drawable smtx
 drawable smtx_w
 id actionBar
 id badgePending
+id baseContent
 id bottomBar
 id btnAddPrefix
 id btnAddSelected
@@ -117,6 +118,8 @@ id chipStatus
 id editDialogWebhookUrl
 id editEpc
 id editPrefix
+id footerApp
+id footerDeviceId
 id fragmentContainer
 id headerApp
 id headerBadgeRow
@@ -193,6 +196,7 @@ id textTid
 id textTime
 id textTitle
 id textWebhookSummary
+layout activity_base
 layout activity_main
 layout activity_selection
 layout activity_sync
@@ -200,11 +204,13 @@ layout dialog_ble_scan
 layout dialog_connection_log
 layout dialog_radar_scan
 layout dialog_webhook_config
+layout footer_app
 layout fragment_config
 layout fragment_home
 layout fragment_radar
 layout fragment_reader_selection
 layout fragment_reading
+layout fragment_sync
 layout header_app
 layout item_ble_device
 layout item_event

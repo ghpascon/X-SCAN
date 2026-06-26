@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.smartx.rfidreader"
-    android:versionCode="21"
-    android:versionName="5.0.2" > <!-- Allow TSL SDK (minSdk 26) to be merged without raising project minSdk -->
+    android:versionCode="22"
+    android:versionName="5.0.3" > <!-- Allow TSL SDK (minSdk 26) to be merged without raising project minSdk -->
     <uses-sdk
-        android:minSdkVersion="24"
+        android:minSdkVersion="29"
         android:targetSdkVersion="34" />
 
     <!-- Permissões Bluetooth (cobre API 21–30 e 31+) -->
@@ -30,6 +30,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <permission
         android:name="com.smartx.rfidreader.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"

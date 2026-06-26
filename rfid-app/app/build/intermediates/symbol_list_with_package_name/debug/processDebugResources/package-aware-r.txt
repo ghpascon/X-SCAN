@@ -4088,6 +4088,7 @@ string abc_toolbar_collapse_description
 string androidx_startup
 string app_name
 string app_settings_saved
+string app_version
 string appbar_scrolling_view_behavior
 string badge_ble
 string ble_disabled

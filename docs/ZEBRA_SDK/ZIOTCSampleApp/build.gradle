@@ -1,0 +1,74 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.sample.api3transport'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.sample.api3transport"
+        minSdk 30
+        targetSdk 36
+        versionCode System.getenv("VERSION_CODE") ? System.getenv("VERSION_CODE").toInteger() : 125
+        versionName System.getenv("VERSION_NAME") ? System.getenv("VERSION_NAME").toString() : "2.0.2.125"
+
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        config {
+            storeFile file('../RFIDreaderX_KEYSTORE.jks')
+            keyAlias "RFID_READER_X"
+            storePassword System.getenv("KEY_STORE_PWD")
+            keyPassword System.getenv("KEY_PWD")
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            crunchPngs false
+            signingConfig signingConfigs.config
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            crunchPngs false
+           // signingConfig signingConfigs.config
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    androidComponents {
+        onVariants(selector().all()) { variant ->
+            variant.outputs.forEach { output ->
+                output.outputFileName.set("ZIOTC_RFID_Mobile-${defaultConfig.versionName}.apk")
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'com.google.android.material:material:1.13.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'androidx.navigation:navigation-fragment:2.9.7'
+    implementation 'androidx.navigation:navigation-ui:2.9.7'
+    implementation 'org.nanohttpd:nanohttpd:2.3.1'
+    implementation "org.java-websocket:Java-WebSocket:1.6.0"
+    
+    // Exclude rfidapi3llrplib to avoid duplicate class errors with rfidapi3ziotcllrplib
+    implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: ['rfidapi3llrplib-*.aar'])
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
+}

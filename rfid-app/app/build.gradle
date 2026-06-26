@@ -10,10 +10,10 @@ android {
 
     defaultConfig {
         applicationId "com.smartx.rfidreader"
-        minSdk 24
+        minSdk 29
         targetSdk 34
-        versionCode 22
-        versionName "5.0.3"
+        versionCode 23
+        versionName "5.1.0"
     }
 
     buildTypes {
@@ -93,6 +93,9 @@ dependencies {
 
     // --- SDK IH25 (Honeywell) ---
     implementation(name: 'honeywell_rfid_sdk', ext: 'aar')
+
+    // --- SDK Zebra (Zebra RFID API AARs in docs) ---
+    implementation files('../../docs/ZEBRA_SDK/rfidapi3lib-2.0.5.275.aar')
 
     // --- SDK TSL 1128 ---
     implementation(name: 'Rfid.AsciiProtocol-3.5.0-release', ext: 'aar')

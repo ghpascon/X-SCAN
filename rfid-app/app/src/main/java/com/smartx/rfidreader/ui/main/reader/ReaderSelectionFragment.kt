@@ -58,7 +58,8 @@ class ReaderSelectionFragment : Fragment() {
                 when (reader) {
                     is IH25Reader -> reader.targetMacAddress = address
                     is Tsl1128Reader -> reader.targetMacAddress = address
-                    is X714Reader -> reader.targetMacAddress = address
+                        is X714Reader -> reader.targetMacAddress = address
+                        is com.smartx.rfidreader.readers.zebra.ZebraReader -> reader.targetMacAddress = address
                 }
                 viewModel.connect(reader)
                 // Abre o log de conexão para todos os leitores

@@ -31,12 +31,12 @@ public final class AppDatabase_Impl extends AppDatabase {
   @Override
   @NonNull
   protected SupportSQLiteOpenHelper createOpenHelper(@NonNull final DatabaseConfiguration config) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(2) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(4) {
       @Override
       public void createAllTables(@NonNull final SupportSQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS `rfid_events` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `deviceId` TEXT NOT NULL, `eventType` TEXT NOT NULL, `tagsJson` TEXT NOT NULL, `savedAt` TEXT NOT NULL, `gpsLat` REAL NOT NULL, `gpsLng` REAL NOT NULL, `hasGps` INTEGER NOT NULL, `txPower` INTEGER NOT NULL, `session` INTEGER NOT NULL, `rssiFilter` INTEGER NOT NULL, `prefixesJson` TEXT NOT NULL, `isSynced` INTEGER NOT NULL, `syncedAt` TEXT NOT NULL)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `rfid_events` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `deviceId` TEXT NOT NULL, `eventType` TEXT NOT NULL, `inventory_name` TEXT NOT NULL, `tagsJson` TEXT NOT NULL, `savedAt` TEXT NOT NULL, `gpsLat` REAL NOT NULL, `gpsLng` REAL NOT NULL, `hasGps` INTEGER NOT NULL, `txPower` INTEGER NOT NULL, `session` INTEGER NOT NULL, `rssiFilter` INTEGER NOT NULL, `prefixesJson` TEXT NOT NULL, `isSynced` INTEGER NOT NULL, `syncedAt` TEXT NOT NULL)");
         db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fadd7813dc06590bdeaa5f5e3beb2ed9')");
+        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0fbf10caf58b78942d9a58a81fec4f2f')");
       }
 
       @Override
@@ -85,10 +85,11 @@ public final class AppDatabase_Impl extends AppDatabase {
       @NonNull
       public RoomOpenHelper.ValidationResult onValidateSchema(
           @NonNull final SupportSQLiteDatabase db) {
-        final HashMap<String, TableInfo.Column> _columnsRfidEvents = new HashMap<String, TableInfo.Column>(14);
+        final HashMap<String, TableInfo.Column> _columnsRfidEvents = new HashMap<String, TableInfo.Column>(15);
         _columnsRfidEvents.put("id", new TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsRfidEvents.put("deviceId", new TableInfo.Column("deviceId", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsRfidEvents.put("eventType", new TableInfo.Column("eventType", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsRfidEvents.put("inventory_name", new TableInfo.Column("inventory_name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsRfidEvents.put("tagsJson", new TableInfo.Column("tagsJson", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsRfidEvents.put("savedAt", new TableInfo.Column("savedAt", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsRfidEvents.put("gpsLat", new TableInfo.Column("gpsLat", "REAL", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -111,7 +112,7 @@ public final class AppDatabase_Impl extends AppDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "fadd7813dc06590bdeaa5f5e3beb2ed9", "163dff1f6f1e0a3ac416c51b5f70e231");
+    }, "0fbf10caf58b78942d9a58a81fec4f2f", "7d10af80993d48883e0d9460fedb62d9");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(config.context).name(config.name).callback(_openCallback).build();
     final SupportSQLiteOpenHelper _helper = config.sqliteOpenHelperFactory.create(_sqliteConfig);
     return _helper;

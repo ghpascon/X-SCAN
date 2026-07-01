@@ -1,7 +1,7 @@
 package com.smartx.rfidreader.core.db;
 
 @kotlin.Metadata(mv = {1, 9, 0}, k = 1, xi = 48, d1 = {"\u0000\u0014\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\b\'\u0018\u0000 \u00052\u00020\u0001:\u0001\u0005B\u0005\u00a2\u0006\u0002\u0010\u0002J\b\u0010\u0003\u001a\u00020\u0004H&\u00a8\u0006\u0006"}, d2 = {"Lcom/smartx/rfidreader/core/db/AppDatabase;", "Landroidx/room/RoomDatabase;", "()V", "eventDao", "Lcom/smartx/rfidreader/core/db/EventDao;", "Companion", "app_debug"})
-@androidx.room.Database(entities = {com.smartx.rfidreader.core.db.EventEntity.class}, version = 2, exportSchema = false)
+@androidx.room.Database(entities = {com.smartx.rfidreader.core.db.EventEntity.class}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends androidx.room.RoomDatabase {
     @kotlin.jvm.Volatile()
     @org.jetbrains.annotations.Nullable()

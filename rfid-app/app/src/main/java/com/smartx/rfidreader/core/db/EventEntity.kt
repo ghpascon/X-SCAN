@@ -2,12 +2,14 @@ package com.smartx.rfidreader.core.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.ColumnInfo
 
 @Entity(tableName = "rfid_events")
 data class EventEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val deviceId: String,
     val eventType: String = "inventory",
+    @ColumnInfo(name = "inventory_name") val inventoryName: String = "",
     /** JSON string representando a lista de tags */
     val tagsJson: String,
     /** ISO 8601 — momento em que o inventário foi salvo */
@@ -51,6 +53,7 @@ data class EventEntity(
         }
 
         val eventData = org.json.JSONObject().apply {
+            put("inventory_name", inventoryName)
             put("tags", org.json.JSONArray(tagsJson))
             put("timestamp", savedAt)
             put("gps", gpsNode)

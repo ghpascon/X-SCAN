@@ -48,7 +48,7 @@ public final class EventDao_Impl implements EventDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR ABORT INTO `rfid_events` (`id`,`deviceId`,`eventType`,`tagsJson`,`savedAt`,`gpsLat`,`gpsLng`,`hasGps`,`txPower`,`session`,`rssiFilter`,`prefixesJson`,`isSynced`,`syncedAt`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR ABORT INTO `rfid_events` (`id`,`deviceId`,`eventType`,`inventory_name`,`tagsJson`,`savedAt`,`gpsLat`,`gpsLng`,`hasGps`,`txPower`,`session`,`rssiFilter`,`prefixesJson`,`isSynced`,`syncedAt`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -65,34 +65,39 @@ public final class EventDao_Impl implements EventDao {
         } else {
           statement.bindString(3, entity.getEventType());
         }
-        if (entity.getTagsJson() == null) {
+        if (entity.getInventoryName() == null) {
           statement.bindNull(4);
         } else {
-          statement.bindString(4, entity.getTagsJson());
+          statement.bindString(4, entity.getInventoryName());
         }
-        if (entity.getSavedAt() == null) {
+        if (entity.getTagsJson() == null) {
           statement.bindNull(5);
         } else {
-          statement.bindString(5, entity.getSavedAt());
+          statement.bindString(5, entity.getTagsJson());
         }
-        statement.bindDouble(6, entity.getGpsLat());
-        statement.bindDouble(7, entity.getGpsLng());
-        final int _tmp = entity.getHasGps() ? 1 : 0;
-        statement.bindLong(8, _tmp);
-        statement.bindLong(9, entity.getTxPower());
-        statement.bindLong(10, entity.getSession());
-        statement.bindLong(11, entity.getRssiFilter());
-        if (entity.getPrefixesJson() == null) {
-          statement.bindNull(12);
+        if (entity.getSavedAt() == null) {
+          statement.bindNull(6);
         } else {
-          statement.bindString(12, entity.getPrefixesJson());
+          statement.bindString(6, entity.getSavedAt());
+        }
+        statement.bindDouble(7, entity.getGpsLat());
+        statement.bindDouble(8, entity.getGpsLng());
+        final int _tmp = entity.getHasGps() ? 1 : 0;
+        statement.bindLong(9, _tmp);
+        statement.bindLong(10, entity.getTxPower());
+        statement.bindLong(11, entity.getSession());
+        statement.bindLong(12, entity.getRssiFilter());
+        if (entity.getPrefixesJson() == null) {
+          statement.bindNull(13);
+        } else {
+          statement.bindString(13, entity.getPrefixesJson());
         }
         final int _tmp_1 = entity.isSynced() ? 1 : 0;
-        statement.bindLong(13, _tmp_1);
+        statement.bindLong(14, _tmp_1);
         if (entity.getSyncedAt() == null) {
-          statement.bindNull(14);
+          statement.bindNull(15);
         } else {
-          statement.bindString(14, entity.getSyncedAt());
+          statement.bindString(15, entity.getSyncedAt());
         }
       }
     };
@@ -113,7 +118,7 @@ public final class EventDao_Impl implements EventDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "UPDATE OR ABORT `rfid_events` SET `id` = ?,`deviceId` = ?,`eventType` = ?,`tagsJson` = ?,`savedAt` = ?,`gpsLat` = ?,`gpsLng` = ?,`hasGps` = ?,`txPower` = ?,`session` = ?,`rssiFilter` = ?,`prefixesJson` = ?,`isSynced` = ?,`syncedAt` = ? WHERE `id` = ?";
+        return "UPDATE OR ABORT `rfid_events` SET `id` = ?,`deviceId` = ?,`eventType` = ?,`inventory_name` = ?,`tagsJson` = ?,`savedAt` = ?,`gpsLat` = ?,`gpsLng` = ?,`hasGps` = ?,`txPower` = ?,`session` = ?,`rssiFilter` = ?,`prefixesJson` = ?,`isSynced` = ?,`syncedAt` = ? WHERE `id` = ?";
       }
 
       @Override
@@ -130,36 +135,41 @@ public final class EventDao_Impl implements EventDao {
         } else {
           statement.bindString(3, entity.getEventType());
         }
-        if (entity.getTagsJson() == null) {
+        if (entity.getInventoryName() == null) {
           statement.bindNull(4);
         } else {
-          statement.bindString(4, entity.getTagsJson());
+          statement.bindString(4, entity.getInventoryName());
         }
-        if (entity.getSavedAt() == null) {
+        if (entity.getTagsJson() == null) {
           statement.bindNull(5);
         } else {
-          statement.bindString(5, entity.getSavedAt());
+          statement.bindString(5, entity.getTagsJson());
         }
-        statement.bindDouble(6, entity.getGpsLat());
-        statement.bindDouble(7, entity.getGpsLng());
-        final int _tmp = entity.getHasGps() ? 1 : 0;
-        statement.bindLong(8, _tmp);
-        statement.bindLong(9, entity.getTxPower());
-        statement.bindLong(10, entity.getSession());
-        statement.bindLong(11, entity.getRssiFilter());
-        if (entity.getPrefixesJson() == null) {
-          statement.bindNull(12);
+        if (entity.getSavedAt() == null) {
+          statement.bindNull(6);
         } else {
-          statement.bindString(12, entity.getPrefixesJson());
+          statement.bindString(6, entity.getSavedAt());
+        }
+        statement.bindDouble(7, entity.getGpsLat());
+        statement.bindDouble(8, entity.getGpsLng());
+        final int _tmp = entity.getHasGps() ? 1 : 0;
+        statement.bindLong(9, _tmp);
+        statement.bindLong(10, entity.getTxPower());
+        statement.bindLong(11, entity.getSession());
+        statement.bindLong(12, entity.getRssiFilter());
+        if (entity.getPrefixesJson() == null) {
+          statement.bindNull(13);
+        } else {
+          statement.bindString(13, entity.getPrefixesJson());
         }
         final int _tmp_1 = entity.isSynced() ? 1 : 0;
-        statement.bindLong(13, _tmp_1);
+        statement.bindLong(14, _tmp_1);
         if (entity.getSyncedAt() == null) {
-          statement.bindNull(14);
+          statement.bindNull(15);
         } else {
-          statement.bindString(14, entity.getSyncedAt());
+          statement.bindString(15, entity.getSyncedAt());
         }
-        statement.bindLong(15, entity.getId());
+        statement.bindLong(16, entity.getId());
       }
     };
     this.__preparedStmtOfDeleteAll = new SharedSQLiteStatement(__db) {
@@ -262,6 +272,7 @@ public final class EventDao_Impl implements EventDao {
           final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
           final int _cursorIndexOfDeviceId = CursorUtil.getColumnIndexOrThrow(_cursor, "deviceId");
           final int _cursorIndexOfEventType = CursorUtil.getColumnIndexOrThrow(_cursor, "eventType");
+          final int _cursorIndexOfInventoryName = CursorUtil.getColumnIndexOrThrow(_cursor, "inventory_name");
           final int _cursorIndexOfTagsJson = CursorUtil.getColumnIndexOrThrow(_cursor, "tagsJson");
           final int _cursorIndexOfSavedAt = CursorUtil.getColumnIndexOrThrow(_cursor, "savedAt");
           final int _cursorIndexOfGpsLat = CursorUtil.getColumnIndexOrThrow(_cursor, "gpsLat");
@@ -289,6 +300,12 @@ public final class EventDao_Impl implements EventDao {
               _tmpEventType = null;
             } else {
               _tmpEventType = _cursor.getString(_cursorIndexOfEventType);
+            }
+            final String _tmpInventoryName;
+            if (_cursor.isNull(_cursorIndexOfInventoryName)) {
+              _tmpInventoryName = null;
+            } else {
+              _tmpInventoryName = _cursor.getString(_cursorIndexOfInventoryName);
             }
             final String _tmpTagsJson;
             if (_cursor.isNull(_cursorIndexOfTagsJson)) {
@@ -332,7 +349,7 @@ public final class EventDao_Impl implements EventDao {
             } else {
               _tmpSyncedAt = _cursor.getString(_cursorIndexOfSyncedAt);
             }
-            _item = new EventEntity(_tmpId,_tmpDeviceId,_tmpEventType,_tmpTagsJson,_tmpSavedAt,_tmpGpsLat,_tmpGpsLng,_tmpHasGps,_tmpTxPower,_tmpSession,_tmpRssiFilter,_tmpPrefixesJson,_tmpIsSynced,_tmpSyncedAt);
+            _item = new EventEntity(_tmpId,_tmpDeviceId,_tmpEventType,_tmpInventoryName,_tmpTagsJson,_tmpSavedAt,_tmpGpsLat,_tmpGpsLng,_tmpHasGps,_tmpTxPower,_tmpSession,_tmpRssiFilter,_tmpPrefixesJson,_tmpIsSynced,_tmpSyncedAt);
             _result.add(_item);
           }
           return _result;
@@ -362,6 +379,7 @@ public final class EventDao_Impl implements EventDao {
           final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
           final int _cursorIndexOfDeviceId = CursorUtil.getColumnIndexOrThrow(_cursor, "deviceId");
           final int _cursorIndexOfEventType = CursorUtil.getColumnIndexOrThrow(_cursor, "eventType");
+          final int _cursorIndexOfInventoryName = CursorUtil.getColumnIndexOrThrow(_cursor, "inventory_name");
           final int _cursorIndexOfTagsJson = CursorUtil.getColumnIndexOrThrow(_cursor, "tagsJson");
           final int _cursorIndexOfSavedAt = CursorUtil.getColumnIndexOrThrow(_cursor, "savedAt");
           final int _cursorIndexOfGpsLat = CursorUtil.getColumnIndexOrThrow(_cursor, "gpsLat");
@@ -389,6 +407,12 @@ public final class EventDao_Impl implements EventDao {
               _tmpEventType = null;
             } else {
               _tmpEventType = _cursor.getString(_cursorIndexOfEventType);
+            }
+            final String _tmpInventoryName;
+            if (_cursor.isNull(_cursorIndexOfInventoryName)) {
+              _tmpInventoryName = null;
+            } else {
+              _tmpInventoryName = _cursor.getString(_cursorIndexOfInventoryName);
             }
             final String _tmpTagsJson;
             if (_cursor.isNull(_cursorIndexOfTagsJson)) {
@@ -432,7 +456,7 @@ public final class EventDao_Impl implements EventDao {
             } else {
               _tmpSyncedAt = _cursor.getString(_cursorIndexOfSyncedAt);
             }
-            _item = new EventEntity(_tmpId,_tmpDeviceId,_tmpEventType,_tmpTagsJson,_tmpSavedAt,_tmpGpsLat,_tmpGpsLng,_tmpHasGps,_tmpTxPower,_tmpSession,_tmpRssiFilter,_tmpPrefixesJson,_tmpIsSynced,_tmpSyncedAt);
+            _item = new EventEntity(_tmpId,_tmpDeviceId,_tmpEventType,_tmpInventoryName,_tmpTagsJson,_tmpSavedAt,_tmpGpsLat,_tmpGpsLng,_tmpHasGps,_tmpTxPower,_tmpSession,_tmpRssiFilter,_tmpPrefixesJson,_tmpIsSynced,_tmpSyncedAt);
             _result.add(_item);
           }
           return _result;

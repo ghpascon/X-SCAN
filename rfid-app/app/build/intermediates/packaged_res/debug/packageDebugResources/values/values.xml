@@ -123,6 +123,9 @@
     <string name="hint_prefix">Ex: E200 ou 3000</string>
     <string name="hint_webhook_url">URL do Webhook</string>
     <string name="home_subtitle">Gerenciamento de leitores RFID</string>
+    <string name="inventory_name_hint">Ex: Inventário Loja 01</string>
+    <string name="inventory_name_required">Informe o nome do inventário</string>
+    <string name="inventory_name_title">Nome do inventário</string>
     <string name="label_buzzer">Buzzer</string>
     <string name="label_prefix">Filtro de Prefixo EPC</string>
     <string name="label_rssi_filter">Filtro RSSI mínimo</string>

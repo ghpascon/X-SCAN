@@ -50,6 +50,9 @@
     <string name="btn_stop_inventory">Parar Leitura</string>
     <string name="btn_clear_tags">Limpar</string>
     <string name="btn_save_reading">Salvar Leitura</string>
+    <string name="inventory_name_title">Nome do inventário</string>
+    <string name="inventory_name_hint">Ex: Inventário Loja 01</string>
+    <string name="inventory_name_required">Informe o nome do inventário</string>
     <string name="tag_count_zero">0 tags</string>
     <string name="tag_count">%d tags</string>
     <string name="reading_saved">Leitura salva com sucesso!</string>

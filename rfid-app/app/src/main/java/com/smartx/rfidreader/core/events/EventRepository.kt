@@ -48,12 +48,14 @@ class EventRepository(private val dao: EventDao) {
         txPower: Int = 30,
         session: Int = 1,
         rssiFilter: Int = -120,
-        prefixes: List<String> = emptyList()
+        prefixes: List<String> = emptyList(),
+        inventoryName: String
     ): Long = withContext(Dispatchers.IO) {
         val tagsJson = buildTagsJson(tags)
         val timestamp = isoFormat.format(Date())
         val entity = EventEntity(
             deviceId = deviceId,
+            inventoryName = inventoryName,
             tagsJson = tagsJson,
             savedAt = timestamp,
             gpsLat = gpsLat,

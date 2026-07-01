@@ -132,6 +132,8 @@ id iconGps
 id iconReader
 id iconStatus
 id imgSyncStatus
+id inputInventoryName
+id inputLayoutInventoryName
 id labelSession
 id layoutDialogWebhookUrl
 id layoutEpcInput
@@ -202,6 +204,7 @@ layout activity_selection
 layout activity_sync
 layout dialog_ble_scan
 layout dialog_connection_log
+layout dialog_inventory_name
 layout dialog_radar_scan
 layout dialog_webhook_config
 layout footer_app
@@ -283,6 +286,9 @@ string hint_power
 string hint_prefix
 string hint_webhook_url
 string home_subtitle
+string inventory_name_hint
+string inventory_name_required
+string inventory_name_title
 string label_buzzer
 string label_prefix
 string label_rssi_filter

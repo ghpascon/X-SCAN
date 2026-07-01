@@ -3491,6 +3491,8 @@ id immediateStop
 id included
 id indeterminate
 id info
+id inputInventoryName
+id inputLayoutInventoryName
 id invisible
 id inward
 id is_pooling_container_tag
@@ -3971,6 +3973,7 @@ layout design_text_input_end_icon
 layout design_text_input_start_icon
 layout dialog_ble_scan
 layout dialog_connection_log
+layout dialog_inventory_name
 layout dialog_radar_scan
 layout dialog_webhook_config
 layout footer_app
@@ -4214,6 +4217,9 @@ string hint_prefix
 string hint_webhook_url
 string home_subtitle
 string icon_content_description
+string inventory_name_hint
+string inventory_name_required
+string inventory_name_title
 string item_view_role_description
 string label_buzzer
 string label_prefix

@@ -1,6 +1,7 @@
 package com.smartx.rfidreader.ui.main.reading
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.media.AudioManager
 import android.media.ToneGenerator
@@ -16,8 +17,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.core.reader.ReaderConnectionState
 import com.smartx.rfidreader.databinding.FragmentReadingBinding
@@ -34,13 +38,17 @@ class ReadingFragment : Fragment() {
 
     /** ToneGenerator reutilizado — criado em onStart, liberado em onStop */
     private var toneGenerator: ToneGenerator? = null
+    private var pendingInventoryName: String? = null
 
     // Launcher para solicitar permissão de localização
     private val locationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { _ ->
         // Independente do resultado, tenta salvar (GpsHelper lida com permissão negada)
-        doSaveInventory()
+        val inventoryName = pendingInventoryName
+        if (!inventoryName.isNullOrBlank()) {
+            doSaveInventory(inventoryName)
+        }
     }
 
     private fun hasLocationPermission(): Boolean =
@@ -85,8 +93,7 @@ class ReadingFragment : Fragment() {
             viewModel.clearTags()
         }
         binding.btnSaveReading.setOnClickListener {
-            binding.btnSaveReading.isEnabled = false
-            requestLocationAndSave()
+            showInventoryNameDialog()
         }
 
         binding.chipGroupLimit.setOnCheckedStateChangeListener { _, checkedIds ->
@@ -100,9 +107,41 @@ class ReadingFragment : Fragment() {
         }
     }
 
-    private fun requestLocationAndSave() {
+    private fun showInventoryNameDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_inventory_name, null)
+        val inputLayout = dialogView.findViewById<TextInputLayout>(R.id.inputLayoutInventoryName)
+        val input = dialogView.findViewById<TextInputEditText>(R.id.inputInventoryName)
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.inventory_name_title)
+            .setView(dialogView)
+            .setNegativeButton(R.string.btn_cancel, null)
+            .setPositiveButton(R.string.btn_save_reading, null)
+            .create()
+
+        dialog.setOnShowListener {
+            input.requestFocus()
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                val inventoryName = input.text?.toString()?.trim().orEmpty()
+                if (inventoryName.isBlank()) {
+                    inputLayout.error = getString(R.string.inventory_name_required)
+                    return@setOnClickListener
+                }
+                inputLayout.error = null
+
+                binding.btnSaveReading.isEnabled = false
+                dialog.dismiss()
+                requestLocationAndSave(inventoryName)
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun requestLocationAndSave(inventoryName: String) {
+        pendingInventoryName = inventoryName
         if (hasLocationPermission()) {
-            doSaveInventory()
+            doSaveInventory(inventoryName)
         } else {
             locationPermissionLauncher.launch(
                 arrayOf(
@@ -113,8 +152,9 @@ class ReadingFragment : Fragment() {
         }
     }
 
-    private fun doSaveInventory() {
-        viewModel.saveInventory()
+    private fun doSaveInventory(inventoryName: String) {
+        pendingInventoryName = null
+        viewModel.saveInventory(inventoryName)
     }
 
     private fun observeState() {

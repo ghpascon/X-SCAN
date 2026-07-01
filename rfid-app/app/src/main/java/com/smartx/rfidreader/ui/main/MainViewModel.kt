@@ -440,9 +440,9 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     // Salvar inventário
     // -------------------------------------------------------------------------
 
-    fun saveInventory() {
+    fun saveInventory(inventoryName: String) {
         val tags = _tags.value
-        if (tags.isEmpty()) return
+        if (tags.isEmpty() || inventoryName.isBlank()) return
         viewModelScope.launch {
             try {
                 val app = getApplication<RfidApplication>()
@@ -461,7 +461,8 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                     txPower = config.txPower,
                     session = config.session,
                     rssiFilter = config.rssiFilter,
-                    prefixes = appSettings.prefixes
+                    prefixes = appSettings.prefixes,
+                    inventoryName = inventoryName
                 )
                 _saveInventoryResult.emit(true)
             } catch (e: Exception) {

@@ -2,10 +2,14 @@ package com.smartx.rfidreader.ui.main.reading
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.ContentValues
 import android.content.pm.PackageManager
 import android.media.AudioManager
 import android.media.ToneGenerator
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,8 +28,13 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.core.reader.ReaderConnectionState
+import com.smartx.rfidreader.core.reader.RfidTag
 import com.smartx.rfidreader.databinding.FragmentReadingBinding
 import com.smartx.rfidreader.ui.main.MainViewModel
+import java.io.OutputStreamWriter
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
@@ -95,6 +104,9 @@ class ReadingFragment : Fragment() {
         binding.btnSaveReading.setOnClickListener {
             showInventoryNameDialog()
         }
+        binding.btnExportCsv.setOnClickListener {
+            exportTagsToCsv()
+        }
 
         binding.chipGroupLimit.setOnCheckedStateChangeListener { _, checkedIds ->
             val limit: Int? = when (checkedIds.firstOrNull()) {
@@ -157,6 +169,77 @@ class ReadingFragment : Fragment() {
         viewModel.saveInventory(inventoryName)
     }
 
+    private fun exportTagsToCsv() {
+        val tags = viewModel.tags.value
+        if (tags.isEmpty()) {
+            Snackbar.make(binding.root, getString(R.string.export_csv_empty), Snackbar.LENGTH_SHORT).show()
+            return
+        }
+
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+        val fileName = "xscan_tags_${timestamp}.csv"
+
+        val uri = createCsvUri(fileName)
+        if (uri == null) {
+            Snackbar.make(binding.root, getString(R.string.export_csv_error), Snackbar.LENGTH_SHORT).show()
+            return
+        }
+
+        val success = runCatching {
+            requireContext().contentResolver.openOutputStream(uri)?.use { out ->
+                OutputStreamWriter(out, Charsets.UTF_8).use { writer ->
+                    writer.write(buildCsvContent(tags))
+                }
+            } ?: throw IllegalStateException("Não foi possível abrir o arquivo CSV")
+        }.isSuccess
+
+        if (success) {
+            Snackbar.make(
+                binding.root,
+                getString(R.string.export_csv_success, fileName),
+                Snackbar.LENGTH_LONG
+            ).show()
+        } else {
+            requireContext().contentResolver.delete(uri, null, null)
+            Snackbar.make(binding.root, getString(R.string.export_csv_error), Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun createCsvUri(fileName: String): Uri? {
+        val values = ContentValues().apply {
+            put(MediaStore.Downloads.DISPLAY_NAME, fileName)
+            put(MediaStore.Downloads.MIME_TYPE, "text/csv")
+            put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+        }
+        return requireContext().contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
+    }
+
+    private fun buildCsvContent(tags: List<RfidTag>): String {
+        val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US)
+        val headers = listOf("epc", "tid", "rssi", "antenna", "read_count", "timestamp")
+
+        return buildString {
+            appendLine(headers.joinToString(","))
+            tags.forEach { tag ->
+                val row = listOf(
+                    tag.epc,
+                    tag.tid,
+                    tag.rssi,
+                    tag.antenna.toString(),
+                    tag.readCount.toString(),
+                    timeFormat.format(tag.timestamp)
+                ).joinToString(",") { escapeCsv(it) }
+                appendLine(row)
+            }
+        }
+    }
+
+    private fun escapeCsv(value: String): String {
+        val needsQuotes = value.contains(',') || value.contains('"') || value.contains('\n')
+        if (!needsQuotes) return value
+        return "\"${value.replace("\"", "\"\"")}\""
+    }
+
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -171,10 +254,12 @@ class ReadingFragment : Fragment() {
                         if (state.isInventorying) {
                             binding.btnToggleInventory.text = getString(R.string.btn_stop_inventory)
                             binding.btnSaveReading.isEnabled = false
+                            binding.btnExportCsv.isEnabled = false
                         } else {
                             binding.btnToggleInventory.text = getString(R.string.btn_start_inventory)
                             binding.btnSaveReading.isEnabled =
                                 connected && viewModel.tags.value.isNotEmpty()
+                            binding.btnExportCsv.isEnabled = viewModel.tags.value.isNotEmpty()
                         }
                     }
                 }
@@ -204,6 +289,7 @@ class ReadingFragment : Fragment() {
                             viewModel.uiState.value.connectionState == ReaderConnectionState.CONNECTED
                         binding.btnSaveReading.isEnabled =
                             total > 0 && notInventorying && connected
+                        binding.btnExportCsv.isEnabled = total > 0 && notInventorying
                     }
                 }
 

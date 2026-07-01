@@ -2075,6 +2075,7 @@
     <string name="btn_connect">Conectar</string>
     <string name="btn_delete_all">Apagar tudo</string>
     <string name="btn_disconnect">Desconectar</string>
+    <string name="btn_export_csv">Exportar CSV</string>
     <string name="btn_log_close">Fechar</string>
     <string name="btn_reload_config">Recarregar</string>
     <string name="btn_save_app_settings">Salvar</string>
@@ -2166,6 +2167,9 @@
     <string name="event_pending">Pendente</string>
     <string name="event_synced">Enviado</string>
     <string name="events_empty">Nenhum evento salvo ainda</string>
+    <string name="export_csv_empty">Não há tags para exportar</string>
+    <string name="export_csv_error">Erro ao exportar CSV</string>
+    <string name="export_csv_success">CSV exportado: %1$s</string>
     <string name="exposed_dropdown_menu_content_description">Show dropdown menu</string>
     <string name="fab_transformation_scrim_behavior" translatable="false">com.google.android.material.transformation.FabTransformationScrimBehavior</string>
     <string name="fab_transformation_sheet_behavior" translatable="false">com.google.android.material.transformation.FabTransformationSheetBehavior</string>

@@ -88,10 +88,6 @@
         "source": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-main-63:/layout/item_tag.xml"
     },
     {
-        "merged": "com.smartx.rfidreader.app-debug-61:/layout_footer_app.xml.flat",
-        "source": "com.smartx.rfidreader.app-main-63:/layout/footer_app.xml"
-    },
-    {
         "merged": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-debug-61:/drawable_bg_chip_inactive.xml.flat",
         "source": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-main-63:/drawable/bg_chip_inactive.xml"
     },
@@ -154,6 +150,10 @@
     {
         "merged": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-debug-61:/layout_header_app.xml.flat",
         "source": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-main-63:/layout/header_app.xml"
+    },
+    {
+        "merged": "com.smartx.rfidreader.app-debug-61:/layout_fragment_reading.xml.flat",
+        "source": "com.smartx.rfidreader.app-main-63:/layout/fragment_reading.xml"
     },
     {
         "merged": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-debug-61:/drawable_ic_rfid_reader.xml.flat",

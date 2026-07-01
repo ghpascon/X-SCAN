@@ -50,6 +50,7 @@
     <string name="btn_stop_inventory">Parar Leitura</string>
     <string name="btn_clear_tags">Limpar</string>
     <string name="btn_save_reading">Salvar Leitura</string>
+    <string name="btn_export_csv">Exportar CSV</string>
     <string name="inventory_name_title">Nome do inventário</string>
     <string name="inventory_name_hint">Ex: Inventário Loja 01</string>
     <string name="inventory_name_required">Informe o nome do inventário</string>
@@ -57,6 +58,9 @@
     <string name="tag_count">%d tags</string>
     <string name="reading_saved">Leitura salva com sucesso!</string>
     <string name="reading_save_error">Erro ao salvar leitura</string>
+    <string name="export_csv_empty">Não há tags para exportar</string>
+    <string name="export_csv_success">CSV exportado: %1$s</string>
+    <string name="export_csv_error">Erro ao exportar CSV</string>
 
     <!-- Status de conexão -->
     <string name="status_connected">Conectado: %s</string>

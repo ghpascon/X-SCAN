@@ -31,6 +31,9 @@ public final class FragmentReadingBinding implements ViewBinding {
   public final MaterialButton btnClearTags;
 
   @NonNull
+  public final MaterialButton btnExportCsv;
+
+  @NonNull
   public final MaterialButton btnSaveReading;
 
   @NonNull
@@ -62,13 +65,15 @@ public final class FragmentReadingBinding implements ViewBinding {
 
   private FragmentReadingBinding(@NonNull ConstraintLayout rootView,
       @NonNull LinearLayout actionBar, @NonNull MaterialButton btnClearTags,
-      @NonNull MaterialButton btnSaveReading, @NonNull MaterialButton btnToggleInventory,
-      @NonNull Chip chip100, @NonNull Chip chip200, @NonNull Chip chip50, @NonNull Chip chipAll,
-      @NonNull ChipGroup chipGroupLimit, @NonNull LinearLayout limitBar,
-      @NonNull RecyclerView recyclerViewTags, @NonNull TextView textTagCount) {
+      @NonNull MaterialButton btnExportCsv, @NonNull MaterialButton btnSaveReading,
+      @NonNull MaterialButton btnToggleInventory, @NonNull Chip chip100, @NonNull Chip chip200,
+      @NonNull Chip chip50, @NonNull Chip chipAll, @NonNull ChipGroup chipGroupLimit,
+      @NonNull LinearLayout limitBar, @NonNull RecyclerView recyclerViewTags,
+      @NonNull TextView textTagCount) {
     this.rootView = rootView;
     this.actionBar = actionBar;
     this.btnClearTags = btnClearTags;
+    this.btnExportCsv = btnExportCsv;
     this.btnSaveReading = btnSaveReading;
     this.btnToggleInventory = btnToggleInventory;
     this.chip100 = chip100;
@@ -117,6 +122,12 @@ public final class FragmentReadingBinding implements ViewBinding {
       id = R.id.btnClearTags;
       MaterialButton btnClearTags = ViewBindings.findChildViewById(rootView, id);
       if (btnClearTags == null) {
+        break missingId;
+      }
+
+      id = R.id.btnExportCsv;
+      MaterialButton btnExportCsv = ViewBindings.findChildViewById(rootView, id);
+      if (btnExportCsv == null) {
         break missingId;
       }
 
@@ -181,8 +192,8 @@ public final class FragmentReadingBinding implements ViewBinding {
       }
 
       return new FragmentReadingBinding((ConstraintLayout) rootView, actionBar, btnClearTags,
-          btnSaveReading, btnToggleInventory, chip100, chip200, chip50, chipAll, chipGroupLimit,
-          limitBar, recyclerViewTags, textTagCount);
+          btnExportCsv, btnSaveReading, btnToggleInventory, chip100, chip200, chip50, chipAll,
+          chipGroupLimit, limitBar, recyclerViewTags, textTagCount);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

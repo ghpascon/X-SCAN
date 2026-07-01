@@ -79,6 +79,7 @@ id btnDeleteEvent
 id btnDialogSave
 id btnDialogUseExample
 id btnDisconnect
+id btnExportCsv
 id btnLogCancel
 id btnLogClose
 id btnReloadConfig
@@ -245,6 +246,7 @@ string btn_clear_tags
 string btn_connect
 string btn_delete_all
 string btn_disconnect
+string btn_export_csv
 string btn_log_close
 string btn_reload_config
 string btn_save_app_settings
@@ -279,6 +281,9 @@ string event_json_title
 string event_pending
 string event_synced
 string events_empty
+string export_csv_empty
+string export_csv_error
+string export_csv_success
 string footer_app_version
 string footer_device_id
 string helper_buzzer

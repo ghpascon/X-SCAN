@@ -61,7 +61,7 @@ class X714Reader : IRfidReader {
         "#keyboard:off",
         "#buzzer:on",
         "#decode_gtin:off",
-        "#hotspot:off",
+        "#hotspot:on",
         "#prefix:",
         "#setup_reader"
     )

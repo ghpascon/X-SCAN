@@ -25,9 +25,10 @@ class EventRepository(private val dao: EventDao) {
     private val TAG = "EventRepository"
 
     private val httpClient = OkHttpClient.Builder()
-        .connectTimeout(15, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
+        .connectTimeout(10, TimeUnit.SECONDS)
+        .readTimeout(10, TimeUnit.SECONDS)
+        .writeTimeout(10, TimeUnit.SECONDS)
+        .callTimeout(10, TimeUnit.SECONDS)
         .build()
 
     // Formato ISO-8601 com offset do fuso local (ex: 2024-04-22T14:30:00.000-03:00)
@@ -132,8 +133,15 @@ class EventRepository(private val dao: EventDao) {
                 .header("Content-Type", "application/json")
                 .build()
             httpClient.newCall(request).execute().use { response ->
-                if (response.isSuccessful) Pair(true, null)
-                else Pair(false, "HTTP ${response.code}")
+                val code = response.code
+                val respBody = response.body?.string()?.take(2000)
+                if (response.isSuccessful) {
+                    Pair(true, null)
+                } else {
+                    val msg = if (!respBody.isNullOrBlank()) respBody else response.message
+                    Log.w(TAG, "Webhook retornou $code para evento ${event.id}: $msg")
+                    Pair(false, "HTTP $code: ${msg.ifBlank { "sem corpo" }}")
+                }
             }
         } catch (e: Exception) {
             Log.e(TAG, "Falha ao enviar evento ${event.id}", e)
@@ -150,8 +158,16 @@ class EventRepository(private val dao: EventDao) {
                 .header("Content-Type", "application/json")
                 .build()
             httpClient.newCall(request).execute().use { response ->
+                val code = response.code
+                val respBody = response.body?.string()?.take(2000)
                 if (!response.isSuccessful) {
-                    Log.w(TAG, "Webhook retornou ${response.code} para evento ${event.id}")
+                    val msg = if (!respBody.isNullOrBlank()) respBody else response.message
+                    Log.w(TAG, "Webhook retornou $code para evento ${event.id}: $msg")
+                } else {
+                    val msg = if (!respBody.isNullOrBlank()) respBody else null
+                    if (msg != null) {
+                        Log.d(TAG, "Webhook sucesso para evento ${event.id}: $msg")
+                    }
                 }
                 response.isSuccessful
             }

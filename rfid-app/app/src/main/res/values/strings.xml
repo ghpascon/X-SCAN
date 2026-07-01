@@ -133,4 +133,8 @@
     <string name="ble_permission_denied">Permissão Bluetooth negada</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="badge_ble">BLE</string>
+
+    <!-- Footer global -->
+    <string name="footer_device_id">ID: %1$s</string>
+    <string name="footer_app_version">v: %1$s</string>
 </resources>

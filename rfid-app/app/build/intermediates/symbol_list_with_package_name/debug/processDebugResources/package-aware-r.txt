@@ -3448,6 +3448,7 @@ id fixed
 id flip
 id floating
 id footerApp
+id footerAppVersion
 id footerDeviceId
 id forever
 id fragmentContainer
@@ -4207,6 +4208,8 @@ string events_empty
 string exposed_dropdown_menu_content_description
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
+string footer_app_version
+string footer_device_id
 string helper_buzzer
 string helper_power
 string helper_prefix

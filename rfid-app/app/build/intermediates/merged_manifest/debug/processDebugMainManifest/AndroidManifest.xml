@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.smartx.rfidreader"
-    android:versionCode="24"
-    android:versionName="6.0.0" > <!-- Allow TSL SDK (minSdk 26) to be merged without raising project minSdk -->
+    android:versionCode="26"
+    android:versionName="6.1.1" > <!-- Allow TSL SDK (minSdk 26) to be merged without raising project minSdk -->
     <uses-sdk
         android:minSdkVersion="29"
         android:targetSdkVersion="34" />

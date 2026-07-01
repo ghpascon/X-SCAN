@@ -62,7 +62,12 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         // Device ID no footer — leitura única, sem ViewModel
         val deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
             ?: "unknown"
-        _baseBinding.footerApp.footerDeviceId.text = "ID: $deviceId"
+        val appVersion = runCatching {
+            packageManager.getPackageInfo(packageName, 0).versionName
+        }.getOrNull() ?: "-"
+        _baseBinding.footerApp.footerDeviceId.text = getString(R.string.footer_device_id, deviceId)
+        _baseBinding.footerApp.footerAppVersion.text =
+            getString(R.string.footer_app_version, appVersion)
 
         // Observa o estado global do leitor — atualiza header em TODAS as telas automaticamente
         observeReaderState()

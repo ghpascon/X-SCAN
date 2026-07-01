@@ -11,15 +11,15 @@ if [[ ! -f "$BUILD_GRADLE" ]]; then
 fi
 
 echo "Tipo de versao:"
-echo "  1) major"
+echo "  1) patch"
 echo "  2) minor"
-echo "  3) patch"
+echo "  3) major"
 read -r -p "Escolha (major/minor/patch): " VERSION_TYPE
 
 case "${VERSION_TYPE,,}" in
-  1) VERSION_TYPE="major" ;;
+  1) VERSION_TYPE="patch" ;;
   2) VERSION_TYPE="minor" ;;
-  3) VERSION_TYPE="patch" ;;
+  3) VERSION_TYPE="major" ;;
   major|minor|patch) ;;
   *)
     echo "Opcao invalida. Use major, minor ou patch."

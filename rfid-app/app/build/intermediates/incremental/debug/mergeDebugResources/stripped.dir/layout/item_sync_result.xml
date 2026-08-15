@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="10dp"
+    android:gravity="center_vertical">
+
+    <!-- Status icon: aguardando / sucesso / erro -->
+    <ImageView
+        android:id="@+id/imgSyncStatus"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_status_inactive"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="12dp">
+
+        <TextView
+            android:id="@+id/textSyncItemLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            tools:text="22/04 14:30 · 5 tags" />
+
+        <TextView
+            android:id="@+id/textSyncItemStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:layout_marginTop="2dp"
+            tools:text="Enviado com sucesso" />
+    </LinearLayout>
+</LinearLayout>

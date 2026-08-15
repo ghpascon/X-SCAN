@@ -132,19 +132,25 @@ class WebhookService : Service() {
                 }
 
                 val url = settings?.webhookUrl ?: ""
+                // Update sending flag
+                WebhookStatusStore.setSending(true)
                 try {
-                    sendPost(url, snapshot)
+                    val (ok, err) = sendPost(url, snapshot)
+                    WebhookStatusStore.add(com.smartx.rfidreader.core.webhook.WebhookSendStatus(java.util.Date(), ok, snapshot.size, err))
                 } catch (e: Exception) {
                     Log.e(TAG, "Erro ao enviar webhook", e)
+                    WebhookStatusStore.add(com.smartx.rfidreader.core.webhook.WebhookSendStatus(java.util.Date(), false, snapshot.size, e.message ?: "Erro de rede"))
+                } finally {
+                    WebhookStatusStore.setSending(false)
                 }
             }
         }
     }
 
-    private fun sendPost(url: String, tags: List<RfidTag>) {
+    private fun sendPost(url: String, tags: List<RfidTag>): Pair<Boolean, String?> {
         if (url.isBlank()) {
             Log.d(TAG, "Webhook URL vazia — pular envio")
-            return
+            return Pair(false, "URL vazia")
         }
 
         val arr = JSONArray()
@@ -167,12 +173,20 @@ class WebhookService : Service() {
             .header("Content-Type", "application/json")
             .build()
 
-        httpClient.newCall(request).execute().use { response ->
-            if (response.isSuccessful) {
-                Log.i(TAG, "Webhook enviado — tags=${tags.size} url=$url")
-            } else {
-                Log.w(TAG, "Webhook falhou code=${response.code} msg=${response.message}")
+        return try {
+            httpClient.newCall(request).execute().use { response ->
+                if (response.isSuccessful) {
+                    Log.i(TAG, "Webhook enviado — tags=${tags.size} url=$url")
+                    Pair(true, null)
+                } else {
+                    val msg = response.body?.string()?.take(2000) ?: response.message
+                    Log.w(TAG, "Webhook falhou code=${response.code} msg=${msg}")
+                    Pair(false, "HTTP ${response.code}: ${msg}")
+                }
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "Falha ao postar webhook", e)
+            Pair(false, e.message ?: "Erro de rede")
         }
     }
 

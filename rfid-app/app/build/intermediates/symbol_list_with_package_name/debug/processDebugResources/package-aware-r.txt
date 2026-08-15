@@ -3642,6 +3642,7 @@ id progressBar
 id progressBleScan
 id progressConnect
 id progressSaving
+id progressSending
 id progressSignal
 id progressSync
 id progress_circular
@@ -3656,6 +3657,7 @@ id recyclerViewReaders
 id recyclerViewScan
 id recyclerViewTags
 id recyclerViewTargets
+id recyclerWebhookHistory
 id report_drawn
 id reverseSawtooth
 id right
@@ -3774,9 +3776,12 @@ id textScanCount
 id textScanEmpty
 id textScanEpc
 id textScanRssi
+id textSendingStatus
 id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
+id textStatusDetail
+id textStatusTime
 id textSubtitle
 id textSyncItemLabel
 id textSyncItemStatus
@@ -4003,6 +4008,7 @@ layout item_radar_target
 layout item_reader
 layout item_sync_result
 layout item_tag
+layout item_webhook_status
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
 layout m3_alert_dialog_title
@@ -4242,6 +4248,8 @@ string item_view_role_description
 string label_buzzer
 string label_prefix
 string label_rssi_filter
+string label_sending
+string label_sending_inactive
 string label_session
 string label_webhook
 string label_webhook_interval
@@ -4397,6 +4405,8 @@ string tag_count_zero
 string webhook_example_url
 string webhook_not_configured
 string webhook_saved
+string webhook_send_fail
+string webhook_send_success
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

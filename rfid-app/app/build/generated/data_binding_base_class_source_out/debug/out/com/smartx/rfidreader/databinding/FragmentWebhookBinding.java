@@ -9,9 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
 import com.smartx.rfidreader.R;
 import java.lang.NullPointerException;
@@ -41,6 +43,15 @@ public final class FragmentWebhookBinding implements ViewBinding {
   public final LinearLayout limitBar;
 
   @NonNull
+  public final CircularProgressIndicator progressSending;
+
+  @NonNull
+  public final RecyclerView recyclerWebhookHistory;
+
+  @NonNull
+  public final TextView textSendingStatus;
+
+  @NonNull
   public final TextView textWebhookStatus;
 
   @NonNull
@@ -50,6 +61,8 @@ public final class FragmentWebhookBinding implements ViewBinding {
       @NonNull LinearLayout actionBar, @NonNull MaterialButton btnSaveWebhook,
       @NonNull MaterialButton btnToggleWebhook, @NonNull TextInputEditText inputWebhookInterval,
       @NonNull TextInputEditText inputWebhookUrl, @NonNull LinearLayout limitBar,
+      @NonNull CircularProgressIndicator progressSending,
+      @NonNull RecyclerView recyclerWebhookHistory, @NonNull TextView textSendingStatus,
       @NonNull TextView textWebhookStatus, @NonNull TextView textWebhookTagCount) {
     this.rootView = rootView;
     this.actionBar = actionBar;
@@ -58,6 +71,9 @@ public final class FragmentWebhookBinding implements ViewBinding {
     this.inputWebhookInterval = inputWebhookInterval;
     this.inputWebhookUrl = inputWebhookUrl;
     this.limitBar = limitBar;
+    this.progressSending = progressSending;
+    this.recyclerWebhookHistory = recyclerWebhookHistory;
+    this.textSendingStatus = textSendingStatus;
     this.textWebhookStatus = textWebhookStatus;
     this.textWebhookTagCount = textWebhookTagCount;
   }
@@ -125,6 +141,24 @@ public final class FragmentWebhookBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.progressSending;
+      CircularProgressIndicator progressSending = ViewBindings.findChildViewById(rootView, id);
+      if (progressSending == null) {
+        break missingId;
+      }
+
+      id = R.id.recyclerWebhookHistory;
+      RecyclerView recyclerWebhookHistory = ViewBindings.findChildViewById(rootView, id);
+      if (recyclerWebhookHistory == null) {
+        break missingId;
+      }
+
+      id = R.id.textSendingStatus;
+      TextView textSendingStatus = ViewBindings.findChildViewById(rootView, id);
+      if (textSendingStatus == null) {
+        break missingId;
+      }
+
       id = R.id.textWebhookStatus;
       TextView textWebhookStatus = ViewBindings.findChildViewById(rootView, id);
       if (textWebhookStatus == null) {
@@ -138,8 +172,8 @@ public final class FragmentWebhookBinding implements ViewBinding {
       }
 
       return new FragmentWebhookBinding((ConstraintLayout) rootView, actionBar, btnSaveWebhook,
-          btnToggleWebhook, inputWebhookInterval, inputWebhookUrl, limitBar, textWebhookStatus,
-          textWebhookTagCount);
+          btnToggleWebhook, inputWebhookInterval, inputWebhookUrl, limitBar, progressSending,
+          recyclerWebhookHistory, textSendingStatus, textWebhookStatus, textWebhookTagCount);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

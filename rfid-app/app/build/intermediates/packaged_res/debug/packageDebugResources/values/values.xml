@@ -137,6 +137,8 @@
     <string name="label_buzzer">Buzzer</string>
     <string name="label_prefix">Filtro de Prefixo EPC</string>
     <string name="label_rssi_filter">Filtro RSSI mínimo</string>
+    <string name="label_sending">Enviando...</string>
+    <string name="label_sending_inactive">Inativo</string>
     <string name="label_session">Sessão Gen2</string>
     <string name="label_webhook">Webhook</string>
     <string name="label_webhook_interval">Intervalo (segundos)</string>
@@ -180,6 +182,8 @@
     <string name="webhook_example_url">http://192.168.1.100:5000/api/v1/receive/x-scan</string>
     <string name="webhook_not_configured">Nenhum webhook configurado</string>
     <string name="webhook_saved">URL do webhook salva</string>
+    <string name="webhook_send_fail">Último: falha às %2$s — %1$s</string>
+    <string name="webhook_send_success">Último: %1$d enviado(s) às %2$s</string>
     <style name="Base.Theme.RfidReader" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>

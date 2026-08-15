@@ -16,7 +16,13 @@ import com.google.android.material.snackbar.Snackbar
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.databinding.FragmentWebhookBinding
 import com.smartx.rfidreader.core.webhook.WebhookService
+import com.smartx.rfidreader.core.webhook.WebhookStatusStore
 import com.smartx.rfidreader.ui.main.MainViewModel
+import kotlinx.coroutines.flow.collectLatest
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.smartx.rfidreader.ui.main.webhook.WebhookStatusAdapter
+import java.text.SimpleDateFormat
+import java.util.Locale
 import kotlinx.coroutines.launch
 
 class WebhookFragment : Fragment() {
@@ -83,6 +89,40 @@ class WebhookFragment : Fragment() {
                 }
                 binding.textWebhookStatus.text = "Webhook ativo: Sim"
                 binding.btnToggleWebhook.text = getString(R.string.btn_stop_webhook)
+            }
+        }
+
+        // Setup history recycler
+        val adapter = WebhookStatusAdapter()
+        binding.recyclerWebhookHistory.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerWebhookHistory.adapter = adapter
+
+        val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+
+        // Observe sending flag and history
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    WebhookStatusStore.sending.collectLatest { sending ->
+                        binding.progressSending.visibility = if (sending) View.VISIBLE else View.GONE
+                        binding.textSendingStatus.text = if (sending) getString(R.string.label_sending)
+                            else getString(R.string.label_sending_inactive)
+                    }
+                }
+
+                launch {
+                    WebhookStatusStore.history.collectLatest { list ->
+                        // show latest first
+                        adapter.submitList(list.reversed())
+                        // show last result summary when not sending
+                        val last = list.lastOrNull()
+                        if (last != null && WebhookStatusStore.sending.value == false) {
+                            val txt = if (last.success) getString(R.string.webhook_send_success, last.sentCount, timeFormat.format(last.timestamp))
+                            else getString(R.string.webhook_send_fail, (last.error ?: "Erro"), timeFormat.format(last.timestamp))
+                            binding.textSendingStatus.text = txt
+                        }
+                    }
+                }
             }
         }
 

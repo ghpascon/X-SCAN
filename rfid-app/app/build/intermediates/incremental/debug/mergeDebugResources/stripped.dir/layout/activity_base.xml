@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Header global (leitor + status de conexão) -->
+    <include
+        android:id="@+id/headerApp"
+        layout="@layout/header_app" />
+
+    <!-- Conteúdo específico de cada tela -->
+    <FrameLayout
+        android:id="@+id/baseContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Footer global (device ID) -->
+    <include
+        android:id="@+id/footerApp"
+        layout="@layout/footer_app" />
+
+</LinearLayout>

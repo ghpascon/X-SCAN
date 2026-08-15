@@ -1,4 +1,5 @@
 package com.smartx.rfidreader.ui.main
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.RfidApplication
 import com.smartx.rfidreader.core.reader.ReaderConnectionState
+import com.smartx.rfidreader.core.webhook.WebhookService
 import com.smartx.rfidreader.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import com.smartx.rfidreader.ui.main.config.ConfigFragment
@@ -48,6 +50,16 @@ class HomeFragment : Fragment() {
         if (savedInstanceState == null) {
             viewModel.autoConnectLastReader()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        stopWebhookSendingOnHome()
+    }
+
+    private fun stopWebhookSendingOnHome() {
+        if (!WebhookService.isRunning) return
+        requireContext().stopService(Intent(requireContext(), WebhookService::class.java))
     }
 
     private fun setupNavCards() {

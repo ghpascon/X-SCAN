@@ -29,7 +29,6 @@ import com.google.android.material.textfield.TextInputLayout
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.core.reader.ReaderConnectionState
 import com.smartx.rfidreader.core.reader.RfidTag
-import com.smartx.rfidreader.core.webhook.WebhookService
 import com.smartx.rfidreader.databinding.FragmentReadingBinding
 import com.smartx.rfidreader.ui.main.MainViewModel
 import java.io.OutputStreamWriter
@@ -339,11 +338,7 @@ class ReadingFragment : Fragment() {
         super.onStop()
         toneGenerator?.release()
         toneGenerator = null
-        // Mantém leitura em segundo plano quando o webhook está ativo.
-        // Se o webhook não estiver ativo, preserva comportamento atual e para o inventário.
-        if (!WebhookService.isRunning) {
-            viewModel.stopInventory()
-        }
+        viewModel.stopInventory()
     }
 
     override fun onDestroyView() {

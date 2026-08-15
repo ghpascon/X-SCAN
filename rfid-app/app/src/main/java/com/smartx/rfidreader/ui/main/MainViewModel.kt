@@ -18,6 +18,7 @@ import com.smartx.rfidreader.core.settings.AppSettingsRepository
 import com.smartx.rfidreader.readers.x714.X714Reader
 import com.smartx.rfidreader.readers.ih25.IH25Reader
 import com.smartx.rfidreader.readers.tsl1128.Tsl1128Reader
+import com.smartx.rfidreader.readers.zebra.ZebraReader
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -142,6 +143,12 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
             val settings = settingsRepo.flow.first()
             val lastId = settings.lastReaderId.ifBlank { return@launch }
             val rfidReader = ReaderRegistry.findById(lastId) ?: return@launch
+
+            // Zebra exige escolha explícita de transporte (Bluetooth/Serial).
+            // Não auto-conecta para evitar cair direto no Bluetooth.
+            if (rfidReader is ZebraReader) {
+                return@launch
+            }
 
             // Se leitor BLE, restaura o último MAC salvo — sem MAC não tentamos reconectar
             if (rfidReader.isBle) {

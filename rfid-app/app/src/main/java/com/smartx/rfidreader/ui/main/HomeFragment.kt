@@ -23,8 +23,10 @@ import com.smartx.rfidreader.ui.main.reader.ConnectionLogDialogFragment
 import com.smartx.rfidreader.readers.ih25.IH25Reader
 import com.smartx.rfidreader.readers.tsl1128.Tsl1128Reader
 import com.smartx.rfidreader.readers.x714.X714Reader
+import com.smartx.rfidreader.readers.zebra.ZebraReader
 import com.smartx.rfidreader.ui.main.reading.ReadingFragment
 import com.smartx.rfidreader.ui.sync.SyncFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
@@ -158,18 +160,11 @@ class HomeFragment : Fragment() {
                 launch {
                     viewModel.showBleScanDialog.collect { readerId ->
                         val reader = viewModel.availableReaders.firstOrNull { it.readerId == readerId } ?: return@collect
-                        val dialog = BleScanDialogFragment()
-                        dialog.onDeviceSelected = { _, address ->
-                            when (reader) {
-                                is IH25Reader -> reader.targetMacAddress = address
-                                is Tsl1128Reader -> reader.targetMacAddress = address
-                                is X714Reader -> reader.targetMacAddress = address
-                            }
-                            viewModel.connect(reader)
-                            ConnectionLogDialogFragment()
-                                .show(childFragmentManager, "connection_log")
+                        if (reader is ZebraReader) {
+                            showZebraTransportDialog(reader)
+                        } else {
+                            showBleScanDialog(reader)
                         }
-                        dialog.show(childFragmentManager, "ble_scan")
                     }
                 }
                 // Abrir diálogo de logs quando solicitado (auto-connect)
@@ -181,6 +176,52 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showBleScanDialog(reader: com.smartx.rfidreader.core.reader.IRfidReader) {
+        val dialog = BleScanDialogFragment()
+        dialog.onDeviceSelected = { _, address ->
+            when (reader) {
+                is IH25Reader -> reader.targetMacAddress = address
+                is Tsl1128Reader -> reader.targetMacAddress = address
+                is X714Reader -> reader.targetMacAddress = address
+                is ZebraReader -> reader.targetMacAddress = address
+            }
+            viewModel.connect(reader)
+            ConnectionLogDialogFragment()
+                .show(childFragmentManager, "connection_log")
+        }
+        dialog.show(childFragmentManager, "ble_scan")
+    }
+
+    private fun showZebraTransportDialog(reader: ZebraReader) {
+        val options = arrayOf(
+            getString(R.string.zebra_transport_bt),
+            getString(R.string.zebra_transport_serial),
+            getString(android.R.string.cancel)
+        )
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.zebra_transport_title)
+            .setMessage(R.string.zebra_transport_message)
+            .setItems(options) { dialog, which ->
+                when (which) {
+                    0 -> {
+                        reader.transportMode = ZebraReader.TransportMode.BLUETOOTH
+                        showBleScanDialog(reader)
+                    }
+                    1 -> {
+                        reader.transportMode = ZebraReader.TransportMode.SERIAL
+                        reader.targetMacAddress = null
+                        viewModel.connect(reader)
+                        ConnectionLogDialogFragment()
+                            .show(childFragmentManager, "connection_log")
+                    }
+                    else -> dialog.dismiss()
+                }
+            }
+            .setOnCancelListener { /* noop */ }
+            .show()
     }
 
     override fun onDestroyView() {

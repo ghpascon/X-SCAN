@@ -1,0 +1,90 @@
+[
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\menu_tab.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\menu\\tab.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\menu_iso14443_a.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\menu\\iso14443_a.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\layout_listitem.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\layout\\listitem.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\menu_read_w.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\menu\\read_w.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_readw.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\layout\\activity_readw.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\menu_iso15693.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\menu\\iso15693.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\menu_scan_mode_group.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\menu\\scan_mode_group.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\menu_main.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\menu\\main.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_g2.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\layout\\activity_g2.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_launcher.png.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\drawable-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\menu_get_active.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\menu\\get_active.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_main.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_gradient_bg.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\drawable-mdpi\\gradient_bg.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_launcher.png.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\drawable-xhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_launcher.png.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\layout_listgl.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\layout\\listgl.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_launcher.png.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\drawable-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\layout_get_active.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\layout\\get_active.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_tabs.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\layout\\activity_tabs.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_cmd.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\layout\\activity_cmd.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\menu_tabs.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\menu\\tabs.xml"
+    },
+    {
+        "merged": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\res\\merged\\debug\\layout_list.xml.flat",
+        "source": "E:\\Android Demo\\Client PDA\\9816\\UHFReader816UBT-CH-as(6.0+)\\UHFReader816UBT-CH-as(6.0+)\\app\\src\\main\\res\\layout\\list.xml"
+    }
+]

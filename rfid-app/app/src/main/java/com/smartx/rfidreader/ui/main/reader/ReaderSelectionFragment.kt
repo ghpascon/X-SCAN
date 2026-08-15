@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.core.reader.ReaderConnectionState
+import com.smartx.rfidreader.readers.cfh301.CfH301Reader
 import com.smartx.rfidreader.readers.ih25.IH25Reader
 import com.smartx.rfidreader.readers.tsl1128.Tsl1128Reader
 import com.smartx.rfidreader.readers.x714.X714Reader
@@ -62,9 +63,10 @@ class ReaderSelectionFragment : Fragment() {
             dialog.onDeviceSelected = { _, address ->
                 // Repassa o MAC para qualquer leitor BLE
                 when (reader) {
+                    is CfH301Reader -> reader.targetMacAddress = address
                     is IH25Reader -> reader.targetMacAddress = address
                     is Tsl1128Reader -> reader.targetMacAddress = address
-                        is X714Reader -> reader.targetMacAddress = address
+                    is X714Reader -> reader.targetMacAddress = address
                 }
                 viewModel.connect(reader)
                 // Abre o log de conexão para todos os leitores

@@ -1,0 +1,4 @@
+#Fri Jan 19 14:23:23 CST 2024
+base.0=E\:\\Android Demo\\Client PDA\\9816UBT\\UHFReader816UBT-CH-as(6.0+)\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

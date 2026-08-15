@@ -1,0 +1,298 @@
+-- Merging decision tree log ---
+manifest
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:2:1-104:12
+INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:2:1-104:12
+INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:2:1-104:12
+INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:2:1-104:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\ca0ddf743509e07991dc053e96c81ddd\constraint-layout-1.1.3\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\c736e09b9b8b0f5b17e0f48c980de4cc\appcompat-v7-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\afecda216b6c983155685d2561c96315\support-fragment-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\e9624393a49dd94b2ca40a9ffdf35a3e\animated-vector-drawable-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\8e2be69417a5434409aff2e241559cd2\support-core-ui-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\a132f49195b33e6b679761c7a033334d\support-core-utils-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\37e865960876485af47f95eda2fb5483\support-vector-drawable-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\015b56bcd73cc826db8dbdf9a2aba918\loader-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\03c282f76fad1e5d11a5e46adeaecf59\viewpager-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\a431d7a91ec2d1f028c3cc59a84cc899\coordinatorlayout-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\1986b45cb766081b34849193e6950bdd\drawerlayout-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\0d1c5c6ca1bcd9b48dbd540322103c10\slidingpanelayout-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\fa6e4af4a16ea0dc41d191cc8da93421\customview-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\37f8a6d72b11c046ce4d815a99520da7\swiperefreshlayout-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\7288d2d6d90f2c01f96d2e994c124206\asynclayoutinflater-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\6f81025bcc413a318d3343580ec76047\support-compat-28.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\2c8daf115cfeeeebdc4e90a34886e881\versionedparcelable-28.0.0\AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\01f9028635fdcebf8f8dbceab8b8edb0\cursoradapter-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\4518bb44f6ad6e1e929633d50f257c0d\runtime-1.1.1\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\8a3c3bd212458805be563f8e82222fa4\documentfile-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\66637a71ed7b0c19bdb2a6d0f62c6df5\localbroadcastmanager-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\5adae96c5ac7f4b2080edbd6fb7d9552\print-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\ccdfb67e718a1978464704598ce1ec17\viewmodel-1.1.1\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\9fb27d4ae00926bcad6f38c8c957ce27\livedata-1.1.1\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\be0964a4bb53975424fb17c579ce79a2\livedata-core-1.1.1\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\9f6e957644e5c3abf3c95a4346af2d34\runtime-1.1.1\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\d1b061c0673a3adc8af98c19a9222f07\interpolator-28.0.0\AndroidManifest.xml:17:1-22:12
+INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:2:1-104:12
+INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:2:1-104:12
+INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:2:1-104:12
+	package
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:3:5-42
+		INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+		INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+	android:versionName
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:5:5-31
+		INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+		INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:2:11-69
+	android:versionCode
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:4:5-30
+		INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+		INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+uses-feature#0x00020000
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:6:5-8:35
+	android:glEsVersion
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:7:9-41
+	android:required
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:8:9-32
+permission#com.example.uhfreader816ubt.permission.MAPS_RECEIVE
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:9:5-12:18
+	android:protectionLevel
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:11:9-44
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:10:9-75
+uses-permission#android.permission.INTERNET
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:14:5-67
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:14:22-64
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:15:5-81
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:15:22-78
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:18:5-78
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:18:22-76
+permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:23:5-75
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:23:17-73
+permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:25:5-73
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:25:17-71
+permission#android.permission.ACCESS_WIFI_STATE
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:27:5-70
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:27:17-68
+permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:29:5-73
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:29:17-71
+permission#android.permission.CHANGE_WIFI_STATE
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:31:5-70
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:31:17-68
+permission#android.permission.READ_PHONE_STATE
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:33:5-69
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:33:17-67
+permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:35:5-75
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:35:17-73
+permission#android.permission.INTERNET
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:37:5-61
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:37:17-59
+permission#android.permission.MOUNT_UNMOUNT_FILESYSTEMS
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:39:5-78
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:39:17-76
+uses-permission#android.permission.BLUETOOTH_PRIVILEGED
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:41:5-78
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:41:22-76
+uses-permission#com.google.android.providers.gsf.permission.READ_GSERVICES
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:42:5-98
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:42:22-95
+uses-permission#android.permission.BLUETOOTH
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:43:5-68
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:43:22-65
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:44:5-74
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:44:22-71
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:46:5-81
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:46:22-78
+uses-feature#android.hardware.bluetooth_le
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:47:5-90
+	android:required
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:47:64-87
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:47:19-63
+uses-feature#android.bluetooth.le
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:48:5-80
+	android:required
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:48:55-78
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:48:19-54
+application
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:50:5-102:19
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\ca0ddf743509e07991dc053e96c81ddd\constraint-layout-1.1.3\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\ca0ddf743509e07991dc053e96c81ddd\constraint-layout-1.1.3\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\6f81025bcc413a318d3343580ec76047\support-compat-28.0.0\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\6f81025bcc413a318d3343580ec76047\support-compat-28.0.0\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\2c8daf115cfeeeebdc4e90a34886e881\versionedparcelable-28.0.0\AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\2c8daf115cfeeeebdc4e90a34886e881\versionedparcelable-28.0.0\AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\6f81025bcc413a318d3343580ec76047\support-compat-28.0.0\AndroidManifest.xml:22:18-91
+	android:label
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:53:9-41
+	android:icon
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:52:9-45
+	android:allowBackup
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:51:9-35
+	android:theme
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:54:9-40
+activity#com.example.uhfreader816ubt.MainActivity
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:55:9-65:20
+	android:label
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:59:13-45
+	android:windowSoftInputMode
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:58:13-69
+	android:theme
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:57:13-63
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:56:13-68
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:60:13-64:29
+action#android.intent.action.MAIN
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:61:17-69
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:61:25-66
+category#android.intent.category.LAUNCHER
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:63:17-77
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:63:27-74
+service#com.example.uhfreader816ubt.BluetoothLeService
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:67:9-70:19
+	android:enabled
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:69:13-35
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:68:13-74
+service#com.example.uhfreader816ubt.MyService
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:71:9-75:19
+	android:enabled
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:73:13-35
+	android:exported
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:74:13-36
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:72:13-65
+activity#com.example.uhfreader816ubt.TabsActivity
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:77:9-80:20
+	android:label
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:79:13-55
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:78:13-68
+activity#com.example.uhfreader816ubt.IsoG2Activity
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:81:9-84:20
+	android:label
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:83:13-63
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:82:13-69
+activity#com.example.uhfreader816ubt.cmdActivity
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:85:9-88:20
+	android:label
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:87:13-55
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:86:13-67
+activity#com.example.uhfreader816ubt.ReadWActivity
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:90:9-93:20
+	android:label
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:92:13-58
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:91:13-69
+activity#com.example.uhfreader816ubt.GetActive
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:94:9-97:20
+	android:label
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:96:13-62
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:95:13-65
+activity#com.example.uhfreader816ubt.ScanModeGroup
+ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:98:9-101:20
+	android:label
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:100:13-67
+	android:name
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:99:13-69
+uses-sdk
+INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\ca0ddf743509e07991dc053e96c81ddd\constraint-layout-1.1.3\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\ca0ddf743509e07991dc053e96c81ddd\constraint-layout-1.1.3\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\c736e09b9b8b0f5b17e0f48c980de4cc\appcompat-v7-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\c736e09b9b8b0f5b17e0f48c980de4cc\appcompat-v7-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\afecda216b6c983155685d2561c96315\support-fragment-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\afecda216b6c983155685d2561c96315\support-fragment-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\e9624393a49dd94b2ca40a9ffdf35a3e\animated-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\e9624393a49dd94b2ca40a9ffdf35a3e\animated-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\8e2be69417a5434409aff2e241559cd2\support-core-ui-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\8e2be69417a5434409aff2e241559cd2\support-core-ui-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\a132f49195b33e6b679761c7a033334d\support-core-utils-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\a132f49195b33e6b679761c7a033334d\support-core-utils-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\37e865960876485af47f95eda2fb5483\support-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\37e865960876485af47f95eda2fb5483\support-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\015b56bcd73cc826db8dbdf9a2aba918\loader-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\015b56bcd73cc826db8dbdf9a2aba918\loader-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\03c282f76fad1e5d11a5e46adeaecf59\viewpager-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\03c282f76fad1e5d11a5e46adeaecf59\viewpager-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\a431d7a91ec2d1f028c3cc59a84cc899\coordinatorlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\a431d7a91ec2d1f028c3cc59a84cc899\coordinatorlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\1986b45cb766081b34849193e6950bdd\drawerlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\1986b45cb766081b34849193e6950bdd\drawerlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\0d1c5c6ca1bcd9b48dbd540322103c10\slidingpanelayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\0d1c5c6ca1bcd9b48dbd540322103c10\slidingpanelayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\fa6e4af4a16ea0dc41d191cc8da93421\customview-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\fa6e4af4a16ea0dc41d191cc8da93421\customview-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\37f8a6d72b11c046ce4d815a99520da7\swiperefreshlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\37f8a6d72b11c046ce4d815a99520da7\swiperefreshlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\7288d2d6d90f2c01f96d2e994c124206\asynclayoutinflater-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\7288d2d6d90f2c01f96d2e994c124206\asynclayoutinflater-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\6f81025bcc413a318d3343580ec76047\support-compat-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\6f81025bcc413a318d3343580ec76047\support-compat-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\2c8daf115cfeeeebdc4e90a34886e881\versionedparcelable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\2c8daf115cfeeeebdc4e90a34886e881\versionedparcelable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\01f9028635fdcebf8f8dbceab8b8edb0\cursoradapter-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\01f9028635fdcebf8f8dbceab8b8edb0\cursoradapter-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\4518bb44f6ad6e1e929633d50f257c0d\runtime-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\4518bb44f6ad6e1e929633d50f257c0d\runtime-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\8a3c3bd212458805be563f8e82222fa4\documentfile-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\8a3c3bd212458805be563f8e82222fa4\documentfile-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\66637a71ed7b0c19bdb2a6d0f62c6df5\localbroadcastmanager-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\66637a71ed7b0c19bdb2a6d0f62c6df5\localbroadcastmanager-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\5adae96c5ac7f4b2080edbd6fb7d9552\print-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\5adae96c5ac7f4b2080edbd6fb7d9552\print-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\ccdfb67e718a1978464704598ce1ec17\viewmodel-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\ccdfb67e718a1978464704598ce1ec17\viewmodel-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\9fb27d4ae00926bcad6f38c8c957ce27\livedata-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\9fb27d4ae00926bcad6f38c8c957ce27\livedata-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\be0964a4bb53975424fb17c579ce79a2\livedata-core-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\be0964a4bb53975424fb17c579ce79a2\livedata-core-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\9f6e957644e5c3abf3c95a4346af2d34\runtime-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\9f6e957644e5c3abf3c95a4346af2d34\runtime-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\d1b061c0673a3adc8af98c19a9222f07\interpolator-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\d1b061c0673a3adc8af98c19a9222f07\interpolator-28.0.0\AndroidManifest.xml:20:5-44
+INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+		INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+		ADDED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+		INJECTED from E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml

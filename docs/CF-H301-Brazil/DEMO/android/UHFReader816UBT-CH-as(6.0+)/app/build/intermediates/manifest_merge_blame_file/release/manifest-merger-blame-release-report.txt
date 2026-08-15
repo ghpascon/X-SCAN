@@ -1,0 +1,205 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.uhfreader816ubt"
+4    android:versionCode="122"
+5    android:versionName="1.22" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="22"
+8-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="28" />
+9-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml
+10
+11    <uses-feature
+11-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:6:5-8:35
+12        android:glEsVersion="0x00020000"
+12-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:7:9-41
+13        android:required="true" />
+13-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:8:9-32
+14
+15    <permission
+15-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:9:5-12:18
+16        android:name="com.example.uhfreader816ubt.permission.MAPS_RECEIVE"
+16-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:10:9-75
+17        android:protectionLevel="signature" >
+17-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:11:9-44
+18    </permission>
+19
+20    <uses-permission android:name="android.permission.INTERNET" />
+20-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:14:5-67
+20-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:14:22-64
+21    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+21-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:15:5-81
+21-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:15:22-78
+22    <!--
+23    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+24    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+25    -->
+26    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+26-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:18:5-78
+26-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:18:22-76
+27    <!-- <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/> -->
+28
+29
+30    <!-- 这个权限用于进行网络定位 -->
+31    <permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+31-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:23:5-75
+31-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:23:17-73
+32    <!-- 这个权限用于访问GPS定位 -->
+33    <permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+33-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:25:5-73
+33-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:25:17-71
+34    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+35    <permission android:name="android.permission.ACCESS_WIFI_STATE" />
+35-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:27:5-70
+35-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:27:17-68
+36    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+37    <permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+37-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:29:5-73
+37-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:29:17-71
+38    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+39    <permission android:name="android.permission.CHANGE_WIFI_STATE" />
+39-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:31:5-70
+39-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:31:17-68
+40    <!-- 用于读取手机当前的状态 -->
+41    <permission android:name="android.permission.READ_PHONE_STATE" />
+41-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:33:5-69
+41-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:33:17-67
+42    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
+43    <permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+43-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:35:5-75
+43-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:35:17-73
+44    <!-- 访问网络，网络定位需要上网 -->
+45    <permission android:name="android.permission.INTERNET" />
+45-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:37:5-61
+45-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:37:17-59
+46    <!-- SD卡读取权限，用户写入离线定位数据 -->
+47    <permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+47-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:39:5-78
+47-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:39:17-76
+48
+49    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
+49-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:41:5-78
+49-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:41:22-76
+50    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+50-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:42:5-98
+50-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:42:22-95
+51    <uses-permission android:name="android.permission.BLUETOOTH" />
+51-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:43:5-68
+51-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:43:22-65
+52    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+52-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:44:5-74
+52-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:44:22-71
+53    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+53-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:46:5-81
+53-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:46:22-78
+54
+55    <uses-feature
+55-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:47:5-90
+56        android:name="android.hardware.bluetooth_le"
+56-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:47:19-63
+57        android:required="true" />
+57-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:47:64-87
+58    <uses-feature
+58-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:48:5-80
+59        android:name="android.bluetooth.le"
+59-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:48:19-54
+60        android:required="true" />
+60-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:48:55-78
+61
+62    <application
+62-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:50:5-102:19
+63        android:allowBackup="true"
+63-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:51:9-35
+64        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+64-->[com.android.support:support-compat:28.0.0] C:\Users\zoudeyong\.gradle\caches\transforms-2\files-2.1\6f81025bcc413a318d3343580ec76047\support-compat-28.0.0\AndroidManifest.xml:22:18-91
+65        android:icon="@drawable/ic_launcher"
+65-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:52:9-45
+66        android:label="@string/app_name"
+66-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:53:9-41
+67        android:theme="@style/AppTheme" >
+67-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:54:9-40
+68        <activity
+68-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:55:9-65:20
+69            android:name="com.example.uhfreader816ubt.MainActivity"
+69-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:56:13-68
+70            android:label="@string/app_name"
+70-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:59:13-45
+71            android:theme="@style/Theme.AppCompat.NoActionBar"
+71-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:57:13-63
+72            android:windowSoftInputMode="stateHidden|stateUnchanged" >
+72-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:58:13-69
+73            <intent-filter>
+73-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:60:13-64:29
+74                <action android:name="android.intent.action.MAIN" />
+74-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:61:17-69
+74-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:61:25-66
+75
+76                <category android:name="android.intent.category.LAUNCHER" />
+76-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:63:17-77
+76-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:63:27-74
+77            </intent-filter>
+78        </activity>
+79
+80        <service
+80-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:67:9-70:19
+81            android:name="com.example.uhfreader816ubt.BluetoothLeService"
+81-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:68:13-74
+82            android:enabled="true" >
+82-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:69:13-35
+83        </service>
+84        <service
+84-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:71:9-75:19
+85            android:name="com.example.uhfreader816ubt.MyService"
+85-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:72:13-65
+86            android:enabled="true"
+86-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:73:13-35
+87            android:exported="true" >
+87-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:74:13-36
+88        </service>
+89
+90        <activity
+90-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:77:9-80:20
+91            android:name="com.example.uhfreader816ubt.TabsActivity"
+91-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:78:13-68
+92            android:label="@string/title_activity_tab" >
+92-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:79:13-55
+93        </activity>
+94        <activity
+94-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:81:9-84:20
+95            android:name="com.example.uhfreader816ubt.IsoG2Activity"
+95-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:82:13-69
+96            android:label="@string/title_activity_iso18000_6c" >
+96-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:83:13-63
+97        </activity>
+98        <activity
+98-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:85:9-88:20
+99            android:name="com.example.uhfreader816ubt.cmdActivity"
+99-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:86:13-67
+100            android:label="@string/title_activity_cmd" >
+100-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:87:13-55
+101        </activity>
+102        <activity
+102-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:90:9-93:20
+103            android:name="com.example.uhfreader816ubt.ReadWActivity"
+103-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:91:13-69
+104            android:label="@string/title_activity_read_w" >
+104-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:92:13-58
+105        </activity>
+106        <activity
+106-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:94:9-97:20
+107            android:name="com.example.uhfreader816ubt.GetActive"
+107-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:95:13-65
+108            android:label="@string/title_activity_get_active" >
+108-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:96:13-62
+109        </activity>
+110        <activity
+110-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:98:9-101:20
+111            android:name="com.example.uhfreader816ubt.ScanModeGroup"
+111-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:99:13-69
+112            android:label="@string/title_activity_scan_mode_group" >
+112-->E:\Android Demo\Client PDA\9816UBT\UHFReader816UBT-CH-as(6.0+)\app\src\main\AndroidManifest.xml:100:13-67
+113        </activity>
+114    </application>
+115
+116</manifest>

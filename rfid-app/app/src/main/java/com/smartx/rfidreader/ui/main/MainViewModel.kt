@@ -15,6 +15,7 @@ import com.smartx.rfidreader.core.reader.RfidTag
 import com.smartx.rfidreader.core.registry.ReaderRegistry
 import com.smartx.rfidreader.core.settings.AppSettings
 import com.smartx.rfidreader.core.settings.AppSettingsRepository
+import com.smartx.rfidreader.readers.cfh301.CfH301Reader
 import com.smartx.rfidreader.readers.x714.X714Reader
 import com.smartx.rfidreader.readers.ih25.IH25Reader
 import com.smartx.rfidreader.readers.tsl1128.Tsl1128Reader
@@ -159,6 +160,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                 val mac = settings.lastBleAddress.ifBlank { null }
                 if (mac == null) return@launch
                 when (rfidReader) {
+                    is CfH301Reader -> rfidReader.targetMacAddress = mac
                     is X714Reader -> rfidReader.targetMacAddress = mac
                     is IH25Reader -> rfidReader.targetMacAddress = mac
                     is Tsl1128Reader -> rfidReader.targetMacAddress = mac
@@ -228,6 +230,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
                 val settings = _uiState.value.appSettings
                 // Se for BLE, persiste também o MAC selecionado para permitir auto-reconexão
                 val macToSave = when (rfidReader) {
+                    is CfH301Reader -> rfidReader.targetMacAddress ?: settings.lastBleAddress
                     is X714Reader -> rfidReader.targetMacAddress ?: settings.lastBleAddress
                     is IH25Reader -> rfidReader.targetMacAddress ?: settings.lastBleAddress
                     else -> settings.lastBleAddress

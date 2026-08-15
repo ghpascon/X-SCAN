@@ -19,6 +19,7 @@ Suporta múltiplos modelos de leitor por meio de uma interface unificada; adicio
 5. [Leitores Implementados](#5-leitores-implementados)
    - 5.1 [C72 (Chainway)](#51-c72-chainway)
    - 5.2 [IH25 (Honeywell) — BLE](#52-ih25-honeywell--ble)
+   - 5.3 [CF-H301 (816UBT) — BLE](#53-cf-h301-816ubt--ble)
 6. [Como Adicionar um Novo Leitor](#6-como-adicionar-um-novo-leitor)
 7. [Camada de Persistência](#7-camada-de-persistência)
    - 7.1 [AppSettings / DataStore](#71-appsettings--datastore)
@@ -82,7 +83,7 @@ O app permite:
                      │  IRfidReader.tagFlow / connect / etc.
 ┌────────────────────▼────────────────────────────────┐
 │              Reader Layer (readers/*)                │
-│       C72Reader  │  IH25Reader                      │
+│ C72Reader │ IH25Reader │ CfH301Reader │ ...         │
 │        implements IRfidReader                        │
 └────────────────────┬────────────────────────────────┘
                      │
@@ -131,6 +132,8 @@ app/src/main/java/com/smartx/rfidreader/
 ├── readers/
 │   ├── c72/
 │   │   └── C72Reader.kt             # SDK Chainway DeviceAPI (AAR)
+│   ├── cfh301/
+│   │   └── CfH301Reader.kt          # Protocolo 816UBT via BLE (FFE1)
 │   └── ih25/
 │       └── IH25Reader.kt            # SDK Honeywell RFID (AAR) — BLE
 │
@@ -171,7 +174,7 @@ Interface que deve ser implementada por **todo leitor RFID**. O ViewModel e o re
 
 ```kotlin
 interface IRfidReader {
-    val readerId: String           // ID único como "C72", "IH25"
+    val readerId: String           // ID único como "C72", "IH25", "CF-H301"
     val displayName: String        // Nome de exibição como "Chainway C72"
     val isBle: Boolean             // true → fluxo de seleção BLE é ativado
 
@@ -237,10 +240,11 @@ data class ReaderConfig(
 
 > **Atenção às unidades de potência por SDK:**
 >
-> | Leitor | Unidade interna do SDK     | Conversão                                          |
-> | ------ | -------------------------- | -------------------------------------------------- |
-> | C72    | dBm                        | direto `setPower(30)`                              |
-> | IH25   | Centidécimos de dBm (cdBm) | `txPower × 100` → `setAntennaPower(3000)` = 30 dBm |
+> | Leitor  | Unidade interna do SDK     | Conversão                                          |
+> | ------- | -------------------------- | -------------------------------------------------- |
+> | C72     | dBm                        | direto `setPower(30)`                              |
+> | IH25    | Centidécimos de dBm (cdBm) | `txPower × 100` → `setAntennaPower(3000)` = 30 dBm |
+> | CF-H301 | Nível direto (0–30)        | direto `SetPower(level)`                           |
 
 Ao implementar um novo leitor, **sempre converta** para/de `dBm` (unidade padrão do app) nas funções `applyConfig()` e `readConfig()`.
 
@@ -270,6 +274,7 @@ object ReaderRegistry {
     val availableReaders: List<IRfidReader> by lazy {
         listOf(
             C72Reader(),
+            CfH301Reader(),
             IH25Reader()
             // ← adicione NovoLeitorReader() aqui
         )
@@ -330,6 +335,23 @@ connect(context)
                                     └─► rfidManager.setTriggerMode(RFID)
                                     └─► connectionState = CONNECTED
 ```
+
+---
+
+### 5.3 CF-H301 (816UBT) — BLE
+
+**Arquivo:** `readers/cfh301/CfH301Reader.kt`  
+**Protocolo:** BLE GATT na característica `0xFFE1` com frames binários + CRC16
+
+| Característica | Detalhe                                                                                   |
+| -------------- | ----------------------------------------------------------------------------------------- |
+| `readerId`     | `"CF-H301"`                                                                               |
+| `isBle`        | `true`                                                                                    |
+| Conexão        | `connectGatt` + descoberta de serviços + habilitação de notificação em `FFE1`             |
+| Inventário     | Poll de comando `Inventory_G2` com parsing de múltiplos frames                            |
+| Potência       | `SetPower` com nível direto (0–30)                                                        |
+| TID            | Leitura complementar por EPC com comando `ReadData_G2` no banco TID                       |
+| Fluxo BLE      | Requer MAC selecionado no `BleScanDialogFragment`; valor é persistido para auto-reconexão |
 
 ---
 
@@ -436,6 +458,7 @@ Em `core/registry/ReaderRegistry.kt`:
 val availableReaders: List<IRfidReader> by lazy {
     listOf(
         C72Reader(),
+        CfH301Reader(),
         IH25Reader(),
         NovoModeloReader()   // ← adicionar aqui
     )
@@ -464,9 +487,9 @@ private val TRIGGER_KEYCODES = intArrayOf(
 
 ### Passo 5 — BLE (se `isBle = true`)
 
-Se o leitor usa BLE, o campo `targetMacAddress` (ou equivalente) deve ser populado antes de `connect()`. O `ReaderSelectionFragment` detecta `isBle == true` e abre automaticamente o `BleScanDialogFragment` para o usuário selecionar o dispositivo. O resultado (MAC selecionado) é passado ao `IH25Reader` antes de chamar `connect()`.
+Se o leitor usa BLE, o campo `targetMacAddress` (ou equivalente) deve ser populado antes de `connect()`. O `ReaderSelectionFragment` detecta `isBle == true` e abre automaticamente o `BleScanDialogFragment` para o usuário selecionar o dispositivo. O resultado (MAC selecionado) é passado ao reader BLE (ex.: `IH25Reader`, `CfH301Reader`) antes de chamar `connect()`.
 
-Para um novo leitor BLE, adicione a propriedade de MAC na classe e certifique-se que `ReaderSelectionFragment.onReaderSelected()` a popule da mesma forma que faz com `IH25Reader`.
+Para um novo leitor BLE, adicione a propriedade de MAC na classe e certifique-se que `ReaderSelectionFragment.onReaderSelected()` a popule da mesma forma que faz com os readers BLE existentes.
 
 ---
 

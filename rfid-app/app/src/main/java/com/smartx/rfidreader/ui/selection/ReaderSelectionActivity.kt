@@ -75,16 +75,20 @@ class ReaderSelectionActivity : BaseActivity<ActivitySelectionBinding>() {
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.zebra_transport_title)
             .setMessage(R.string.zebra_transport_message)
-            .setPositiveButton(R.string.zebra_transport_bt) { _, _ ->
-                reader.transportMode = ZebraReader.TransportMode.BLUETOOTH
-                showBleScanDialog(reader)
+            .setItems(R.array.zebra_transport_options) { dialog, which ->
+                when (which) {
+                    0 -> {
+                        reader.transportMode = ZebraReader.TransportMode.BLUETOOTH
+                        showBleScanDialog(reader)
+                    }
+                    1 -> {
+                        reader.transportMode = ZebraReader.TransportMode.SERIAL
+                        reader.targetMacAddress = null
+                        viewModel.connect(reader)
+                    }
+                    else -> dialog.dismiss()
+                }
             }
-            .setNeutralButton(R.string.zebra_transport_serial) { _, _ ->
-                reader.transportMode = ZebraReader.TransportMode.SERIAL
-                reader.targetMacAddress = null
-                viewModel.connect(reader)
-            }
-            .setNegativeButton(android.R.string.cancel, null)
             .show()
     }
 

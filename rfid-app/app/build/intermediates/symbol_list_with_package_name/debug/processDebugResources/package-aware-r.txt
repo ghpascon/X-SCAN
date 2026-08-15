@@ -80,6 +80,7 @@ animator mtrl_fab_transformation_sheet_expand_spec
 array inventory_mode_options
 array region_options
 array session_options
+array zebra_transport_options
 attr SharedValue
 attr SharedValueId
 attr actionBarDivider

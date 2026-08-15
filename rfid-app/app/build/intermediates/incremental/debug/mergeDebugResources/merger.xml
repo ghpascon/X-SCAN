@@ -11563,6 +11563,10 @@
         <item>ETSI (0x01)</item>
         <item>China (0x03)</item>
         <item>Japão (0x04)</item>
+    </string-array><string-array name="zebra_transport_options">
+        <item>@string/zebra_transport_bt</item>
+        <item>@string/zebra_transport_serial</item>
+        <item>@string/btn_cancel</item>
     </string-array></file><file path="/home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/res/values/themes.xml" qualifiers=""><style name="Base.Theme.RfidReader" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>

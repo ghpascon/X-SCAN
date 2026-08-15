@@ -11,6 +11,8 @@ import android.provider.Settings
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.smartx.rfidreader.core.registry.ReaderRegistry
+import com.smartx.rfidreader.core.reader.ReaderConfig
+import com.smartx.rfidreader.core.reader.ReaderConnectionState
 import com.smartx.rfidreader.core.reader.RfidTag
 import com.smartx.rfidreader.core.settings.AppSettings
 import com.smartx.rfidreader.core.settings.AppSettingsRepository
@@ -59,6 +61,7 @@ class WebhookService : Service() {
     }
 
     private val tagsMap = LinkedHashMap<String, RfidTag>()
+    private var lastKnownReaderConfig: ReaderConfig = ReaderConfig()
     private var tagJob: Job? = null
     private var tickerJob: Job? = null
 
@@ -148,13 +151,14 @@ class WebhookService : Service() {
         }
     }
 
-    private fun sendPost(url: String, tags: List<RfidTag>, settings: AppSettings): Pair<Boolean, String?> {
+    private suspend fun sendPost(url: String, tags: List<RfidTag>, settings: AppSettings): Pair<Boolean, String?> {
         if (url.isBlank()) {
             Log.d(TAG, "Webhook URL vazia — pular envio")
             return Pair(false, "URL vazia")
         }
 
-        val body = buildWebhookPayload(tags, settings).toRequestBody("application/json".toMediaType())
+        val readerConfig = resolveReaderConfig(settings)
+        val body = buildWebhookPayload(tags, settings, readerConfig).toRequestBody("application/json".toMediaType())
         val request = Request.Builder()
             .url(url)
             .post(body)
@@ -178,7 +182,33 @@ class WebhookService : Service() {
         }
     }
 
-    private fun buildWebhookPayload(tags: List<RfidTag>, settings: AppSettings): String {
+    private suspend fun resolveReaderConfig(settings: AppSettings): ReaderConfig {
+        val preferredReader = settings.lastReaderId
+            .takeIf { it.isNotBlank() }
+            ?.let { ReaderRegistry.findById(it) }
+
+        val connectedReader = ReaderRegistry.availableReaders.firstOrNull {
+            it.connectionState.value == ReaderConnectionState.CONNECTED
+        }
+
+        val candidate = when {
+            preferredReader != null && preferredReader.connectionState.value == ReaderConnectionState.CONNECTED -> preferredReader
+            connectedReader != null -> connectedReader
+            preferredReader != null -> preferredReader
+            else -> null
+        }
+
+        if (candidate == null) return lastKnownReaderConfig
+
+        return runCatching { candidate.readConfig() }
+            .onSuccess { cfg -> lastKnownReaderConfig = cfg }
+            .onFailure { err ->
+                Log.w(TAG, "Falha ao ler config do reader ${candidate.readerId} para webhook; usando último valor conhecido", err)
+            }
+            .getOrElse { lastKnownReaderConfig }
+    }
+
+    private fun buildWebhookPayload(tags: List<RfidTag>, settings: AppSettings, readerConfig: ReaderConfig): String {
         val arr = JSONArray()
         tags.forEach { tag ->
             val obj = JSONObject()
@@ -201,6 +231,8 @@ class WebhookService : Service() {
             put("timestamp", isoFormat.format(Date()))
             put("tags", arr)
             put("reader_config", JSONObject().apply {
+                put("tx_power", readerConfig.txPower)
+                put("session", readerConfig.session)
                 put("rssi_filter", settings.rssiFilter)
                 put("prefixes", JSONArray(settings.prefixes))
             })

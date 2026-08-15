@@ -2084,7 +2084,9 @@
     <string name="btn_send_all">Enviar Pendentes</string>
     <string name="btn_start_inventory">Iniciar Leitura</string>
     <string name="btn_start_sync">Enviar Pendentes</string>
+    <string name="btn_start_webhook">Iniciar Envio</string>
     <string name="btn_stop_inventory">Parar Leitura</string>
+    <string name="btn_stop_webhook">Parar Envio</string>
     <string name="btn_sync">Sincronizar</string>
     <string name="btn_use_example_webhook">Usar URL de exemplo</string>
     <string name="call_notification_answer_action">Answer</string>
@@ -2194,6 +2196,7 @@
     <string name="label_rssi_filter">Filtro RSSI mínimo</string>
     <string name="label_session">Sessão Gen2</string>
     <string name="label_webhook">Webhook</string>
+    <string name="label_webhook_interval">Intervalo (segundos)</string>
     <string name="m3_exceed_max_badge_text_suffix" translatable="false"><ns2:g example="Some te" id="part of a long text">%1$s</ns2:g><ns2:g example="…" id="suffix">%2$s</ns2:g></string>
     <string name="m3_ref_typeface_brand_medium" translatable="false">sans-serif-medium</string>
     <string name="m3_ref_typeface_brand_regular" translatable="false">sans-serif</string>
@@ -2309,6 +2312,8 @@
     <string name="nav_reading_no_reader">Conecte um leitor primeiro</string>
     <string name="nav_sync">Sincronizar</string>
     <string name="nav_sync_desc">Enviar dados ao servidor</string>
+    <string name="nav_webhook">Webhook</string>
+    <string name="nav_webhook_desc">Enviar tags periodicamente</string>
     <string name="no_pending_events">Todos os eventos foram enviados</string>
     <string name="password_toggle_content_description">Show password</string>
     <string name="path_password_eye" translatable="false">M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3 3,-1.34 3,-3 -1.34,-3 -3,-3z</string>

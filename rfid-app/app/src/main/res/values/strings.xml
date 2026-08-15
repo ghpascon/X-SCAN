@@ -116,6 +116,12 @@
     <string name="nav_sync">Sincronizar</string>
     <string name="nav_sync_desc">Enviar dados ao servidor</string>
 
+    <string name="nav_webhook">Webhook</string>
+    <string name="nav_webhook_desc">Enviar tags periodicamente</string>
+    <string name="label_webhook_interval">Intervalo (segundos)</string>
+    <string name="btn_start_webhook">Iniciar Envio</string>
+    <string name="btn_stop_webhook">Parar Envio</string>
+
     <!-- Sync progress -->
     <string name="btn_start_sync">Enviar Pendentes</string>
     <string name="event_json_title">JSON do Evento</string>

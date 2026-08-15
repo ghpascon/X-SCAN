@@ -55,6 +55,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
+        <!-- Serviço de webhook que envia leituras periodicamente em foreground -->
+        <service
+            android:name=".core.webhook.WebhookService"
+            android:exported="false" />
+
     </application>
 
 </manifest>

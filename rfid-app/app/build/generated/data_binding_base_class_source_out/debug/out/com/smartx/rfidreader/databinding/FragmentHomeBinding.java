@@ -39,6 +39,9 @@ public final class FragmentHomeBinding implements ViewBinding {
   public final MaterialCardView cardNavSync;
 
   @NonNull
+  public final MaterialCardView cardNavWebhook;
+
+  @NonNull
   public final TextView textRadarHint;
 
   @NonNull
@@ -50,8 +53,9 @@ public final class FragmentHomeBinding implements ViewBinding {
   private FragmentHomeBinding(@NonNull ScrollView rootView, @NonNull TextView badgePending,
       @NonNull MaterialCardView cardNavConfig, @NonNull MaterialCardView cardNavRadar,
       @NonNull MaterialCardView cardNavReader, @NonNull MaterialCardView cardNavReading,
-      @NonNull MaterialCardView cardNavSync, @NonNull TextView textRadarHint,
-      @NonNull TextView textReadingStatusHint, @NonNull TextView textSyncPending) {
+      @NonNull MaterialCardView cardNavSync, @NonNull MaterialCardView cardNavWebhook,
+      @NonNull TextView textRadarHint, @NonNull TextView textReadingStatusHint,
+      @NonNull TextView textSyncPending) {
     this.rootView = rootView;
     this.badgePending = badgePending;
     this.cardNavConfig = cardNavConfig;
@@ -59,6 +63,7 @@ public final class FragmentHomeBinding implements ViewBinding {
     this.cardNavReader = cardNavReader;
     this.cardNavReading = cardNavReading;
     this.cardNavSync = cardNavSync;
+    this.cardNavWebhook = cardNavWebhook;
     this.textRadarHint = textRadarHint;
     this.textReadingStatusHint = textReadingStatusHint;
     this.textSyncPending = textSyncPending;
@@ -127,6 +132,12 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.cardNavWebhook;
+      MaterialCardView cardNavWebhook = ViewBindings.findChildViewById(rootView, id);
+      if (cardNavWebhook == null) {
+        break missingId;
+      }
+
       id = R.id.textRadarHint;
       TextView textRadarHint = ViewBindings.findChildViewById(rootView, id);
       if (textRadarHint == null) {
@@ -146,7 +157,7 @@ public final class FragmentHomeBinding implements ViewBinding {
       }
 
       return new FragmentHomeBinding((ScrollView) rootView, badgePending, cardNavConfig,
-          cardNavRadar, cardNavReader, cardNavReading, cardNavSync, textRadarHint,
+          cardNavRadar, cardNavReader, cardNavReading, cardNavSync, cardNavWebhook, textRadarHint,
           textReadingStatusHint, textSyncPending);
     }
     String missingId = rootView.getResources().getResourceName(id);

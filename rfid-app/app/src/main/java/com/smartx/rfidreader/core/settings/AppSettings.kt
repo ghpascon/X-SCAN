@@ -15,6 +15,7 @@ data class AppSettings(
     val rssiFilter: Int = -120,
     val prefixes: List<String> = emptyList(),
     val webhookUrl: String = "",
+    val webhookIntervalSeconds: Int = 30,
     /** Último endereço MAC BLE selecionado (global) */
     val lastBleAddress: String = ""
 )
@@ -32,6 +33,7 @@ class AppSettingsRepository(context: Context) {
         private val KEY_PREFIXES = stringPreferencesKey("prefixes")
         private val KEY_LAST_BLE = stringPreferencesKey("last_ble_address")
         private val KEY_WEBHOOK = stringPreferencesKey("webhook_url")
+        private val KEY_WEBHOOK_INTERVAL = intPreferencesKey("webhook_interval_seconds")
     }
 
     val flow: Flow<AppSettings> = store.data
@@ -47,6 +49,7 @@ class AppSettingsRepository(context: Context) {
                 prefixes = if (prefixStr.isBlank()) emptyList()
                            else prefixStr.split("|").filter { it.isNotBlank() },
                 webhookUrl = prefs[KEY_WEBHOOK] ?: "",
+                webhookIntervalSeconds = prefs[KEY_WEBHOOK_INTERVAL] ?: 30,
                 lastBleAddress = prefs[KEY_LAST_BLE] ?: ""
             )
         }

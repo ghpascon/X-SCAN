@@ -90,7 +90,9 @@
     <string name="btn_send_all">Enviar Pendentes</string>
     <string name="btn_start_inventory">Iniciar Leitura</string>
     <string name="btn_start_sync">Enviar Pendentes</string>
+    <string name="btn_start_webhook">Iniciar Envio</string>
     <string name="btn_stop_inventory">Parar Leitura</string>
+    <string name="btn_stop_webhook">Parar Envio</string>
     <string name="btn_sync">Sincronizar</string>
     <string name="btn_use_example_webhook">Usar URL de exemplo</string>
     <string name="config_save_error">Erro ao aplicar configuração</string>
@@ -137,6 +139,7 @@
     <string name="label_rssi_filter">Filtro RSSI mínimo</string>
     <string name="label_session">Sessão Gen2</string>
     <string name="label_webhook">Webhook</string>
+    <string name="label_webhook_interval">Intervalo (segundos)</string>
     <string name="nav_config">Configuração</string>
     <string name="nav_config_desc">Ajustar parâmetros</string>
     <string name="nav_reader">Leitor</string>
@@ -146,6 +149,8 @@
     <string name="nav_reading_no_reader">Conecte um leitor primeiro</string>
     <string name="nav_sync">Sincronizar</string>
     <string name="nav_sync_desc">Enviar dados ao servidor</string>
+    <string name="nav_webhook">Webhook</string>
+    <string name="nav_webhook_desc">Enviar tags periodicamente</string>
     <string name="no_pending_events">Todos os eventos foram enviados</string>
     <string name="prefix_already_exists">Prefixo já adicionado</string>
     <string name="reader_selection_hint">Selecione um leitor para conectar</string>

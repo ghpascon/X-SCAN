@@ -71,6 +71,9 @@ class HomeFragment : Fragment() {
         binding.cardNavSync.setOnClickListener {
             (requireActivity() as MainActivity).navigateTo(SyncFragment())
         }
+        binding.cardNavWebhook.setOnClickListener {
+            (requireActivity() as MainActivity).navigateTo(com.smartx.rfidreader.ui.main.webhook.WebhookFragment())
+        }
         binding.cardNavRadar.setOnClickListener {
             val connected =
                 viewModel.uiState.value.connectionState == ReaderConnectionState.CONNECTED

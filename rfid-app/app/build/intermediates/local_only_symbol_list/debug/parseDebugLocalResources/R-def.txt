@@ -86,6 +86,7 @@ id btnReloadConfig
 id btnRemoveTarget
 id btnSaveAppSettings
 id btnSaveReading
+id btnSaveWebhook
 id btnScanAgain
 id btnScanTargets
 id btnSelectAll
@@ -93,6 +94,7 @@ id btnStartSync
 id btnToggleInventory
 id btnToggleRadar
 id btnToggleScanInventory
+id btnToggleWebhook
 id btnWebhookConfig
 id cardAddTarget
 id cardAppConfig
@@ -103,6 +105,7 @@ id cardNavRadar
 id cardNavReader
 id cardNavReading
 id cardNavSync
+id cardNavWebhook
 id cardPower
 id cardReaderConfig
 id cardSync
@@ -136,6 +139,8 @@ id iconStatus
 id imgSyncStatus
 id inputInventoryName
 id inputLayoutInventoryName
+id inputWebhookInterval
+id inputWebhookUrl
 id labelSession
 id layoutDialogWebhookUrl
 id layoutEpcInput
@@ -199,7 +204,9 @@ id textTargetStatus
 id textTid
 id textTime
 id textTitle
+id textWebhookStatus
 id textWebhookSummary
+id textWebhookTagCount
 layout activity_base
 layout activity_main
 layout activity_selection
@@ -216,6 +223,7 @@ layout fragment_radar
 layout fragment_reader_selection
 layout fragment_reading
 layout fragment_sync
+layout fragment_webhook
 layout header_app
 layout item_ble_device
 layout item_event
@@ -255,7 +263,9 @@ string btn_save_webhook
 string btn_send_all
 string btn_start_inventory
 string btn_start_sync
+string btn_start_webhook
 string btn_stop_inventory
+string btn_stop_webhook
 string btn_sync
 string btn_use_example_webhook
 string config_save_error
@@ -302,6 +312,7 @@ string label_prefix
 string label_rssi_filter
 string label_session
 string label_webhook
+string label_webhook_interval
 string nav_config
 string nav_config_desc
 string nav_reader
@@ -311,6 +322,8 @@ string nav_reading_desc
 string nav_reading_no_reader
 string nav_sync
 string nav_sync_desc
+string nav_webhook
+string nav_webhook_desc
 string no_pending_events
 string prefix_already_exists
 string reader_selection_hint

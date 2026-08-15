@@ -81,28 +81,39 @@ class ReaderSelectionFragment : Fragment() {
     }
 
     private fun showZebraTransportDialog(reader: ZebraReader) {
+        val options = arrayOf(
+            getString(R.string.zebra_transport_bt),
+            getString(R.string.zebra_transport_serial),
+            getString(android.R.string.cancel)
+        )
+
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.zebra_transport_title)
             .setMessage(R.string.zebra_transport_message)
-            .setNegativeButton(android.R.string.cancel, null)
-            .setNeutralButton(R.string.zebra_transport_serial) { _, _ ->
-                reader.transportMode = ZebraReader.TransportMode.SERIAL
-                reader.targetMacAddress = null
-                viewModel.connect(reader)
-                ConnectionLogDialogFragment()
-                    .show(childFragmentManager, "connection_log")
-            }
-            .setPositiveButton(R.string.zebra_transport_bt) { _, _ ->
-                reader.transportMode = ZebraReader.TransportMode.BLUETOOTH
-                val dialog = BleScanDialogFragment()
-                dialog.onDeviceSelected = { _, address ->
-                    reader.targetMacAddress = address
-                    viewModel.connect(reader)
-                    ConnectionLogDialogFragment()
-                        .show(childFragmentManager, "connection_log")
+            .setItems(options) { dialog, which ->
+                when (which) {
+                    0 -> {
+                        reader.transportMode = ZebraReader.TransportMode.BLUETOOTH
+                        val scanDialog = BleScanDialogFragment()
+                        scanDialog.onDeviceSelected = { _, address ->
+                            reader.targetMacAddress = address
+                            viewModel.connect(reader)
+                            ConnectionLogDialogFragment()
+                                .show(childFragmentManager, "connection_log")
+                        }
+                        scanDialog.show(childFragmentManager, "ble_scan")
+                    }
+                    1 -> {
+                        reader.transportMode = ZebraReader.TransportMode.SERIAL
+                        reader.targetMacAddress = null
+                        viewModel.connect(reader)
+                        ConnectionLogDialogFragment()
+                            .show(childFragmentManager, "connection_log")
+                    }
+                    else -> dialog.dismiss()
                 }
-                dialog.show(childFragmentManager, "ble_scan")
             }
+            .setOnCancelListener { /* noop */ }
             .show()
     }
 

@@ -23,6 +23,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         private val TRIGGER_KEYCODES = intArrayOf(
             KeyEvent.KEYCODE_F1,
             KeyEvent.KEYCODE_FOCUS,
+            KeyEvent.KEYCODE_CAMERA,
             293,
             KeyEvent.KEYCODE_HEADSETHOOK,
             KeyEvent.KEYCODE_BUTTON_R1,

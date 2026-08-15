@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.smartx.rfidreader.R
+import com.smartx.rfidreader.core.reader.ReaderConnectionState
 import com.smartx.rfidreader.core.settings.AppSettings
 import com.smartx.rfidreader.core.webhook.WebhookSendStatus
 import com.smartx.rfidreader.databinding.FragmentWebhookBinding
@@ -39,6 +40,8 @@ class WebhookFragment : Fragment() {
     private var lastClearedWebhookAt: Long = -1L
     private var isWebhookRunning: Boolean = false
     private var isSendingNow: Boolean = false
+    private var isReaderConnected: Boolean = false
+    private var isInventorying: Boolean = false
     private var lastWebhookStatus: WebhookSendStatus? = null
     private val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
     private var lastToggleClickMs: Long = 0L
@@ -64,6 +67,10 @@ class WebhookFragment : Fragment() {
                         if (binding.inputWebhookInterval.text.isNullOrBlank()) {
                             binding.inputWebhookInterval.setText(s.webhookIntervalSeconds.toString())
                         }
+
+                        isReaderConnected = state.connectionState == ReaderConnectionState.CONNECTED
+                        isInventorying = state.isInventorying
+                        refreshReadingToggleUi()
                     }
                 }
 
@@ -82,6 +89,14 @@ class WebhookFragment : Fragment() {
             viewModel.saveAppSettings(settings) {
                 Snackbar.make(binding.root, getString(R.string.webhook_saved), Snackbar.LENGTH_SHORT).show()
             }
+        }
+
+        binding.btnToggleWebhookReading.setOnClickListener {
+            if (!isReaderConnected) {
+                Snackbar.make(binding.root, getString(R.string.error_no_reader), Snackbar.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            viewModel.toggleInventory()
         }
 
         binding.btnToggleWebhook.setOnClickListener {
@@ -154,6 +169,7 @@ class WebhookFragment : Fragment() {
             }
         }
 
+        refreshReadingToggleUi()
         syncRunningStateFromService()
     }
 
@@ -190,6 +206,15 @@ class WebhookFragment : Fragment() {
         binding.btnToggleWebhook.text = if (isWebhookRunning) getString(R.string.btn_stop_webhook) else getString(R.string.btn_start_webhook)
         binding.textWebhookStatus.text = if (isWebhookRunning) getString(R.string.webhook_status_active) else getString(R.string.webhook_status_inactive)
         binding.btnToggleWebhook.isEnabled = !toggleInFlight
+    }
+
+    private fun refreshReadingToggleUi() {
+        binding.btnToggleWebhookReading.text = if (isInventorying) {
+            getString(R.string.btn_stop_inventory)
+        } else {
+            getString(R.string.btn_start_inventory)
+        }
+        binding.btnToggleWebhookReading.isEnabled = isReaderConnected
     }
 
     private fun syncRunningStateFromService() {

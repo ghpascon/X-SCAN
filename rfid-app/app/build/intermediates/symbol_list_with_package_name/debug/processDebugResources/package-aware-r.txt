@@ -3325,6 +3325,7 @@ id btnToggleInventory
 id btnToggleRadar
 id btnToggleScanInventory
 id btnToggleWebhook
+id btnToggleWebhookReading
 id btnWebhookConfig
 id buttonPanel
 id cache_measures

@@ -27,40 +27,11 @@
             android:orientation="horizontal"
             android:padding="16dp">
 
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_nav_sync"
-                android:tint="?attr/colorOnPrimaryContainer" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Webhook em tempo real"
-                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-                    android:textColor="?attr/colorOnPrimaryContainer" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha="0.78"
-                    android:text="Envio contínuo das tags lidas"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="?attr/colorOnPrimaryContainer" />
-            </LinearLayout>
-
             <TextView
                 android:id="@+id/textWebhookTagCount"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="?attr/colorSurface"
                 android:gravity="center"
                 android:minWidth="64dp"
@@ -72,6 +43,14 @@
                 android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnToggleWebhookReading"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/btn_start_inventory" />
 
         </LinearLayout>
 

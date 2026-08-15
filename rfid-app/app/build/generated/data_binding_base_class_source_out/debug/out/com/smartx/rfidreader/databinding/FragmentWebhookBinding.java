@@ -34,6 +34,9 @@ public final class FragmentWebhookBinding implements ViewBinding {
   public final MaterialButton btnToggleWebhook;
 
   @NonNull
+  public final MaterialButton btnToggleWebhookReading;
+
+  @NonNull
   public final TextInputEditText inputWebhookInterval;
 
   @NonNull
@@ -59,15 +62,16 @@ public final class FragmentWebhookBinding implements ViewBinding {
 
   private FragmentWebhookBinding(@NonNull ConstraintLayout rootView,
       @NonNull MaterialCardView actionBar, @NonNull MaterialButton btnSaveWebhook,
-      @NonNull MaterialButton btnToggleWebhook, @NonNull TextInputEditText inputWebhookInterval,
-      @NonNull TextInputEditText inputWebhookUrl, @NonNull MaterialCardView limitBar,
-      @NonNull CircularProgressIndicator progressSending,
+      @NonNull MaterialButton btnToggleWebhook, @NonNull MaterialButton btnToggleWebhookReading,
+      @NonNull TextInputEditText inputWebhookInterval, @NonNull TextInputEditText inputWebhookUrl,
+      @NonNull MaterialCardView limitBar, @NonNull CircularProgressIndicator progressSending,
       @NonNull RecyclerView recyclerWebhookHistory, @NonNull TextView textSendingStatus,
       @NonNull TextView textWebhookStatus, @NonNull TextView textWebhookTagCount) {
     this.rootView = rootView;
     this.actionBar = actionBar;
     this.btnSaveWebhook = btnSaveWebhook;
     this.btnToggleWebhook = btnToggleWebhook;
+    this.btnToggleWebhookReading = btnToggleWebhookReading;
     this.inputWebhookInterval = inputWebhookInterval;
     this.inputWebhookUrl = inputWebhookUrl;
     this.limitBar = limitBar;
@@ -123,6 +127,12 @@ public final class FragmentWebhookBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.btnToggleWebhookReading;
+      MaterialButton btnToggleWebhookReading = ViewBindings.findChildViewById(rootView, id);
+      if (btnToggleWebhookReading == null) {
+        break missingId;
+      }
+
       id = R.id.inputWebhookInterval;
       TextInputEditText inputWebhookInterval = ViewBindings.findChildViewById(rootView, id);
       if (inputWebhookInterval == null) {
@@ -172,8 +182,9 @@ public final class FragmentWebhookBinding implements ViewBinding {
       }
 
       return new FragmentWebhookBinding((ConstraintLayout) rootView, actionBar, btnSaveWebhook,
-          btnToggleWebhook, inputWebhookInterval, inputWebhookUrl, limitBar, progressSending,
-          recyclerWebhookHistory, textSendingStatus, textWebhookStatus, textWebhookTagCount);
+          btnToggleWebhook, btnToggleWebhookReading, inputWebhookInterval, inputWebhookUrl,
+          limitBar, progressSending, recyclerWebhookHistory, textSendingStatus, textWebhookStatus,
+          textWebhookTagCount);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

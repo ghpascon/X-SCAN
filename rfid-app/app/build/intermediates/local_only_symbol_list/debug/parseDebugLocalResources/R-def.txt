@@ -95,6 +95,7 @@ id btnToggleInventory
 id btnToggleRadar
 id btnToggleScanInventory
 id btnToggleWebhook
+id btnToggleWebhookReading
 id btnWebhookConfig
 id cardAddTarget
 id cardAppConfig

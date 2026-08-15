@@ -125,6 +125,7 @@
     <string name="webhook_status_inactive">Webhook ativo: Não</string>
     <string name="error_invalid_webhook_interval">Intervalo inválido. Use um valor maior que zero</string>
     <string name="label_sending">Enviando...</string>
+    <string name="label_sending_waiting">Aguardando próximo envio</string>
     <string name="label_sending_inactive">Inativo</string>
     <string name="webhook_send_success">Último: %1$d enviado(s) às %2$s</string>
     <string name="webhook_send_fail">Último: falha às %2$s — %1$s</string>
@@ -141,6 +142,12 @@
     <string name="ble_scan_done">%d dispositivo(s) encontrado(s)</string>
     <string name="ble_no_devices">Nenhum dispositivo encontrado</string>
     <string name="ble_scan_again">Escanear novamente</string>
+
+    <!-- Zebra transport selection -->
+    <string name="zebra_transport_title">Conexão Zebra</string>
+    <string name="zebra_transport_message">Selecione o tipo de conexão para o leitor Zebra.</string>
+    <string name="zebra_transport_bt">Bluetooth</string>
+    <string name="zebra_transport_serial">Serial</string>
 
     <!-- Log de conexão -->
     <string name="connection_log_connected">Conectado com sucesso!</string>

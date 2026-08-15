@@ -23,6 +23,7 @@ import com.zebra.rfid.api3.RfidReadEvents
 import com.zebra.rfid.api3.RfidStatusEvents
 import com.zebra.rfid.api3.TagData
 import com.zebra.rfid.api3.AntennaInfo
+import com.zebra.rfid.api3.ENUM_TRANSPORT
 import com.zebra.rfid.api3.InvalidUsageException
 import com.zebra.rfid.api3.OperationFailureException
     
@@ -33,6 +34,11 @@ import com.zebra.rfid.api3.OperationFailureException
  */
 class ZebraReader : IRfidReader {
 
+    enum class TransportMode {
+        BLUETOOTH,
+        SERIAL
+    }
+
     override val readerId: String = "ZEBRA"
     override val displayName: String = "Zebra RFID"
     override val isBle: Boolean = true
@@ -41,6 +47,7 @@ class ZebraReader : IRfidReader {
 
     // MAC / host ou identificador selecionado pelo usuário (BleScanDialog passa o address)
     var targetMacAddress: String? = null
+    var transportMode: TransportMode = TransportMode.BLUETOOTH
 
     private val _connectionState = MutableStateFlow(ReaderConnectionState.DISCONNECTED)
     override val connectionState = _connectionState.asStateFlow()
@@ -128,16 +135,22 @@ class ZebraReader : IRfidReader {
     override suspend fun connect(context: Context): Boolean = withContext(Dispatchers.IO) {
         _connectionState.value = ReaderConnectionState.CONNECTING
         try {
-            readers = Readers(context.applicationContext, com.zebra.rfid.api3.ENUM_TRANSPORT.BLUETOOTH)
+            val transport = if (transportMode == TransportMode.SERIAL) {
+                ENUM_TRANSPORT.SERVICE_SERIAL
+            } else {
+                ENUM_TRANSPORT.BLUETOOTH
+            }
+
+            readers = Readers(context.applicationContext, transport)
             availableDevices = readers?.GetAvailableRFIDReaderList()
             if (availableDevices.isNullOrEmpty()) {
-                // try alternate transports
-                readers?.setTransport(com.zebra.rfid.api3.ENUM_TRANSPORT.SERVICE_SERIAL)
-                availableDevices = readers?.GetAvailableRFIDReaderList()
+                Log.w(TAG, "Nenhum Zebra encontrado para transporte=$transport")
+                _connectionState.value = ReaderConnectionState.ERROR
+                return@withContext false
             }
 
             // Find by name/address if provided
-            if (!targetMacAddress.isNullOrBlank() && !availableDevices.isNullOrEmpty()) {
+            if (transportMode == TransportMode.BLUETOOTH && !targetMacAddress.isNullOrBlank() && !availableDevices.isNullOrEmpty()) {
                 for (d in availableDevices!!) {
                     if (d.getName() != null && d.getName().contains(targetMacAddress!!, ignoreCase = true)) {
                         readerDevice = d

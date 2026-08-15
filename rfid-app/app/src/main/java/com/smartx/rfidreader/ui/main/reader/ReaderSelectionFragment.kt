@@ -10,12 +10,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.core.reader.ReaderConnectionState
 import com.smartx.rfidreader.readers.ih25.IH25Reader
 import com.smartx.rfidreader.readers.tsl1128.Tsl1128Reader
 import com.smartx.rfidreader.readers.x714.X714Reader
+import com.smartx.rfidreader.readers.zebra.ZebraReader
 import com.smartx.rfidreader.databinding.FragmentReaderSelectionBinding
 import com.smartx.rfidreader.ui.main.MainViewModel
 import com.smartx.rfidreader.ui.selection.ReaderListAdapter
@@ -50,6 +52,11 @@ class ReaderSelectionFragment : Fragment() {
     }
 
     private fun onConnectClicked(reader: com.smartx.rfidreader.core.reader.IRfidReader) {
+        if (reader is ZebraReader) {
+            showZebraTransportDialog(reader)
+            return
+        }
+
         if (reader.isBle) {
             // Leitores BLE: mostra escaner antes de conectar
             val dialog = BleScanDialogFragment()
@@ -59,7 +66,6 @@ class ReaderSelectionFragment : Fragment() {
                     is IH25Reader -> reader.targetMacAddress = address
                     is Tsl1128Reader -> reader.targetMacAddress = address
                         is X714Reader -> reader.targetMacAddress = address
-                        is com.smartx.rfidreader.readers.zebra.ZebraReader -> reader.targetMacAddress = address
                 }
                 viewModel.connect(reader)
                 // Abre o log de conexão para todos os leitores
@@ -72,6 +78,32 @@ class ReaderSelectionFragment : Fragment() {
             ConnectionLogDialogFragment()
                 .show(childFragmentManager, "connection_log")
         }
+    }
+
+    private fun showZebraTransportDialog(reader: ZebraReader) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.zebra_transport_title)
+            .setMessage(R.string.zebra_transport_message)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setNeutralButton(R.string.zebra_transport_serial) { _, _ ->
+                reader.transportMode = ZebraReader.TransportMode.SERIAL
+                reader.targetMacAddress = null
+                viewModel.connect(reader)
+                ConnectionLogDialogFragment()
+                    .show(childFragmentManager, "connection_log")
+            }
+            .setPositiveButton(R.string.zebra_transport_bt) { _, _ ->
+                reader.transportMode = ZebraReader.TransportMode.BLUETOOTH
+                val dialog = BleScanDialogFragment()
+                dialog.onDeviceSelected = { _, address ->
+                    reader.targetMacAddress = address
+                    viewModel.connect(reader)
+                    ConnectionLogDialogFragment()
+                        .show(childFragmentManager, "connection_log")
+                }
+                dialog.show(childFragmentManager, "ble_scan")
+            }
+            .show()
     }
 
     private fun observeState() {

@@ -3,6 +3,7 @@ package com.smartx.rfidreader.ui.main.webhook
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.core.settings.AppSettings
+import com.smartx.rfidreader.core.webhook.WebhookSendStatus
 import com.smartx.rfidreader.databinding.FragmentWebhookBinding
 import com.smartx.rfidreader.core.webhook.WebhookService
 import com.smartx.rfidreader.core.webhook.WebhookStatusStore
@@ -26,10 +28,21 @@ import kotlinx.coroutines.launch
 
 class WebhookFragment : Fragment() {
 
+    companion object {
+        private const val TOGGLE_DEBOUNCE_MS = 700L
+        private const val TOGGLE_RECOVERY_MS = 1800L
+    }
+
     private var _binding: FragmentWebhookBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by activityViewModels()
     private var lastClearedWebhookAt: Long = -1L
+    private var isWebhookRunning: Boolean = false
+    private var isSendingNow: Boolean = false
+    private var lastWebhookStatus: WebhookSendStatus? = null
+    private val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    private var lastToggleClickMs: Long = 0L
+    private var toggleInFlight: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentWebhookBinding.inflate(inflater, container, false)
@@ -72,13 +85,16 @@ class WebhookFragment : Fragment() {
         }
 
         binding.btnToggleWebhook.setOnClickListener {
+            if (!canToggleWebhookNow()) return@setOnClickListener
+
             val ctx = requireContext()
-            if (WebhookService.isRunning) {
+            if (isWebhookRunning) {
+                lockToggleButton()
                 val stopIntent = Intent(ctx, WebhookService::class.java).apply { action = WebhookService.ACTION_STOP }
-                ctx.stopService(stopIntent)
-                refreshServiceUi()
+                ctx.startService(stopIntent)
             } else {
                 val settings = buildValidatedSettings(requireUrl = true) ?: return@setOnClickListener
+                lockToggleButton()
                 viewModel.saveAppSettings(settings) {
                     val startIntent = Intent(ctx, WebhookService::class.java).apply { action = WebhookService.ACTION_START }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -86,7 +102,6 @@ class WebhookFragment : Fragment() {
                     } else {
                         ctx.startService(startIntent)
                     }
-                    refreshServiceUi()
                 }
             }
         }
@@ -96,16 +111,22 @@ class WebhookFragment : Fragment() {
         binding.recyclerWebhookHistory.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerWebhookHistory.adapter = adapter
 
-        val timeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-
         // Observe sending flag and history
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
+                    WebhookStatusStore.running.collectLatest { running ->
+                        isWebhookRunning = running
+                        toggleInFlight = false
+                        refreshServiceUi()
+                        refreshMonitoringUi()
+                    }
+                }
+
+                launch {
                     WebhookStatusStore.sending.collectLatest { sending ->
-                        binding.progressSending.visibility = if (sending) View.VISIBLE else View.GONE
-                        binding.textSendingStatus.text = if (sending) getString(R.string.label_sending)
-                            else getString(R.string.label_sending_inactive)
+                        isSendingNow = sending
+                        refreshMonitoringUi()
                     }
                 }
 
@@ -113,18 +134,15 @@ class WebhookFragment : Fragment() {
                     WebhookStatusStore.history.collectLatest { list ->
                         // show latest first
                         adapter.submitList(list.reversed())
-                        // show last result summary when not sending
-                        val last = list.lastOrNull()
-                        if (last != null && WebhookStatusStore.sending.value == false) {
-                            val txt = if (last.success) getString(R.string.webhook_send_success, last.sentCount, timeFormat.format(last.timestamp))
-                            else getString(R.string.webhook_send_fail, (last.error ?: "Erro"), timeFormat.format(last.timestamp))
-                            binding.textSendingStatus.text = txt
+                        lastWebhookStatus = list.lastOrNull()
 
-                            if (last.success && last.sentCount > 0 && last.timestamp.time != lastClearedWebhookAt) {
-                                lastClearedWebhookAt = last.timestamp.time
-                                viewModel.clearTags()
-                            }
+                        val last = lastWebhookStatus
+                        if (last != null && last.success && last.sentCount > 0 && last.timestamp.time != lastClearedWebhookAt) {
+                            lastClearedWebhookAt = last.timestamp.time
+                            viewModel.clearTags()
                         }
+
+                        refreshMonitoringUi()
                     }
                 }
             }
@@ -163,9 +181,53 @@ class WebhookFragment : Fragment() {
     }
 
     private fun refreshServiceUi() {
-        val running = WebhookService.isRunning
-        binding.btnToggleWebhook.text = if (running) getString(R.string.btn_stop_webhook) else getString(R.string.btn_start_webhook)
-        binding.textWebhookStatus.text = if (running) getString(R.string.webhook_status_active) else getString(R.string.webhook_status_inactive)
+        binding.btnToggleWebhook.text = if (isWebhookRunning) getString(R.string.btn_stop_webhook) else getString(R.string.btn_start_webhook)
+        binding.textWebhookStatus.text = if (isWebhookRunning) getString(R.string.webhook_status_active) else getString(R.string.webhook_status_inactive)
+        binding.btnToggleWebhook.isEnabled = !toggleInFlight
+    }
+
+    private fun refreshMonitoringUi() {
+        binding.progressSending.visibility = if (isSendingNow) View.VISIBLE else View.GONE
+
+        val statusText = when {
+            isSendingNow -> getString(R.string.label_sending)
+            isWebhookRunning -> {
+                val last = lastWebhookStatus
+                if (last != null) {
+                    if (last.success) {
+                        getString(R.string.webhook_send_success, last.sentCount, timeFormat.format(last.timestamp))
+                    } else {
+                        getString(R.string.webhook_send_fail, (last.error ?: "Erro"), timeFormat.format(last.timestamp))
+                    }
+                } else {
+                    getString(R.string.label_sending_waiting)
+                }
+            }
+            else -> getString(R.string.label_sending_inactive)
+        }
+
+        binding.textSendingStatus.text = statusText
+    }
+
+    private fun canToggleWebhookNow(): Boolean {
+        val now = SystemClock.elapsedRealtime()
+        if (toggleInFlight) return false
+        if (now - lastToggleClickMs < TOGGLE_DEBOUNCE_MS) return false
+        lastToggleClickMs = now
+        return true
+    }
+
+    private fun lockToggleButton() {
+        toggleInFlight = true
+        refreshServiceUi()
+
+        binding.btnToggleWebhook.postDelayed({
+            if (_binding == null) return@postDelayed
+            if (toggleInFlight) {
+                toggleInFlight = false
+                refreshServiceUi()
+            }
+        }, TOGGLE_RECOVERY_MS)
     }
 
     override fun onDestroyView() {

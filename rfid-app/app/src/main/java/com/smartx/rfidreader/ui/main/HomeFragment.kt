@@ -59,7 +59,10 @@ class HomeFragment : Fragment() {
 
     private fun stopWebhookSendingOnHome() {
         if (!WebhookService.isRunning) return
-        requireContext().stopService(Intent(requireContext(), WebhookService::class.java))
+        val stopIntent = Intent(requireContext(), WebhookService::class.java).apply {
+            action = WebhookService.ACTION_STOP
+        }
+        requireContext().startService(stopIntent)
     }
 
     private fun setupNavCards() {

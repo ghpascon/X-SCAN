@@ -4252,6 +4252,7 @@ string label_prefix
 string label_rssi_filter
 string label_sending
 string label_sending_inactive
+string label_sending_waiting
 string label_session
 string label_webhook
 string label_webhook_interval
@@ -4411,6 +4412,10 @@ string webhook_send_fail
 string webhook_send_success
 string webhook_status_active
 string webhook_status_inactive
+string zebra_transport_bt
+string zebra_transport_message
+string zebra_transport_serial
+string zebra_transport_title
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

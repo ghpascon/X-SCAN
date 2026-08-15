@@ -82,6 +82,7 @@ class WebhookService : Service() {
     private fun startForegroundServiceWork() {
         if (isRunning) return
         isRunning = true
+        WebhookStatusStore.setRunning(true)
 
         val notif = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("X-SCAN: Webhook ativo")
@@ -240,6 +241,8 @@ class WebhookService : Service() {
     private fun stopForegroundServiceWork() {
         if (!isRunning) return
         isRunning = false
+        WebhookStatusStore.setRunning(false)
+        WebhookStatusStore.setSending(false)
         tagJob?.cancel()
         tickerJob?.cancel()
         scope.coroutineContext.cancelChildren()

@@ -5,6 +5,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 object WebhookStatusStore {
+    private val _running = MutableStateFlow(false)
+    val running: StateFlow<Boolean> = _running.asStateFlow()
+
     private val _sending = MutableStateFlow(false)
     val sending: StateFlow<Boolean> = _sending.asStateFlow()
 
@@ -13,6 +16,10 @@ object WebhookStatusStore {
 
     fun setSending(value: Boolean) {
         _sending.value = value
+    }
+
+    fun setRunning(value: Boolean) {
+        _running.value = value
     }
 
     fun add(status: WebhookSendStatus) {

@@ -17,6 +17,11 @@
         <item>S2</item>
         <item>S3</item>
     </string-array>
+    <string-array name="zebra_transport_options">
+        <item>@string/zebra_transport_bt</item>
+        <item>@string/zebra_transport_serial</item>
+        <item>@string/btn_cancel</item>
+    </string-array>
     <attr format="reference" name="appLogo"/>
     <color name="md_theme_background">#F8F9FF</color>
     <color name="md_theme_error">#BA1A1A</color>

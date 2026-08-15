@@ -3,6 +3,7 @@ local
 array inventory_mode_options
 array region_options
 array session_options
+array zebra_transport_options
 attr appLogo
 color md_theme_background
 color md_theme_error

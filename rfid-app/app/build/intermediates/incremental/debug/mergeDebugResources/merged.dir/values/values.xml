@@ -17,6 +17,11 @@
         <item>S2</item>
         <item>S3</item>
     </string-array>
+    <string-array name="zebra_transport_options">
+        <item>@string/zebra_transport_bt</item>
+        <item>@string/zebra_transport_serial</item>
+        <item>@string/btn_cancel</item>
+    </string-array>
     <attr format="enum" name="animateCircleAngleTo">
         <enum name="bestChoice" value="0"/>
         <enum name="closest" value="1"/>

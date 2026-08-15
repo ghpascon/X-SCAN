@@ -29,6 +29,7 @@ class WebhookFragment : Fragment() {
     private var _binding: FragmentWebhookBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by activityViewModels()
+    private var lastClearedWebhookAt: Long = -1L
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentWebhookBinding.inflate(inflater, container, false)
@@ -118,6 +119,11 @@ class WebhookFragment : Fragment() {
                             val txt = if (last.success) getString(R.string.webhook_send_success, last.sentCount, timeFormat.format(last.timestamp))
                             else getString(R.string.webhook_send_fail, (last.error ?: "Erro"), timeFormat.format(last.timestamp))
                             binding.textSendingStatus.text = txt
+
+                            if (last.success && last.sentCount > 0 && last.timestamp.time != lastClearedWebhookAt) {
+                                lastClearedWebhookAt = last.timestamp.time
+                                viewModel.clearTags()
+                            }
                         }
                     }
                 }

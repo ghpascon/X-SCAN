@@ -10,6 +10,7 @@ import android.os.IBinder
 import android.provider.Settings
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.smartx.rfidreader.core.reader.ReaderConnectionState
 import com.smartx.rfidreader.core.registry.ReaderRegistry
 import com.smartx.rfidreader.core.reader.RfidTag
 import com.smartx.rfidreader.core.settings.AppSettings
@@ -59,6 +60,7 @@ class WebhookService : Service() {
     }
 
     private val tagsMap = LinkedHashMap<String, RfidTag>()
+    private val startedByService = mutableSetOf<String>()
     private var tagJob: Job? = null
     private var tickerJob: Job? = null
 
@@ -124,10 +126,15 @@ class WebhookService : Service() {
                 }
 
                 if (settings != null) {
-                    val snapshot = drainTagsSnapshot()
+                    ensureInventoryRunningForConnectedReaders()
+
+                    val snapshot = snapshotTags()
                     WebhookStatusStore.setSending(true)
                     try {
                         val (ok, err) = sendPost(settings.webhookUrl, snapshot, settings)
+                        if (ok && snapshot.isNotEmpty()) {
+                            clearCollectedTags()
+                        }
                         WebhookStatusStore.add(WebhookSendStatus(Date(), ok, snapshot.size, err))
                     } catch (e: Exception) {
                         Log.e(TAG, "Erro ao enviar webhook", e)
@@ -209,10 +216,53 @@ class WebhookService : Service() {
         }.toString()
     }
 
-    private fun drainTagsSnapshot(): List<RfidTag> = synchronized(tagsMap) {
-        val snapshot = tagsMap.values.toList()
-        tagsMap.clear()
-        snapshot
+    private fun snapshotTags(): List<RfidTag> = synchronized(tagsMap) {
+        tagsMap.values.toList()
+    }
+
+    private fun clearCollectedTags() {
+        synchronized(tagsMap) {
+            tagsMap.clear()
+        }
+    }
+
+    private fun ensureInventoryRunningForConnectedReaders() {
+        ReaderRegistry.availableReaders.forEach { reader ->
+            if (reader.connectionState.value != ReaderConnectionState.CONNECTED) return@forEach
+            if (reader.isInventorying()) return@forEach
+
+            val started = runCatching { reader.startInventory() }.getOrElse {
+                Log.e(TAG, "Falha ao iniciar inventário em background (${reader.readerId})", it)
+                false
+            }
+
+            if (started) {
+                synchronized(startedByService) {
+                    startedByService.add(reader.readerId)
+                }
+                Log.i(TAG, "Inventário iniciado pelo WebhookService (${reader.readerId})")
+            }
+        }
+    }
+
+    private fun stopInventoriesStartedByService() {
+        val startedIds = synchronized(startedByService) { startedByService.toSet() }
+        if (startedIds.isEmpty()) return
+
+        ReaderRegistry.availableReaders.forEach { reader ->
+            if (!startedIds.contains(reader.readerId)) return@forEach
+            runCatching {
+                if (reader.isInventorying()) {
+                    reader.stopInventory()
+                }
+            }.onFailure {
+                Log.e(TAG, "Falha ao parar inventário iniciado pelo serviço (${reader.readerId})", it)
+            }
+        }
+
+        synchronized(startedByService) {
+            startedByService.clear()
+        }
     }
 
     private fun upsertTag(tag: RfidTag) {
@@ -235,6 +285,7 @@ class WebhookService : Service() {
         isRunning = false
         tagJob?.cancel()
         tickerJob?.cancel()
+        stopInventoriesStartedByService()
         scope.coroutineContext.cancelChildren()
         stopForeground(true)
         stopSelf()

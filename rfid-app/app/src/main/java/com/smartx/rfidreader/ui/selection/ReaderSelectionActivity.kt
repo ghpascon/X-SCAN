@@ -11,9 +11,16 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.smartx.rfidreader.R
+import com.smartx.rfidreader.core.reader.IRfidReader
 import com.smartx.rfidreader.databinding.ActivitySelectionBinding
+import com.smartx.rfidreader.readers.ih25.IH25Reader
+import com.smartx.rfidreader.readers.tsl1128.Tsl1128Reader
+import com.smartx.rfidreader.readers.x714.X714Reader
+import com.smartx.rfidreader.readers.zebra.ZebraReader
 import com.smartx.rfidreader.ui.base.BaseActivity
 import com.smartx.rfidreader.ui.main.MainActivity
+import com.smartx.rfidreader.ui.main.reader.BleScanDialogFragment
 import kotlinx.coroutines.launch
 
 class ReaderSelectionActivity : BaseActivity<ActivitySelectionBinding>() {
@@ -30,10 +37,55 @@ class ReaderSelectionActivity : BaseActivity<ActivitySelectionBinding>() {
 
     private fun setupRecyclerView() {
         adapter = ReaderListAdapter { reader ->
-            viewModel.connect(reader)
+            onConnectClicked(reader)
         }
         binding.recyclerViewReaders.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewReaders.adapter = adapter
+    }
+
+    private fun onConnectClicked(reader: IRfidReader) {
+        if (reader is ZebraReader) {
+            showZebraTransportDialog(reader)
+            return
+        }
+
+        if (reader.isBle) {
+            showBleScanDialog(reader)
+            return
+        }
+
+        viewModel.connect(reader)
+    }
+
+    private fun showBleScanDialog(reader: IRfidReader) {
+        val dialog = BleScanDialogFragment()
+        dialog.onDeviceSelected = { _, address ->
+            when (reader) {
+                is IH25Reader -> reader.targetMacAddress = address
+                is Tsl1128Reader -> reader.targetMacAddress = address
+                is X714Reader -> reader.targetMacAddress = address
+                is ZebraReader -> reader.targetMacAddress = address
+            }
+            viewModel.connect(reader)
+        }
+        dialog.show(supportFragmentManager, "ble_scan")
+    }
+
+    private fun showZebraTransportDialog(reader: ZebraReader) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.zebra_transport_title)
+            .setMessage(R.string.zebra_transport_message)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setNeutralButton(R.string.zebra_transport_serial) { _, _ ->
+                reader.transportMode = ZebraReader.TransportMode.SERIAL
+                reader.targetMacAddress = null
+                viewModel.connect(reader)
+            }
+            .setPositiveButton(R.string.zebra_transport_bt) { _, _ ->
+                reader.transportMode = ZebraReader.TransportMode.BLUETOOTH
+                showBleScanDialog(reader)
+            }
+            .show()
     }
 
     private fun observeState() {

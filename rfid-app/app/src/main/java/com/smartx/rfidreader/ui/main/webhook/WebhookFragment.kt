@@ -89,12 +89,18 @@ class WebhookFragment : Fragment() {
 
             val ctx = requireContext()
             if (isWebhookRunning) {
+                isWebhookRunning = false
                 lockToggleButton()
+                refreshServiceUi()
+                refreshMonitoringUi()
                 val stopIntent = Intent(ctx, WebhookService::class.java).apply { action = WebhookService.ACTION_STOP }
                 ctx.startService(stopIntent)
             } else {
                 val settings = buildValidatedSettings(requireUrl = true) ?: return@setOnClickListener
+                isWebhookRunning = true
                 lockToggleButton()
+                refreshServiceUi()
+                refreshMonitoringUi()
                 viewModel.saveAppSettings(settings) {
                     val startIntent = Intent(ctx, WebhookService::class.java).apply { action = WebhookService.ACTION_START }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -148,12 +154,12 @@ class WebhookFragment : Fragment() {
             }
         }
 
-        refreshServiceUi()
+        syncRunningStateFromService()
     }
 
     override fun onResume() {
         super.onResume()
-        refreshServiceUi()
+        syncRunningStateFromService()
     }
 
     private fun buildValidatedSettings(requireUrl: Boolean): AppSettings? {
@@ -184,6 +190,16 @@ class WebhookFragment : Fragment() {
         binding.btnToggleWebhook.text = if (isWebhookRunning) getString(R.string.btn_stop_webhook) else getString(R.string.btn_start_webhook)
         binding.textWebhookStatus.text = if (isWebhookRunning) getString(R.string.webhook_status_active) else getString(R.string.webhook_status_inactive)
         binding.btnToggleWebhook.isEnabled = !toggleInFlight
+    }
+
+    private fun syncRunningStateFromService() {
+        val running = WebhookService.isRunning
+        isWebhookRunning = running
+        if (WebhookStatusStore.running.value != running) {
+            WebhookStatusStore.setRunning(running)
+        }
+        refreshServiceUi()
+        refreshMonitoringUi()
     }
 
     private fun refreshMonitoringUi() {
@@ -225,7 +241,7 @@ class WebhookFragment : Fragment() {
             if (_binding == null) return@postDelayed
             if (toggleInFlight) {
                 toggleInFlight = false
-                refreshServiceUi()
+                syncRunningStateFromService()
             }
         }, TOGGLE_RECOVERY_MS)
     }

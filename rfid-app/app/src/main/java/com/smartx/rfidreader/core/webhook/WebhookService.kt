@@ -10,6 +10,8 @@ import android.os.IBinder
 import android.provider.Settings
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.smartx.rfidreader.core.reader.IRfidReader
+import com.smartx.rfidreader.core.reader.ReaderConnectionState
 import com.smartx.rfidreader.core.registry.ReaderRegistry
 import com.smartx.rfidreader.core.reader.RfidTag
 import com.smartx.rfidreader.core.settings.AppSettings
@@ -61,6 +63,7 @@ class WebhookService : Service() {
     private val tagsMap = LinkedHashMap<String, RfidTag>()
     private var tagJob: Job? = null
     private var tickerJob: Job? = null
+    private val startedInventoryByService = HashSet<String>()
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -103,6 +106,24 @@ class WebhookService : Service() {
             }
 
             readers.forEach { reader ->
+                launch {
+                    try {
+                        if (reader.connectionState.value == ReaderConnectionState.CONNECTED) {
+                            ensureInventoryRunning(reader)
+                        }
+                        reader.connectionState.collect { state ->
+                            when (state) {
+                                ReaderConnectionState.CONNECTED -> ensureInventoryRunning(reader)
+                                ReaderConnectionState.DISCONNECTED,
+                                ReaderConnectionState.ERROR -> clearServiceOwnership(reader)
+                                ReaderConnectionState.CONNECTING -> Unit
+                            }
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Connection observer error reader=${reader.readerId}", e)
+                    }
+                }
+
                 launch {
                     try {
                         reader.tagFlow.collect { tag -> upsertTag(tag) }
@@ -243,6 +264,7 @@ class WebhookService : Service() {
         isRunning = false
         WebhookStatusStore.setRunning(false)
         WebhookStatusStore.setSending(false)
+        stopOwnedInventories()
         tagJob?.cancel()
         tickerJob?.cancel()
         scope.coroutineContext.cancelChildren()
@@ -261,6 +283,49 @@ class WebhookService : Service() {
             val channel = NotificationChannel(CHANNEL_ID, "Webhook", NotificationManager.IMPORTANCE_LOW)
             nm.createNotificationChannel(channel)
         }
+    }
+
+    private fun ensureInventoryRunning(reader: IRfidReader) {
+        if (reader.isInventorying()) return
+
+        val started = runCatching { reader.startInventory() }
+            .onFailure { Log.e(TAG, "Falha ao iniciar inventário reader=${reader.readerId}", it) }
+            .getOrDefault(false)
+
+        if (started) {
+            synchronized(startedInventoryByService) {
+                startedInventoryByService.add(reader.readerId)
+            }
+            Log.i(TAG, "Inventário iniciado pelo webhook reader=${reader.readerId}")
+        } else {
+            Log.w(TAG, "Não foi possível iniciar inventário reader=${reader.readerId}")
+        }
+    }
+
+    private fun clearServiceOwnership(reader: IRfidReader) {
+        synchronized(startedInventoryByService) {
+            startedInventoryByService.remove(reader.readerId)
+        }
+    }
+
+    private fun stopOwnedInventories() {
+        val ownedReaderIds = synchronized(startedInventoryByService) {
+            startedInventoryByService.toList().also { startedInventoryByService.clear() }
+        }
+
+        if (ownedReaderIds.isEmpty()) return
+
+        ReaderRegistry.availableReaders
+            .filter { ownedReaderIds.contains(it.readerId) }
+            .forEach { reader ->
+                runCatching {
+                    if (reader.isInventorying()) {
+                        reader.stopInventory()
+                    }
+                }.onFailure {
+                    Log.e(TAG, "Falha ao parar inventário reader=${reader.readerId}", it)
+                }
+            }
     }
 
 }

@@ -29,6 +29,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.core.reader.ReaderConnectionState
 import com.smartx.rfidreader.core.reader.RfidTag
+import com.smartx.rfidreader.core.webhook.WebhookService
 import com.smartx.rfidreader.databinding.FragmentReadingBinding
 import com.smartx.rfidreader.ui.main.MainViewModel
 import java.io.OutputStreamWriter
@@ -338,7 +339,9 @@ class ReadingFragment : Fragment() {
         super.onStop()
         toneGenerator?.release()
         toneGenerator = null
-        viewModel.stopInventory()
+        if (!WebhookService.isRunning) {
+            viewModel.stopInventory()
+        }
     }
 
     override fun onDestroyView() {

@@ -20,14 +20,19 @@ public final class ItemWebhookStatusBinding implements ViewBinding {
   private final MaterialCardView rootView;
 
   @NonNull
+  public final MaterialCardView cardWebhookStatus;
+
+  @NonNull
   public final TextView textStatusDetail;
 
   @NonNull
   public final TextView textStatusTime;
 
   private ItemWebhookStatusBinding(@NonNull MaterialCardView rootView,
-      @NonNull TextView textStatusDetail, @NonNull TextView textStatusTime) {
+      @NonNull MaterialCardView cardWebhookStatus, @NonNull TextView textStatusDetail,
+      @NonNull TextView textStatusTime) {
     this.rootView = rootView;
+    this.cardWebhookStatus = cardWebhookStatus;
     this.textStatusDetail = textStatusDetail;
     this.textStatusTime = textStatusTime;
   }
@@ -59,6 +64,8 @@ public final class ItemWebhookStatusBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      MaterialCardView cardWebhookStatus = (MaterialCardView) rootView;
+
       id = R.id.textStatusDetail;
       TextView textStatusDetail = ViewBindings.findChildViewById(rootView, id);
       if (textStatusDetail == null) {
@@ -71,8 +78,8 @@ public final class ItemWebhookStatusBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ItemWebhookStatusBinding((MaterialCardView) rootView, textStatusDetail,
-          textStatusTime);
+      return new ItemWebhookStatusBinding((MaterialCardView) rootView, cardWebhookStatus,
+          textStatusDetail, textStatusTime);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

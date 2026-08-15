@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.core.webhook.WebhookSendStatus
 import java.text.SimpleDateFormat
@@ -18,7 +19,7 @@ class WebhookStatusAdapter : RecyclerView.Adapter<WebhookStatusAdapter.VH>() {
 
     fun submitList(list: List<WebhookSendStatus>) {
         items.clear()
-        items.addAll(list.reversed()) // show newest first
+        items.addAll(list)
         notifyDataSetChanged()
     }
 
@@ -34,15 +35,18 @@ class WebhookStatusAdapter : RecyclerView.Adapter<WebhookStatusAdapter.VH>() {
         if (item.success) {
             holder.detail.setTextColor(ContextCompat.getColor(ctx, android.R.color.holo_green_dark))
             holder.detail.text = "Sucesso — ${item.sentCount} tag(s)"
+            holder.card.setCardBackgroundColor(ContextCompat.getColor(ctx, R.color.md_theme_primaryContainer))
         } else {
             holder.detail.setTextColor(ContextCompat.getColor(ctx, android.R.color.holo_red_dark))
             holder.detail.text = "Falha — ${item.error ?: "Erro desconhecido"}"
+            holder.card.setCardBackgroundColor(ContextCompat.getColor(ctx, R.color.md_theme_errorContainer))
         }
     }
 
     override fun getItemCount(): Int = items.size
 
     class VH(v: View) : RecyclerView.ViewHolder(v) {
+        val card: MaterialCardView = v.findViewById(R.id.cardWebhookStatus)
         val time: TextView = v.findViewById(R.id.textStatusTime)
         val detail: TextView = v.findViewById(R.id.textStatusDetail)
     }

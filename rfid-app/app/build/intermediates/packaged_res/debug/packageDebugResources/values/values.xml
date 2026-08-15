@@ -112,6 +112,7 @@
     <string name="error_invalid_region">Região inválida</string>
     <string name="error_invalid_rssi">Valor RSSI inválido</string>
     <string name="error_invalid_url">URL inválida. Use http:// ou https://</string>
+    <string name="error_invalid_webhook_interval">Intervalo inválido. Use um valor maior que zero</string>
     <string name="error_no_reader">Nenhum leitor selecionado</string>
     <string name="error_power_range">Potência deve ser entre 5 e 33 dBm</string>
     <string name="event_json_title">JSON do Evento</string>
@@ -184,6 +185,8 @@
     <string name="webhook_saved">URL do webhook salva</string>
     <string name="webhook_send_fail">Último: falha às %2$s — %1$s</string>
     <string name="webhook_send_success">Último: %1$d enviado(s) às %2$s</string>
+    <string name="webhook_status_active">Webhook ativo: Sim</string>
+    <string name="webhook_status_inactive">Webhook ativo: Não</string>
     <style name="Base.Theme.RfidReader" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>

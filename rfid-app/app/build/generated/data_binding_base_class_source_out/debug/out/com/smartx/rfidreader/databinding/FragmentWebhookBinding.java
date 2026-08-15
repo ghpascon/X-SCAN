@@ -4,7 +4,6 @@ package com.smartx.rfidreader.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
 import com.smartx.rfidreader.R;
@@ -25,7 +25,7 @@ public final class FragmentWebhookBinding implements ViewBinding {
   private final ConstraintLayout rootView;
 
   @NonNull
-  public final LinearLayout actionBar;
+  public final MaterialCardView actionBar;
 
   @NonNull
   public final MaterialButton btnSaveWebhook;
@@ -40,7 +40,7 @@ public final class FragmentWebhookBinding implements ViewBinding {
   public final TextInputEditText inputWebhookUrl;
 
   @NonNull
-  public final LinearLayout limitBar;
+  public final MaterialCardView limitBar;
 
   @NonNull
   public final CircularProgressIndicator progressSending;
@@ -58,9 +58,9 @@ public final class FragmentWebhookBinding implements ViewBinding {
   public final TextView textWebhookTagCount;
 
   private FragmentWebhookBinding(@NonNull ConstraintLayout rootView,
-      @NonNull LinearLayout actionBar, @NonNull MaterialButton btnSaveWebhook,
+      @NonNull MaterialCardView actionBar, @NonNull MaterialButton btnSaveWebhook,
       @NonNull MaterialButton btnToggleWebhook, @NonNull TextInputEditText inputWebhookInterval,
-      @NonNull TextInputEditText inputWebhookUrl, @NonNull LinearLayout limitBar,
+      @NonNull TextInputEditText inputWebhookUrl, @NonNull MaterialCardView limitBar,
       @NonNull CircularProgressIndicator progressSending,
       @NonNull RecyclerView recyclerWebhookHistory, @NonNull TextView textSendingStatus,
       @NonNull TextView textWebhookStatus, @NonNull TextView textWebhookTagCount) {
@@ -106,7 +106,7 @@ public final class FragmentWebhookBinding implements ViewBinding {
     int id;
     missingId: {
       id = R.id.actionBar;
-      LinearLayout actionBar = ViewBindings.findChildViewById(rootView, id);
+      MaterialCardView actionBar = ViewBindings.findChildViewById(rootView, id);
       if (actionBar == null) {
         break missingId;
       }
@@ -136,7 +136,7 @@ public final class FragmentWebhookBinding implements ViewBinding {
       }
 
       id = R.id.limitBar;
-      LinearLayout limitBar = ViewBindings.findChildViewById(rootView, id);
+      MaterialCardView limitBar = ViewBindings.findChildViewById(rootView, id);
       if (limitBar == null) {
         break missingId;
       }

@@ -215,88 +215,93 @@
 
         </GridLayout>
 
-        <!-- Card: Webhook (envio periódico) -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardNavWebhook"
+        <!-- Linha final 2x: Webhook + Radar -->
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="2dp"
-            app:cardBackgroundColor="?attr/colorSurfaceVariant">
+            android:columnCount="2"
+            android:rowCount="1"
+            android:useDefaultMargins="false">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- Card: Webhook -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardNavWebhook"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="20dp">
-
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@drawable/ic_nav_sync"
-                    android:contentDescription="@null"
-                    android:layout_marginEnd="16dp" />
+                android:layout_column="0"
+                android:layout_row="0"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_margin="6dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="?attr/colorSurfaceVariant">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_nav_sync"
+                        android:contentDescription="@null"
+                        android:layout_marginBottom="12dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Webhook"
+                        android:text="@string/nav_webhook"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="?attr/colorOnSurfaceVariant" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Enviar tags periodicamente ao webhook configurado"
+                        android:text="@string/nav_webhook_desc"
                         android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         android:alpha="0.75" />
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Card: Modo Radar (largura total) -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardNavRadar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="2dp"
-            app:cardBackgroundColor="?attr/colorErrorContainer">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- Card: Radar -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardNavRadar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="20dp">
-
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@drawable/ic_nav_reader"
-                    android:contentDescription="@null"
-                    android:layout_marginEnd="16dp" />
+                android:layout_column="1"
+                android:layout_row="0"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:layout_margin="6dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="?attr/colorErrorContainer">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_nav_reader"
+                        android:contentDescription="@null"
+                        android:layout_marginBottom="12dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Modo Radar"
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="?attr/colorOnErrorContainer" />
+
                     <TextView
                         android:id="@+id/textRadarHint"
                         android:layout_width="wrap_content"
@@ -306,9 +311,9 @@
                         android:textColor="?attr/colorOnErrorContainer"
                         android:alpha="0.75" />
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+        </GridLayout>
 
     </LinearLayout>
 </ScrollView>

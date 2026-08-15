@@ -10,7 +10,6 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.smartx.rfidreader.core.registry.ReaderRegistry
-import com.smartx.rfidreader.core.reader.ReaderConnectionState
 import com.smartx.rfidreader.core.reader.RfidTag
 import com.smartx.rfidreader.core.settings.AppSettingsRepository
 import kotlinx.coroutines.*
@@ -87,33 +86,23 @@ class WebhookService : Service() {
 
         startForeground(NOTIF_ID, notif)
 
-        // Observe reader tags
+        // Observa tags de todos os readers. Assim, se o leitor conectar depois do start,
+        // o serviço continua recebendo tags sem precisar reiniciar.
         tagJob = scope.launch {
-            val reader = ReaderRegistry.availableReaders.firstOrNull {
-                it.connectionState.value == ReaderConnectionState.CONNECTED
+            val readers = ReaderRegistry.availableReaders
+            if (readers.isEmpty()) {
+                Log.w(TAG, "Nenhum reader registrado no ReaderRegistry")
+                return@launch
             }
-            if (reader != null) {
-                try {
-                    reader.tagFlow.collect { tag ->
-                        synchronized(tagsMap) {
-                            val existing = tagsMap[tag.epc]
-                            if (existing == null) {
-                                tagsMap[tag.epc] = tag
-                            } else {
-                                tagsMap[tag.epc] = existing.copy(
-                                    readCount = existing.readCount + 1,
-                                    rssi = tag.rssi,
-                                    timestamp = tag.timestamp
-                                )
-                            }
-                        }
+
+            readers.forEach { reader ->
+                launch {
+                    try {
+                        reader.tagFlow.collect { tag -> upsertTag(tag) }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Collector error reader=${reader.readerId}", e)
                     }
-                } catch (e: Exception) {
-                    Log.e(TAG, "Collector error", e)
                 }
-            } else {
-                // No reader connected — nothing to collect, will send empty lists periodically
-                Log.i(TAG, "Nenhum leitor conectado — enviando listas vazias")
             }
         }
 
@@ -187,6 +176,21 @@ class WebhookService : Service() {
         } catch (e: Exception) {
             Log.e(TAG, "Falha ao postar webhook", e)
             Pair(false, e.message ?: "Erro de rede")
+        }
+    }
+
+    private fun upsertTag(tag: RfidTag) {
+        synchronized(tagsMap) {
+            val existing = tagsMap[tag.epc]
+            if (existing == null) {
+                tagsMap[tag.epc] = tag
+            } else {
+                tagsMap[tag.epc] = existing.copy(
+                    readCount = existing.readCount + 1,
+                    rssi = tag.rssi,
+                    timestamp = tag.timestamp
+                )
+            }
         }
     }
 

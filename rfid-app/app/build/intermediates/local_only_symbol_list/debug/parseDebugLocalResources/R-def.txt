@@ -110,6 +110,7 @@ id cardPower
 id cardReaderConfig
 id cardSync
 id cardWebhook
+id cardWebhookStatus
 id checkboxSelectTag
 id chip100
 id chip200
@@ -291,6 +292,7 @@ string error_invalid_power
 string error_invalid_region
 string error_invalid_rssi
 string error_invalid_url
+string error_invalid_webhook_interval
 string error_no_reader
 string error_power_range
 string event_json_title
@@ -363,5 +365,7 @@ string webhook_not_configured
 string webhook_saved
 string webhook_send_fail
 string webhook_send_success
+string webhook_status_active
+string webhook_status_inactive
 style Base.Theme.RfidReader
 style Theme.RfidReader

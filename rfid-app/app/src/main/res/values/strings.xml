@@ -121,6 +121,9 @@
     <string name="label_webhook_interval">Intervalo (segundos)</string>
     <string name="btn_start_webhook">Iniciar Envio</string>
     <string name="btn_stop_webhook">Parar Envio</string>
+    <string name="webhook_status_active">Webhook ativo: Sim</string>
+    <string name="webhook_status_inactive">Webhook ativo: Não</string>
+    <string name="error_invalid_webhook_interval">Intervalo inválido. Use um valor maior que zero</string>
     <string name="label_sending">Enviando...</string>
     <string name="label_sending_inactive">Inativo</string>
     <string name="webhook_send_success">Último: %1$d enviado(s) às %2$s</string>

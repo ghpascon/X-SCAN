@@ -1,6 +1,5 @@
 package com.smartx.rfidreader.ui.main.webhook
 
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -20,7 +19,6 @@ import com.smartx.rfidreader.core.webhook.WebhookStatusStore
 import com.smartx.rfidreader.ui.main.MainViewModel
 import kotlinx.coroutines.flow.collectLatest
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.smartx.rfidreader.ui.main.webhook.WebhookStatusAdapter
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlinx.coroutines.launch
@@ -65,12 +63,7 @@ class WebhookFragment : Fragment() {
         }
 
         binding.btnSaveWebhook.setOnClickListener {
-            val url = binding.inputWebhookUrl.text?.toString()?.trim() ?: ""
-            val interval = binding.inputWebhookInterval.text?.toString()?.toIntOrNull() ?: 30
-            val settings = viewModel.uiState.value.appSettings
-            val newSettings = settings.copy(webhookUrl = url, webhookIntervalSeconds = interval)
-            viewModel.saveAppSettings(newSettings)
-            Snackbar.make(binding.root, getString(R.string.webhook_saved), Snackbar.LENGTH_SHORT).show()
+            saveWebhookSettings(showFeedback = true, requireUrl = false)
         }
 
         binding.btnToggleWebhook.setOnClickListener {
@@ -78,18 +71,18 @@ class WebhookFragment : Fragment() {
             if (WebhookService.isRunning) {
                 val stopIntent = Intent(ctx, WebhookService::class.java).apply { action = WebhookService.ACTION_STOP }
                 ctx.stopService(stopIntent)
-                binding.textWebhookStatus.text = "Webhook ativo: Não"
-                binding.btnToggleWebhook.text = getString(R.string.btn_start_webhook)
             } else {
+                val canStart = saveWebhookSettings(showFeedback = false, requireUrl = true)
+                if (!canStart) return@setOnClickListener
+
                 val startIntent = Intent(ctx, WebhookService::class.java).apply { action = WebhookService.ACTION_START }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     ctx.startForegroundService(startIntent)
                 } else {
                     ctx.startService(startIntent)
                 }
-                binding.textWebhookStatus.text = "Webhook ativo: Sim"
-                binding.btnToggleWebhook.text = getString(R.string.btn_stop_webhook)
             }
+            refreshServiceUi()
         }
 
         // Setup history recycler
@@ -126,9 +119,47 @@ class WebhookFragment : Fragment() {
             }
         }
 
-        // Initialize toggle text according to service state
-        binding.btnToggleWebhook.text = if (WebhookService.isRunning) getString(R.string.btn_stop_webhook) else getString(R.string.btn_start_webhook)
-        binding.textWebhookStatus.text = if (WebhookService.isRunning) "Webhook ativo: Sim" else "Webhook ativo: Não"
+        refreshServiceUi()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshServiceUi()
+    }
+
+    private fun saveWebhookSettings(showFeedback: Boolean, requireUrl: Boolean): Boolean {
+        val url = binding.inputWebhookUrl.text?.toString()?.trim().orEmpty()
+        val intervalText = binding.inputWebhookInterval.text?.toString()?.trim().orEmpty()
+        val interval = intervalText.toIntOrNull()
+
+        if (requireUrl && url.isBlank()) {
+            Snackbar.make(binding.root, getString(R.string.sync_no_url), Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (url.isNotBlank() && !url.startsWith("http://") && !url.startsWith("https://")) {
+            Snackbar.make(binding.root, getString(R.string.error_invalid_url), Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (interval == null || interval < 1) {
+            Snackbar.make(binding.root, getString(R.string.error_invalid_webhook_interval), Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+
+        val settings = viewModel.uiState.value.appSettings
+        val newSettings = settings.copy(webhookUrl = url, webhookIntervalSeconds = interval)
+        viewModel.saveAppSettings(newSettings)
+        if (showFeedback) {
+            Snackbar.make(binding.root, getString(R.string.webhook_saved), Snackbar.LENGTH_SHORT).show()
+        }
+        return true
+    }
+
+    private fun refreshServiceUi() {
+        val running = WebhookService.isRunning
+        binding.btnToggleWebhook.text = if (running) getString(R.string.btn_stop_webhook) else getString(R.string.btn_start_webhook)
+        binding.textWebhookStatus.text = if (running) getString(R.string.webhook_status_active) else getString(R.string.webhook_status_inactive)
     }
 
     override fun onDestroyView() {

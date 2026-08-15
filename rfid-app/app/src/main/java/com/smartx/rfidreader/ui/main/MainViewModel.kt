@@ -476,13 +476,14 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     // Configurações do app (persistentes via DataStore)
     // -------------------------------------------------------------------------
 
-    fun saveAppSettings(settings: AppSettings) {
+    fun saveAppSettings(settings: AppSettings, onSaved: (() -> Unit)? = null) {
         viewModelScope.launch {
             val toSave = settings.copy(
                 lastReaderId = reader?.readerId ?: _uiState.value.appSettings.lastReaderId
             )
             settingsRepo.save(toSave)
             _uiState.update { it.copy(appSettings = toSave) }
+            onSaved?.invoke()
         }
     }
 

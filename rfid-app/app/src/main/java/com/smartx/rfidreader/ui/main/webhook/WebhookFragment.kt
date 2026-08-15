@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.smartx.rfidreader.R
+import com.smartx.rfidreader.core.settings.AppSettings
 import com.smartx.rfidreader.databinding.FragmentWebhookBinding
 import com.smartx.rfidreader.core.webhook.WebhookService
 import com.smartx.rfidreader.core.webhook.WebhookStatusStore
@@ -63,7 +64,10 @@ class WebhookFragment : Fragment() {
         }
 
         binding.btnSaveWebhook.setOnClickListener {
-            saveWebhookSettings(showFeedback = true, requireUrl = false)
+            val settings = buildValidatedSettings(requireUrl = false) ?: return@setOnClickListener
+            viewModel.saveAppSettings(settings) {
+                Snackbar.make(binding.root, getString(R.string.webhook_saved), Snackbar.LENGTH_SHORT).show()
+            }
         }
 
         binding.btnToggleWebhook.setOnClickListener {
@@ -71,18 +75,19 @@ class WebhookFragment : Fragment() {
             if (WebhookService.isRunning) {
                 val stopIntent = Intent(ctx, WebhookService::class.java).apply { action = WebhookService.ACTION_STOP }
                 ctx.stopService(stopIntent)
+                refreshServiceUi()
             } else {
-                val canStart = saveWebhookSettings(showFeedback = false, requireUrl = true)
-                if (!canStart) return@setOnClickListener
-
-                val startIntent = Intent(ctx, WebhookService::class.java).apply { action = WebhookService.ACTION_START }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    ctx.startForegroundService(startIntent)
-                } else {
-                    ctx.startService(startIntent)
+                val settings = buildValidatedSettings(requireUrl = true) ?: return@setOnClickListener
+                viewModel.saveAppSettings(settings) {
+                    val startIntent = Intent(ctx, WebhookService::class.java).apply { action = WebhookService.ACTION_START }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        ctx.startForegroundService(startIntent)
+                    } else {
+                        ctx.startService(startIntent)
+                    }
+                    refreshServiceUi()
                 }
             }
-            refreshServiceUi()
         }
 
         // Setup history recycler
@@ -127,33 +132,28 @@ class WebhookFragment : Fragment() {
         refreshServiceUi()
     }
 
-    private fun saveWebhookSettings(showFeedback: Boolean, requireUrl: Boolean): Boolean {
+    private fun buildValidatedSettings(requireUrl: Boolean): AppSettings? {
         val url = binding.inputWebhookUrl.text?.toString()?.trim().orEmpty()
         val intervalText = binding.inputWebhookInterval.text?.toString()?.trim().orEmpty()
         val interval = intervalText.toIntOrNull()
 
         if (requireUrl && url.isBlank()) {
             Snackbar.make(binding.root, getString(R.string.sync_no_url), Snackbar.LENGTH_SHORT).show()
-            return false
+            return null
         }
 
         if (url.isNotBlank() && !url.startsWith("http://") && !url.startsWith("https://")) {
             Snackbar.make(binding.root, getString(R.string.error_invalid_url), Snackbar.LENGTH_SHORT).show()
-            return false
+            return null
         }
 
         if (interval == null || interval < 1) {
             Snackbar.make(binding.root, getString(R.string.error_invalid_webhook_interval), Snackbar.LENGTH_SHORT).show()
-            return false
+            return null
         }
 
         val settings = viewModel.uiState.value.appSettings
-        val newSettings = settings.copy(webhookUrl = url, webhookIntervalSeconds = interval)
-        viewModel.saveAppSettings(newSettings)
-        if (showFeedback) {
-            Snackbar.make(binding.root, getString(R.string.webhook_saved), Snackbar.LENGTH_SHORT).show()
-        }
-        return true
+        return settings.copy(webhookUrl = url, webhookIntervalSeconds = interval)
     }
 
     private fun refreshServiceUi() {

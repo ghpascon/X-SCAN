@@ -61,6 +61,7 @@ class AppSettingsRepository(context: Context) {
             prefs[KEY_RSSI] = settings.rssiFilter
             prefs[KEY_PREFIXES] = settings.prefixes.joinToString("|")
             prefs[KEY_WEBHOOK] = settings.webhookUrl
+            prefs[KEY_WEBHOOK_INTERVAL] = settings.webhookIntervalSeconds
             prefs[KEY_LAST_BLE] = settings.lastBleAddress
         }
     }

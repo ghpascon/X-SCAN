@@ -7,10 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
+import android.provider.Settings
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.smartx.rfidreader.core.registry.ReaderRegistry
 import com.smartx.rfidreader.core.reader.RfidTag
+import com.smartx.rfidreader.core.settings.AppSettings
 import com.smartx.rfidreader.core.settings.AppSettingsRepository
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
@@ -50,6 +52,10 @@ class WebhookService : Service() {
 
     private val isoFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.US).apply {
         timeZone = TimeZone.getDefault()
+    }
+
+    private val deviceId: String by lazy {
+        Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID) ?: "unknown"
     }
 
     private val tagsMap = LinkedHashMap<String, RfidTag>()
@@ -110,52 +116,41 @@ class WebhookService : Service() {
         tickerJob = scope.launch {
             val settingsRepo = AppSettingsRepository(applicationContext)
             while (isActive) {
-                val settings = try { settingsRepo.flow.first() } catch (e: Exception) { null }
-                val interval = (settings?.webhookIntervalSeconds ?: 30).coerceAtLeast(1)
-                delay(interval * 1000L)
-
-                val snapshot: List<RfidTag> = synchronized(tagsMap) {
-                    val s = tagsMap.values.toList()
-                    tagsMap.clear()
-                    s
+                val settings = try {
+                    settingsRepo.flow.first()
+                } catch (e: Exception) {
+                    Log.e(TAG, "Falha ao ler AppSettings", e)
+                    null
                 }
 
-                val url = settings?.webhookUrl ?: ""
-                // Update sending flag
-                WebhookStatusStore.setSending(true)
-                try {
-                    val (ok, err) = sendPost(url, snapshot)
-                    WebhookStatusStore.add(com.smartx.rfidreader.core.webhook.WebhookSendStatus(java.util.Date(), ok, snapshot.size, err))
-                } catch (e: Exception) {
-                    Log.e(TAG, "Erro ao enviar webhook", e)
-                    WebhookStatusStore.add(com.smartx.rfidreader.core.webhook.WebhookSendStatus(java.util.Date(), false, snapshot.size, e.message ?: "Erro de rede"))
-                } finally {
-                    WebhookStatusStore.setSending(false)
+                if (settings != null) {
+                    val snapshot = drainTagsSnapshot()
+                    WebhookStatusStore.setSending(true)
+                    try {
+                        val (ok, err) = sendPost(settings.webhookUrl, snapshot, settings)
+                        WebhookStatusStore.add(WebhookSendStatus(Date(), ok, snapshot.size, err))
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Erro ao enviar webhook", e)
+                        WebhookStatusStore.add(WebhookSendStatus(Date(), false, snapshot.size, e.message ?: "Erro de rede"))
+                    } finally {
+                        WebhookStatusStore.setSending(false)
+                    }
+
+                    delay(settings.webhookIntervalSeconds.coerceAtLeast(1) * 1000L)
+                } else {
+                    delay(1000L)
                 }
             }
         }
     }
 
-    private fun sendPost(url: String, tags: List<RfidTag>): Pair<Boolean, String?> {
+    private fun sendPost(url: String, tags: List<RfidTag>, settings: AppSettings): Pair<Boolean, String?> {
         if (url.isBlank()) {
             Log.d(TAG, "Webhook URL vazia — pular envio")
             return Pair(false, "URL vazia")
         }
 
-        val arr = JSONArray()
-        tags.forEach { tag ->
-            val obj = JSONObject()
-            obj.put("epc", tag.epc)
-            if (tag.tid.isNotBlank()) obj.put("tid", tag.tid)
-            val rssiInt = tag.rssi.replace(',', '.').replace(Regex("[^0-9.-]"), "").toFloatOrNull()?.toInt() ?: 0
-            obj.put("rssi", rssiInt)
-            obj.put("antenna", tag.antenna)
-            obj.put("read_count", tag.readCount)
-            obj.put("timestamp", isoFormat.format(tag.timestamp))
-            arr.put(obj)
-        }
-
-        val body = arr.toString().toRequestBody("application/json".toMediaType())
+        val body = buildWebhookPayload(tags, settings).toRequestBody("application/json".toMediaType())
         val request = Request.Builder()
             .url(url)
             .post(body)
@@ -177,6 +172,47 @@ class WebhookService : Service() {
             Log.e(TAG, "Falha ao postar webhook", e)
             Pair(false, e.message ?: "Erro de rede")
         }
+    }
+
+    private fun buildWebhookPayload(tags: List<RfidTag>, settings: AppSettings): String {
+        val arr = JSONArray()
+        tags.forEach { tag ->
+            val obj = JSONObject()
+            obj.put("epc", tag.epc)
+            if (tag.tid.isNotBlank()) obj.put("tid", tag.tid)
+            val rssiInt = tag.rssi
+                .replace(',', '.')
+                .replace(Regex("[^0-9.-]"), "")
+                .toFloatOrNull()
+                ?.toInt()
+                ?: 0
+            obj.put("rssi", rssiInt)
+            obj.put("antenna", tag.antenna)
+            obj.put("read_count", tag.readCount)
+            obj.put("timestamp", isoFormat.format(tag.timestamp))
+            arr.put(obj)
+        }
+
+        val eventData = JSONObject().apply {
+            put("timestamp", isoFormat.format(Date()))
+            put("tags", arr)
+            put("reader_config", JSONObject().apply {
+                put("rssi_filter", settings.rssiFilter)
+                put("prefixes", JSONArray(settings.prefixes))
+            })
+        }
+
+        return JSONObject().apply {
+            put("device_name", deviceId)
+            put("event_type", "inventory_realtime")
+            put("event_data", eventData)
+        }.toString()
+    }
+
+    private fun drainTagsSnapshot(): List<RfidTag> = synchronized(tagsMap) {
+        val snapshot = tagsMap.values.toList()
+        tagsMap.clear()
+        snapshot
     }
 
     private fun upsertTag(tag: RfidTag) {

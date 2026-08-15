@@ -20,13 +20,13 @@ import com.smartx.rfidreader.ui.main.radar.RadarFragment
 import com.smartx.rfidreader.ui.main.reader.ReaderSelectionFragment
 import com.smartx.rfidreader.ui.main.reader.BleScanDialogFragment
 import com.smartx.rfidreader.ui.main.reader.ConnectionLogDialogFragment
+import com.smartx.rfidreader.ui.main.reader.ZebraTransportDialog
 import com.smartx.rfidreader.readers.ih25.IH25Reader
 import com.smartx.rfidreader.readers.tsl1128.Tsl1128Reader
 import com.smartx.rfidreader.readers.x714.X714Reader
 import com.smartx.rfidreader.readers.zebra.ZebraReader
 import com.smartx.rfidreader.ui.main.reading.ReadingFragment
 import com.smartx.rfidreader.ui.sync.SyncFragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
@@ -195,26 +195,20 @@ class HomeFragment : Fragment() {
     }
 
     private fun showZebraTransportDialog(reader: ZebraReader) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.zebra_transport_title)
-            .setMessage(R.string.zebra_transport_message)
-            .setItems(R.array.zebra_transport_options) { dialog, which ->
-                when (which) {
-                    0 -> {
-                        reader.transportMode = ZebraReader.TransportMode.BLUETOOTH
-                        showBleScanDialog(reader)
-                    }
-                    1 -> {
-                        reader.transportMode = ZebraReader.TransportMode.SERIAL
-                        reader.targetMacAddress = null
-                        viewModel.connect(reader)
-                        ConnectionLogDialogFragment()
-                            .show(childFragmentManager, "connection_log")
-                    }
-                    else -> dialog.dismiss()
-                }
+        ZebraTransportDialog.show(
+            context = requireContext(),
+            onBluetoothSelected = {
+                reader.transportMode = ZebraReader.TransportMode.BLUETOOTH
+                showBleScanDialog(reader)
+            },
+            onSerialSelected = {
+                reader.transportMode = ZebraReader.TransportMode.SERIAL
+                reader.targetMacAddress = null
+                viewModel.connect(reader)
+                ConnectionLogDialogFragment()
+                    .show(childFragmentManager, "connection_log")
             }
-            .show()
+        )
     }
 
     override fun onDestroyView() {

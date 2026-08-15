@@ -9,7 +9,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.core.reader.IRfidReader
@@ -21,6 +20,7 @@ import com.smartx.rfidreader.readers.zebra.ZebraReader
 import com.smartx.rfidreader.ui.base.BaseActivity
 import com.smartx.rfidreader.ui.main.MainActivity
 import com.smartx.rfidreader.ui.main.reader.BleScanDialogFragment
+import com.smartx.rfidreader.ui.main.reader.ZebraTransportDialog
 import kotlinx.coroutines.launch
 
 class ReaderSelectionActivity : BaseActivity<ActivitySelectionBinding>() {
@@ -72,24 +72,18 @@ class ReaderSelectionActivity : BaseActivity<ActivitySelectionBinding>() {
     }
 
     private fun showZebraTransportDialog(reader: ZebraReader) {
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.zebra_transport_title)
-            .setMessage(R.string.zebra_transport_message)
-            .setItems(R.array.zebra_transport_options) { dialog, which ->
-                when (which) {
-                    0 -> {
-                        reader.transportMode = ZebraReader.TransportMode.BLUETOOTH
-                        showBleScanDialog(reader)
-                    }
-                    1 -> {
-                        reader.transportMode = ZebraReader.TransportMode.SERIAL
-                        reader.targetMacAddress = null
-                        viewModel.connect(reader)
-                    }
-                    else -> dialog.dismiss()
-                }
+        ZebraTransportDialog.show(
+            context = this,
+            onBluetoothSelected = {
+                reader.transportMode = ZebraReader.TransportMode.BLUETOOTH
+                showBleScanDialog(reader)
+            },
+            onSerialSelected = {
+                reader.transportMode = ZebraReader.TransportMode.SERIAL
+                reader.targetMacAddress = null
+                viewModel.connect(reader)
             }
-            .show()
+        )
     }
 
     private fun observeState() {

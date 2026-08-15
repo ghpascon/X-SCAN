@@ -80,7 +80,6 @@ animator mtrl_fab_transformation_sheet_expand_spec
 array inventory_mode_options
 array region_options
 array session_options
-array zebra_transport_options
 attr SharedValue
 attr SharedValueId
 attr actionBarDivider
@@ -3299,6 +3298,8 @@ id btnAddSelected
 id btnAddTarget
 id btnApplyConfig
 id btnBleCancel
+id btnBluetooth
+id btnCancel
 id btnCancelScan
 id btnClearPrefixes
 id btnClearScanned
@@ -3321,6 +3322,7 @@ id btnSaveWebhook
 id btnScanAgain
 id btnScanTargets
 id btnSelectAll
+id btnSerial
 id btnStartSync
 id btnToggleInventory
 id btnToggleRadar
@@ -3766,6 +3768,7 @@ id textFinalResult
 id textFoundCount
 id textLog
 id textLogTitle
+id textMessage
 id textNoTargets
 id textPendingCount
 id textPowerValue
@@ -3993,6 +3996,7 @@ layout dialog_connection_log
 layout dialog_inventory_name
 layout dialog_radar_scan
 layout dialog_webhook_config
+layout dialog_zebra_transport
 layout footer_app
 layout fragment_config
 layout fragment_home

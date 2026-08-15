@@ -10,7 +10,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.smartx.rfidreader.R
 import com.smartx.rfidreader.core.reader.ReaderConnectionState
@@ -81,33 +80,27 @@ class ReaderSelectionFragment : Fragment() {
     }
 
     private fun showZebraTransportDialog(reader: ZebraReader) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.zebra_transport_title)
-            .setMessage(R.string.zebra_transport_message)
-            .setItems(R.array.zebra_transport_options) { dialog, which ->
-                when (which) {
-                    0 -> {
-                        reader.transportMode = ZebraReader.TransportMode.BLUETOOTH
-                        val scanDialog = BleScanDialogFragment()
-                        scanDialog.onDeviceSelected = { _, address ->
-                            reader.targetMacAddress = address
-                            viewModel.connect(reader)
-                            ConnectionLogDialogFragment()
-                                .show(childFragmentManager, "connection_log")
-                        }
-                        scanDialog.show(childFragmentManager, "ble_scan")
-                    }
-                    1 -> {
-                        reader.transportMode = ZebraReader.TransportMode.SERIAL
-                        reader.targetMacAddress = null
-                        viewModel.connect(reader)
-                        ConnectionLogDialogFragment()
-                            .show(childFragmentManager, "connection_log")
-                    }
-                    else -> dialog.dismiss()
+        ZebraTransportDialog.show(
+            context = requireContext(),
+            onBluetoothSelected = {
+                reader.transportMode = ZebraReader.TransportMode.BLUETOOTH
+                val scanDialog = BleScanDialogFragment()
+                scanDialog.onDeviceSelected = { _, address ->
+                    reader.targetMacAddress = address
+                    viewModel.connect(reader)
+                    ConnectionLogDialogFragment()
+                        .show(childFragmentManager, "connection_log")
                 }
+                scanDialog.show(childFragmentManager, "ble_scan")
+            },
+            onSerialSelected = {
+                reader.transportMode = ZebraReader.TransportMode.SERIAL
+                reader.targetMacAddress = null
+                viewModel.connect(reader)
+                ConnectionLogDialogFragment()
+                    .show(childFragmentManager, "connection_log")
             }
-            .show()
+        )
     }
 
     private fun observeState() {

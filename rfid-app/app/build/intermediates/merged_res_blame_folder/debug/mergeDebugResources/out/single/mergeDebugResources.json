@@ -72,10 +72,6 @@
         "source": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-main-63:/layout/fragment_radar.xml"
     },
     {
-        "merged": "com.smartx.rfidreader.app-debug-61:/layout_fragment_webhook.xml.flat",
-        "source": "com.smartx.rfidreader.app-main-63:/layout/fragment_webhook.xml"
-    },
-    {
         "merged": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-debug-61:/layout_dialog_radar_scan.xml.flat",
         "source": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-main-63:/layout/dialog_radar_scan.xml"
     },
@@ -90,6 +86,10 @@
     {
         "merged": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-debug-61:/layout_item_tag.xml.flat",
         "source": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-main-63:/layout/item_tag.xml"
+    },
+    {
+        "merged": "com.smartx.rfidreader.app-debug-61:/layout_dialog_zebra_transport.xml.flat",
+        "source": "com.smartx.rfidreader.app-main-63:/layout/dialog_zebra_transport.xml"
     },
     {
         "merged": "/home/gabriel/.gradle/daemon/8.10.2/com.smartx.rfidreader.app-debug-61:/layout_item_ble_device.xml.flat",

@@ -67,8 +67,8 @@ class XR2Reader : IRfidReader {
         _connectionState.value = ReaderConnectionState.CONNECTING
         return@withContext try {
             // Remove keycode 523 (trigger) da lista de scan de código de barras
-            // para que o gatilho só acione leitura RFID, não o leitor óptico
-            configureTriggerForRfid(true)
+            // para que o gatilho nunca acione o leitor óptico.
+            configureBarcodeScanKeys()
 
             RFIDSDKManager.getInstance().power(true)
             // SDK precisa de ~1500ms para o módulo estabilizar após ligar
@@ -106,8 +106,8 @@ class XR2Reader : IRfidReader {
         } catch (e: Exception) {
             Log.e(TAG, "Erro ao desconectar XR2", e)
         } finally {
-            // Restaura trigger para ativar leitor de código de barras normalmente
-            configureTriggerForRfid(false)
+            // Mantém o trigger fora das teclas de scanner também ao desconectar.
+            configureBarcodeScanKeys()
             _connectionState.value = ReaderConnectionState.DISCONNECTED
         }
         Unit
@@ -198,17 +198,16 @@ class XR2Reader : IRfidReader {
     }
 
     /**
-     * Configura o keycode 523 (gatilho físico) para RFID ou código de barras.
-     * [forRfid] = true  → remove 523 da lista de scan (trigger aciona RFID via KeyEvent)
-     * [forRfid] = false → restaura 523 na lista de scan (trigger aciona leitor óptico)
+     * Mantém o gatilho físico (523) fora da lista do scanner de código de barras.
+     * Assim, o barcode fica disponível apenas nas teclas laterais (520/521/522).
      */
-    private fun configureTriggerForRfid(forRfid: Boolean) {
+    private fun configureBarcodeScanKeys() {
         try {
             val dm = DeviceManager()
             dm.setSettingProperty("persist-persist.sys.rfid.key", "0-")
-            val scanKeys = if (forRfid) "520-521-522-" else "520-521-522-523-"
+            val scanKeys = "520-521-522-"
             dm.setSettingProperty("persist-persist.sys.scan.key", scanKeys)
-            Log.d(TAG, "configureTriggerForRfid($forRfid): scan.key=$scanKeys")
+            Log.d(TAG, "configureBarcodeScanKeys(): scan.key=$scanKeys")
         } catch (e: Exception) {
             Log.w(TAG, "DeviceManager não disponível neste dispositivo: ${e.message}")
         }

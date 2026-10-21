@@ -4,8 +4,6 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.pm.PackageManager
-import android.media.AudioManager
-import android.media.ToneGenerator
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -45,8 +43,6 @@ class ReadingFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
     private lateinit var tagAdapter: TagListAdapter
 
-    /** ToneGenerator reutilizado — criado em onStart, liberado em onStop */
-    private var toneGenerator: ToneGenerator? = null
     private var pendingInventoryName: String? = null
 
     // Launcher para solicitar permissão de localização
@@ -67,10 +63,6 @@ class ReadingFragment : Fragment() {
         ContextCompat.checkSelfPermission(
             requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
-
-    private fun playBeep() {
-        toneGenerator?.startTone(ToneGenerator.TONE_PROP_ACK, 100)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -293,13 +285,6 @@ class ReadingFragment : Fragment() {
                     }
                 }
 
-                // Evento de buzzer (nova tag detectada)
-                launch {
-                    viewModel.buzzerEvent.collect {
-                        playBeep()
-                    }
-                }
-
                 // Resultado do salvamento
                 launch {
                     viewModel.saveInventoryResult.collect { success ->
@@ -327,17 +312,8 @@ class ReadingFragment : Fragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        try {
-            toneGenerator = ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME)
-        } catch (_: Exception) {}
-    }
-
     override fun onStop() {
         super.onStop()
-        toneGenerator?.release()
-        toneGenerator = null
         viewModel.stopInventory()
     }
 

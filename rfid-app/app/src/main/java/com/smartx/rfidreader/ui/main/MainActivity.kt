@@ -2,6 +2,8 @@ package com.smartx.xscan.ui.main
 
 import android.os.Bundle
 import android.os.SystemClock
+import android.media.AudioManager
+import android.media.ToneGenerator
 import android.view.LayoutInflater
 import android.widget.Toast
 import android.view.KeyEvent
@@ -35,6 +37,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     val viewModel: MainViewModel by viewModels()
 
     private var backPressedTime = 0L
+    private var toneGenerator: ToneGenerator? = null
 
     override fun inflateBinding(inflater: LayoutInflater) = ActivityMainBinding.inflate(inflater)
 
@@ -48,6 +51,30 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         setupBackHandler()
         observeNavigation()
+        observeBuzzer()
+    }
+
+    private fun observeBuzzer() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.buzzerEvent.collect {
+                    toneGenerator?.startTone(ToneGenerator.TONE_PROP_ACK, 100)
+                }
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        toneGenerator = runCatching {
+            ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME)
+        }.getOrNull()
+    }
+
+    override fun onStop() {
+        toneGenerator?.release()
+        toneGenerator = null
+        super.onStop()
     }
 
     private fun observeHeader() {

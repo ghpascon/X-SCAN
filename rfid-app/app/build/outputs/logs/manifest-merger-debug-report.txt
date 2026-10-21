@@ -371,7 +371,7 @@ MERGED from [:honeywell_rfid_sdk:] /home/gabriel/.gradle/caches/8.10.2/transform
 		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:35:9-44
 	android:name
 		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:29:9-40
-activity#com.smartx.rfidreader.ui.main.MainActivity
+activity#com.smartx.xscan.ui.main.MainActivity
 ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:40:9-49:20
 	android:screenOrientation
 		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:43:13-49
@@ -391,7 +391,7 @@ category#android.intent.category.LAUNCHER
 ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:47:17-77
 	android:name
 		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:47:27-74
-activity#com.smartx.rfidreader.ui.selection.ReaderSelectionActivity
+activity#com.smartx.xscan.ui.selection.ReaderSelectionActivity
 ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:52:9-56:58
 	android:screenOrientation
 		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:55:13-49
@@ -401,7 +401,7 @@ ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/A
 		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:54:13-37
 	android:name
 		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:53:13-65
-service#com.smartx.rfidreader.core.webhook.WebhookService
+service#com.smartx.xscan.core.webhook.WebhookService
 ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:59:9-61:40
 	android:exported
 		ADDED from /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:61:13-37
@@ -453,7 +453,7 @@ ADDED from [androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/trans
 		ADDED from [androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
 	android:name
 		ADDED from [androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
-permission#com.smartx.rfidreader.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+permission#com.smartx.xscan.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
 	android:protectionLevel
 		ADDED from [androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
@@ -463,7 +463,7 @@ uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
-uses-permission#com.smartx.rfidreader.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+uses-permission#com.smartx.xscan.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:26:22-94

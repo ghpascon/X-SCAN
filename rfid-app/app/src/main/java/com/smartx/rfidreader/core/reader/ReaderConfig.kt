@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.core.reader
+package com.smartx.xscan.core.reader
 
 /**
  * Modelo de configuração unificado para todos os leitores RFID.

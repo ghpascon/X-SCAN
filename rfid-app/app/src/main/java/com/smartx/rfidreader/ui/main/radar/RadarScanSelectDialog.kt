@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.ui.main.radar
+package com.smartx.xscan.ui.main.radar
 
 import android.os.Bundle
 import android.view.KeyEvent
@@ -12,8 +12,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.smartx.rfidreader.databinding.DialogRadarScanBinding
-import com.smartx.rfidreader.ui.main.MainViewModel
+import com.smartx.xscan.databinding.DialogRadarScanBinding
+import com.smartx.xscan.ui.main.MainViewModel
 import kotlinx.coroutines.launch
 
 /**

@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.core.location
+package com.smartx.xscan.core.location
 
 import android.Manifest
 import android.content.Context

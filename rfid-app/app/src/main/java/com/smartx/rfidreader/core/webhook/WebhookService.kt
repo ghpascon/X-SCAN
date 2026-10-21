@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.core.webhook
+package com.smartx.xscan.core.webhook
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -10,12 +10,12 @@ import android.os.IBinder
 import android.provider.Settings
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.smartx.rfidreader.core.registry.ReaderRegistry
-import com.smartx.rfidreader.core.reader.ReaderConfig
-import com.smartx.rfidreader.core.reader.ReaderConnectionState
-import com.smartx.rfidreader.core.reader.RfidTag
-import com.smartx.rfidreader.core.settings.AppSettings
-import com.smartx.rfidreader.core.settings.AppSettingsRepository
+import com.smartx.xscan.core.registry.ReaderRegistry
+import com.smartx.xscan.core.reader.ReaderConfig
+import com.smartx.xscan.core.reader.ReaderConnectionState
+import com.smartx.xscan.core.reader.RfidTag
+import com.smartx.xscan.core.settings.AppSettings
+import com.smartx.xscan.core.settings.AppSettingsRepository
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
 import okhttp3.MediaType.Companion.toMediaType
@@ -34,8 +34,8 @@ class WebhookService : Service() {
 
     companion object {
         private const val TAG = "WebhookService"
-        const val ACTION_START = "com.smartx.rfidreader.action.START_WEBHOOK"
-        const val ACTION_STOP = "com.smartx.rfidreader.action.STOP_WEBHOOK"
+        const val ACTION_START = "com.smartx.xscan.action.START_WEBHOOK"
+        const val ACTION_STOP = "com.smartx.xscan.action.STOP_WEBHOOK"
         private const val CHANNEL_ID = "webhook_channel"
         private const val NOTIF_ID = 0xABCD
         @Volatile

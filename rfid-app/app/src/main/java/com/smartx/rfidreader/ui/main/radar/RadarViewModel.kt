@@ -1,9 +1,9 @@
-package com.smartx.rfidreader.ui.main.radar
+package com.smartx.xscan.ui.main.radar
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.smartx.rfidreader.core.reader.RfidTag
+import com.smartx.xscan.core.reader.RfidTag
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

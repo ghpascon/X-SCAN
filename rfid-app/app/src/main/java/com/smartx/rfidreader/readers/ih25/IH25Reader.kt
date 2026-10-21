@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.readers.ih25
+package com.smartx.xscan.readers.ih25
 
 import android.content.Context
 import android.util.Log
@@ -12,7 +12,7 @@ import com.honeywell.rfidservice.rfid.RfidReader
 import com.honeywell.rfidservice.rfid.TagAdditionData
 import com.honeywell.rfidservice.rfid.TagReadData
 import com.honeywell.rfidservice.rfid.TagReadOption
-import com.smartx.rfidreader.core.reader.*
+import com.smartx.xscan.core.reader.*
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

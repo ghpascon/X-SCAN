@@ -1,11 +1,11 @@
-package com.smartx.rfidreader.readers.c72
+package com.smartx.xscan.readers.c72
 
 import android.content.Context
 import android.util.Log
 import com.rscja.deviceapi.RFIDWithUHFA8
 import com.rscja.deviceapi.entity.UHFTAGInfo
 import com.rscja.deviceapi.interfaces.IUHFInventoryCallback
-import com.smartx.rfidreader.core.reader.*
+import com.smartx.xscan.core.reader.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext

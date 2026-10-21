@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.ui.selection
+package com.smartx.xscan.ui.selection
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,18 +10,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.smartx.rfidreader.R
-import com.smartx.rfidreader.core.reader.IRfidReader
-import com.smartx.rfidreader.databinding.ActivitySelectionBinding
-import com.smartx.rfidreader.readers.cfh301.CfH301Reader
-import com.smartx.rfidreader.readers.ih25.IH25Reader
-import com.smartx.rfidreader.readers.tsl1128.Tsl1128Reader
-import com.smartx.rfidreader.readers.x714.X714Reader
-import com.smartx.rfidreader.readers.zebra.ZebraReader
-import com.smartx.rfidreader.ui.base.BaseActivity
-import com.smartx.rfidreader.ui.main.MainActivity
-import com.smartx.rfidreader.ui.main.reader.BleScanDialogFragment
-import com.smartx.rfidreader.ui.main.reader.ZebraTransportDialog
+import com.smartx.xscan.R
+import com.smartx.xscan.core.reader.IRfidReader
+import com.smartx.xscan.databinding.ActivitySelectionBinding
+import com.smartx.xscan.readers.cfh301.CfH301Reader
+import com.smartx.xscan.readers.ih25.IH25Reader
+import com.smartx.xscan.readers.tsl1128.Tsl1128Reader
+import com.smartx.xscan.readers.x714.X714Reader
+import com.smartx.xscan.readers.zebra.ZebraReader
+import com.smartx.xscan.ui.base.BaseActivity
+import com.smartx.xscan.ui.main.MainActivity
+import com.smartx.xscan.ui.main.reader.BleScanDialogFragment
+import com.smartx.xscan.ui.main.reader.ZebraTransportDialog
 import kotlinx.coroutines.launch
 
 class ReaderSelectionActivity : BaseActivity<ActivitySelectionBinding>() {
@@ -100,13 +100,13 @@ class ReaderSelectionActivity : BaseActivity<ActivitySelectionBinding>() {
                         else -> "Desconectado"
                     }
                     val statusDrawable = when {
-                        state.connectedReader != null -> com.smartx.rfidreader.R.drawable.ic_status_connected
-                        state.isConnecting -> com.smartx.rfidreader.R.drawable.ic_status_connected
-                        else -> com.smartx.rfidreader.R.drawable.ic_status_disconnected
+                        state.connectedReader != null -> com.smartx.xscan.R.drawable.ic_status_connected
+                        state.isConnecting -> com.smartx.xscan.R.drawable.ic_status_connected
+                        else -> com.smartx.xscan.R.drawable.ic_status_disconnected
                     }
                     updateHeader(
                         state.connectedReader?.displayName
-                            ?: getString(com.smartx.rfidreader.R.string.selection_title),
+                            ?: getString(com.smartx.xscan.R.string.selection_title),
                         statusText,
                         statusDrawable
                     )

@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.ui.main
+package com.smartx.xscan.ui.main
 
 import android.os.Bundle
 import android.os.SystemClock
@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.smartx.rfidreader.R
-import com.smartx.rfidreader.databinding.ActivityMainBinding
-import com.smartx.rfidreader.core.reader.ReaderConnectionState
-import com.smartx.rfidreader.ui.base.BaseActivity
+import com.smartx.xscan.R
+import com.smartx.xscan.databinding.ActivityMainBinding
+import com.smartx.xscan.core.reader.ReaderConnectionState
+import com.smartx.xscan.ui.base.BaseActivity
 import kotlinx.coroutines.launch
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {

@@ -1,9 +1,9 @@
-package com.smartx.rfidreader.ui.main.reader
+package com.smartx.xscan.ui.main.reader
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.smartx.rfidreader.databinding.ItemBleDeviceBinding
+import com.smartx.xscan.databinding.ItemBleDeviceBinding
 
 class BleDeviceAdapter(
     private val onSelect: (name: String, address: String) -> Unit

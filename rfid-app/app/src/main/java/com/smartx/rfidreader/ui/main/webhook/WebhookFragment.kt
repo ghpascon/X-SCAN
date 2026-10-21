@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.ui.main.webhook
+package com.smartx.xscan.ui.main.webhook
 
 import android.content.Intent
 import android.os.Build
@@ -13,14 +13,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
-import com.smartx.rfidreader.R
-import com.smartx.rfidreader.core.reader.ReaderConnectionState
-import com.smartx.rfidreader.core.settings.AppSettings
-import com.smartx.rfidreader.core.webhook.WebhookSendStatus
-import com.smartx.rfidreader.databinding.FragmentWebhookBinding
-import com.smartx.rfidreader.core.webhook.WebhookService
-import com.smartx.rfidreader.core.webhook.WebhookStatusStore
-import com.smartx.rfidreader.ui.main.MainViewModel
+import com.smartx.xscan.R
+import com.smartx.xscan.core.reader.ReaderConnectionState
+import com.smartx.xscan.core.settings.AppSettings
+import com.smartx.xscan.core.webhook.WebhookSendStatus
+import com.smartx.xscan.databinding.FragmentWebhookBinding
+import com.smartx.xscan.core.webhook.WebhookService
+import com.smartx.xscan.core.webhook.WebhookStatusStore
+import com.smartx.xscan.ui.main.MainViewModel
 import kotlinx.coroutines.flow.collectLatest
 import androidx.recyclerview.widget.LinearLayoutManager
 import java.text.SimpleDateFormat

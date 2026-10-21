@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.ui.main.reader
+package com.smartx.xscan.ui.main.reader
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,16 +11,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.smartx.rfidreader.R
-import com.smartx.rfidreader.core.reader.ReaderConnectionState
-import com.smartx.rfidreader.readers.cfh301.CfH301Reader
-import com.smartx.rfidreader.readers.ih25.IH25Reader
-import com.smartx.rfidreader.readers.tsl1128.Tsl1128Reader
-import com.smartx.rfidreader.readers.x714.X714Reader
-import com.smartx.rfidreader.readers.zebra.ZebraReader
-import com.smartx.rfidreader.databinding.FragmentReaderSelectionBinding
-import com.smartx.rfidreader.ui.main.MainViewModel
-import com.smartx.rfidreader.ui.selection.ReaderListAdapter
+import com.smartx.xscan.R
+import com.smartx.xscan.core.reader.ReaderConnectionState
+import com.smartx.xscan.readers.cfh301.CfH301Reader
+import com.smartx.xscan.readers.ih25.IH25Reader
+import com.smartx.xscan.readers.tsl1128.Tsl1128Reader
+import com.smartx.xscan.readers.x714.X714Reader
+import com.smartx.xscan.readers.zebra.ZebraReader
+import com.smartx.xscan.databinding.FragmentReaderSelectionBinding
+import com.smartx.xscan.ui.main.MainViewModel
+import com.smartx.xscan.ui.selection.ReaderListAdapter
 import kotlinx.coroutines.launch
 
 class ReaderSelectionFragment : Fragment() {
@@ -51,7 +51,7 @@ class ReaderSelectionFragment : Fragment() {
         adapter.submitList(viewModel.availableReaders)
     }
 
-    private fun onConnectClicked(reader: com.smartx.rfidreader.core.reader.IRfidReader) {
+    private fun onConnectClicked(reader: com.smartx.xscan.core.reader.IRfidReader) {
         if (reader is ZebraReader) {
             showZebraTransportDialog(reader)
             return

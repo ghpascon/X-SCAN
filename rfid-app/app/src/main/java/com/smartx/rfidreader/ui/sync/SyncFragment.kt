@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.ui.sync
+package com.smartx.xscan.ui.sync
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,9 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.smartx.rfidreader.R
-import com.smartx.rfidreader.core.db.EventEntity
-import com.smartx.rfidreader.databinding.FragmentSyncBinding
+import com.smartx.xscan.R
+import com.smartx.xscan.core.db.EventEntity
+import com.smartx.xscan.databinding.FragmentSyncBinding
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 

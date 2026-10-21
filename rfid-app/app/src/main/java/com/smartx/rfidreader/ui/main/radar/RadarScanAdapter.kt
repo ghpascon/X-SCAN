@@ -1,12 +1,12 @@
-package com.smartx.rfidreader.ui.main.radar
+package com.smartx.xscan.ui.main.radar
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.smartx.rfidreader.core.reader.RfidTag
-import com.smartx.rfidreader.databinding.ItemRadarScanTagBinding
+import com.smartx.xscan.core.reader.RfidTag
+import com.smartx.xscan.databinding.ItemRadarScanTagBinding
 
 class RadarScanAdapter(
     /** EPCs já adicionados como targets — mostrados como desabilitados */

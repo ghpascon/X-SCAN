@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.core.reader
+package com.smartx.xscan.core.reader
 
 enum class ReaderConnectionState {
     DISCONNECTED,

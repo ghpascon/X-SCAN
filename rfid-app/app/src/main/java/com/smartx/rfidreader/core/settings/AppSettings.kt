@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.core.settings
+package com.smartx.xscan.core.settings
 
 import android.content.Context
 import androidx.datastore.core.DataStore

@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.ui.main.webhook
+package com.smartx.xscan.ui.main.webhook
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
-import com.smartx.rfidreader.R
-import com.smartx.rfidreader.core.webhook.WebhookSendStatus
+import com.smartx.xscan.R
+import com.smartx.xscan.core.webhook.WebhookSendStatus
 import java.text.SimpleDateFormat
 import java.util.Locale
 import androidx.core.content.ContextCompat

@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.ui.main.radar
+package com.smartx.xscan.ui.main.radar
 
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.smartx.rfidreader.databinding.ItemRadarTargetBinding
+import com.smartx.xscan.databinding.ItemRadarTargetBinding
 
 class RadarTargetAdapter(
     private val onRemove: (epc: String) -> Unit

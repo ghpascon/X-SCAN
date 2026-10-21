@@ -1,10 +1,10 @@
-package com.smartx.rfidreader.readers.xr2
+package com.smartx.xscan.readers.xr2
 
 import android.content.Context
 import android.device.DeviceManager
 import android.os.SystemClock
 import android.util.Log
-import com.smartx.rfidreader.core.reader.*
+import com.smartx.xscan.core.reader.*
 import com.ubx.usdk.RFIDSDKManager
 import com.ubx.usdk.rfid.RfidManager
 import com.ubx.usdk.rfid.aidl.IRfidCallback

@@ -1,9 +1,9 @@
-package com.smartx.rfidreader.core.events
+package com.smartx.xscan.core.events
 
 import android.util.Log
-import com.smartx.rfidreader.core.db.EventDao
-import com.smartx.rfidreader.core.db.EventEntity
-import com.smartx.rfidreader.core.reader.RfidTag
+import com.smartx.xscan.core.db.EventDao
+import com.smartx.xscan.core.db.EventEntity
+import com.smartx.xscan.core.reader.RfidTag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext

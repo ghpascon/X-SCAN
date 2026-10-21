@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.ui.base
+package com.smartx.xscan.ui.base
 
 import android.os.Bundle
 import android.provider.Settings
@@ -10,11 +10,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
-import com.smartx.rfidreader.R
-import com.smartx.rfidreader.core.reader.ActiveReaderState
-import com.smartx.rfidreader.core.reader.ReaderConnectionState
-import com.smartx.rfidreader.databinding.ActivityBaseBinding
-import com.smartx.rfidreader.databinding.HeaderAppBinding
+import com.smartx.xscan.R
+import com.smartx.xscan.core.reader.ActiveReaderState
+import com.smartx.xscan.core.reader.ReaderConnectionState
+import com.smartx.xscan.databinding.ActivityBaseBinding
+import com.smartx.xscan.databinding.HeaderAppBinding
 import kotlinx.coroutines.launch
 
 /**

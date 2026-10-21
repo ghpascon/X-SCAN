@@ -5,7 +5,7 @@ set -e
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
-PACKAGE="com.smartx.rfidreader"
+PACKAGE="com.smartx.xscan"
 APK="app/build/outputs/apk/debug/app-debug.apk"
 
 # ── 1. Verifica ADB ──────────────────────────────────────────────────────────

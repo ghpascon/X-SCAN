@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.ui.sync
+package com.smartx.xscan.ui.sync
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,8 +6,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.smartx.rfidreader.R
-import com.smartx.rfidreader.databinding.ItemSyncResultBinding
+import com.smartx.xscan.R
+import com.smartx.xscan.databinding.ItemSyncResultBinding
 
 class SyncProgressAdapter : ListAdapter<SyncProgressItem, SyncProgressAdapter.ViewHolder>(DIFF) {
 

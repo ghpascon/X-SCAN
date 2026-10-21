@@ -5,7 +5,7 @@
 -keep class com.atid.** { *; }
 
 # Manter classes do app
--keep class com.smartx.rfidreader.** { *; }
+-keep class com.smartx.xscan.** { *; }
 
 # Coroutines
 -keepclassmembers class kotlinx.coroutines.internal.MainDispatcherFactory { *; }

@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.core.webhook
+package com.smartx.xscan.core.webhook
 
 import java.util.Date
 

@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.ui.main.config
+package com.smartx.xscan.ui.main.config
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,12 +13,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.slider.Slider
-import com.smartx.rfidreader.R
-import com.smartx.rfidreader.core.reader.ReaderConfig
-import com.smartx.rfidreader.core.reader.ReaderConnectionState
-import com.smartx.rfidreader.core.settings.AppSettings
-import com.smartx.rfidreader.databinding.FragmentConfigBinding
-import com.smartx.rfidreader.ui.main.MainViewModel
+import com.smartx.xscan.R
+import com.smartx.xscan.core.reader.ReaderConfig
+import com.smartx.xscan.core.reader.ReaderConnectionState
+import com.smartx.xscan.core.settings.AppSettings
+import com.smartx.xscan.databinding.FragmentConfigBinding
+import com.smartx.xscan.ui.main.MainViewModel
 import kotlinx.coroutines.launch
 
 class ConfigFragment : Fragment() {
@@ -168,7 +168,7 @@ class ConfigFragment : Fragment() {
         }
     }
 
-    private fun updateReaderSection(state: com.smartx.rfidreader.ui.main.MainUiState) {
+    private fun updateReaderSection(state: com.smartx.xscan.ui.main.MainUiState) {
         val connected = state.connectionState == ReaderConnectionState.CONNECTED
         binding.btnApplyConfig.isEnabled = connected && !state.isSavingConfig
         binding.btnReloadConfig.isEnabled = connected && !state.isSavingConfig
@@ -197,7 +197,7 @@ class ConfigFragment : Fragment() {
         isUpdatingFromState = false
     }
 
-    private fun handleConfigSaveResult(state: com.smartx.rfidreader.ui.main.MainUiState) {
+    private fun handleConfigSaveResult(state: com.smartx.xscan.ui.main.MainUiState) {
         state.configSaveSuccess?.let { ok ->
             val msg = if (ok) getString(R.string.config_saved) else getString(R.string.config_save_error)
             showSnackbar(msg)

@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.ui.main.reader
+package com.smartx.xscan.ui.main.reader
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,10 +9,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.smartx.rfidreader.R
-import com.smartx.rfidreader.core.reader.ReaderConnectionState
-import com.smartx.rfidreader.databinding.DialogConnectionLogBinding
-import com.smartx.rfidreader.ui.main.MainViewModel
+import com.smartx.xscan.R
+import com.smartx.xscan.core.reader.ReaderConnectionState
+import com.smartx.xscan.databinding.DialogConnectionLogBinding
+import com.smartx.xscan.ui.main.MainViewModel
 import kotlinx.coroutines.launch
 
 /**

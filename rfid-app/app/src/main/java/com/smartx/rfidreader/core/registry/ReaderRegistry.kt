@@ -1,13 +1,13 @@
-package com.smartx.rfidreader.core.registry
+package com.smartx.xscan.core.registry
 
-import com.smartx.rfidreader.core.reader.IRfidReader
-import com.smartx.rfidreader.readers.c72.C72Reader
-import com.smartx.rfidreader.readers.cfh301.CfH301Reader
-import com.smartx.rfidreader.readers.ih25.IH25Reader
-import com.smartx.rfidreader.readers.tsl1128.Tsl1128Reader
-import com.smartx.rfidreader.readers.x714.X714Reader
-import com.smartx.rfidreader.readers.xr2.XR2Reader
-import com.smartx.rfidreader.readers.zebra.ZebraReader
+import com.smartx.xscan.core.reader.IRfidReader
+import com.smartx.xscan.readers.c72.C72Reader
+import com.smartx.xscan.readers.cfh301.CfH301Reader
+import com.smartx.xscan.readers.ih25.IH25Reader
+import com.smartx.xscan.readers.tsl1128.Tsl1128Reader
+import com.smartx.xscan.readers.x714.X714Reader
+import com.smartx.xscan.readers.xr2.XR2Reader
+import com.smartx.xscan.readers.zebra.ZebraReader
 
 /**
  * Registro central de todos os leitores RFID suportados.

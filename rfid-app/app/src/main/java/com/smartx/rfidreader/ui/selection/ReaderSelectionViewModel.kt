@@ -1,11 +1,11 @@
-package com.smartx.rfidreader.ui.selection
+package com.smartx.xscan.ui.selection
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.smartx.rfidreader.core.reader.IRfidReader
-import com.smartx.rfidreader.core.reader.ReaderConnectionState
-import com.smartx.rfidreader.core.registry.ReaderRegistry
+import com.smartx.xscan.core.reader.IRfidReader
+import com.smartx.xscan.core.reader.ReaderConnectionState
+import com.smartx.xscan.core.registry.ReaderRegistry
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.ui.main.reader
+package com.smartx.xscan.ui.main.reader
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -22,8 +22,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.smartx.rfidreader.R
-import com.smartx.rfidreader.databinding.DialogBleScanBinding
+import com.smartx.xscan.R
+import com.smartx.xscan.databinding.DialogBleScanBinding
 
 /**
  * Diálogo que escaneia dispositivos BLE e permite ao usuário selecionar um.

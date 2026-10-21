@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.ui.main
+package com.smartx.xscan.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,25 +9,25 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.smartx.rfidreader.R
-import com.smartx.rfidreader.RfidApplication
-import com.smartx.rfidreader.core.reader.ReaderConnectionState
-import com.smartx.rfidreader.core.webhook.WebhookService
-import com.smartx.rfidreader.databinding.FragmentHomeBinding
+import com.smartx.xscan.R
+import com.smartx.xscan.RfidApplication
+import com.smartx.xscan.core.reader.ReaderConnectionState
+import com.smartx.xscan.core.webhook.WebhookService
+import com.smartx.xscan.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
-import com.smartx.rfidreader.ui.main.config.ConfigFragment
-import com.smartx.rfidreader.ui.main.radar.RadarFragment
-import com.smartx.rfidreader.ui.main.reader.ReaderSelectionFragment
-import com.smartx.rfidreader.ui.main.reader.BleScanDialogFragment
-import com.smartx.rfidreader.ui.main.reader.ConnectionLogDialogFragment
-import com.smartx.rfidreader.ui.main.reader.ZebraTransportDialog
-import com.smartx.rfidreader.readers.cfh301.CfH301Reader
-import com.smartx.rfidreader.readers.ih25.IH25Reader
-import com.smartx.rfidreader.readers.tsl1128.Tsl1128Reader
-import com.smartx.rfidreader.readers.x714.X714Reader
-import com.smartx.rfidreader.readers.zebra.ZebraReader
-import com.smartx.rfidreader.ui.main.reading.ReadingFragment
-import com.smartx.rfidreader.ui.sync.SyncFragment
+import com.smartx.xscan.ui.main.config.ConfigFragment
+import com.smartx.xscan.ui.main.radar.RadarFragment
+import com.smartx.xscan.ui.main.reader.ReaderSelectionFragment
+import com.smartx.xscan.ui.main.reader.BleScanDialogFragment
+import com.smartx.xscan.ui.main.reader.ConnectionLogDialogFragment
+import com.smartx.xscan.ui.main.reader.ZebraTransportDialog
+import com.smartx.xscan.readers.cfh301.CfH301Reader
+import com.smartx.xscan.readers.ih25.IH25Reader
+import com.smartx.xscan.readers.tsl1128.Tsl1128Reader
+import com.smartx.xscan.readers.x714.X714Reader
+import com.smartx.xscan.readers.zebra.ZebraReader
+import com.smartx.xscan.ui.main.reading.ReadingFragment
+import com.smartx.xscan.ui.sync.SyncFragment
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
@@ -90,7 +90,7 @@ class HomeFragment : Fragment() {
             (requireActivity() as MainActivity).navigateTo(SyncFragment())
         }
         binding.cardNavWebhook.setOnClickListener {
-            (requireActivity() as MainActivity).navigateTo(com.smartx.rfidreader.ui.main.webhook.WebhookFragment())
+            (requireActivity() as MainActivity).navigateTo(com.smartx.xscan.ui.main.webhook.WebhookFragment())
         }
         binding.cardNavRadar.setOnClickListener {
             val connected =
@@ -179,7 +179,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun showBleScanDialog(reader: com.smartx.rfidreader.core.reader.IRfidReader) {
+    private fun showBleScanDialog(reader: com.smartx.xscan.core.reader.IRfidReader) {
         val dialog = BleScanDialogFragment()
         dialog.onDeviceSelected = { _, address ->
             when (reader) {

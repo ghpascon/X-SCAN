@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.core.db
+package com.smartx.xscan.core.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

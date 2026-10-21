@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.ui.main.radar
+package com.smartx.xscan.ui.main.radar
 
 data class RadarTarget(
     val epc: String,

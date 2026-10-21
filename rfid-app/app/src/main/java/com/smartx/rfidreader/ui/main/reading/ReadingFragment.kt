@@ -1,4 +1,4 @@
-package com.smartx.rfidreader.ui.main.reading
+package com.smartx.xscan.ui.main.reading
 
 import android.Manifest
 import android.app.AlertDialog
@@ -26,11 +26,11 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.smartx.rfidreader.R
-import com.smartx.rfidreader.core.reader.ReaderConnectionState
-import com.smartx.rfidreader.core.reader.RfidTag
-import com.smartx.rfidreader.databinding.FragmentReadingBinding
-import com.smartx.rfidreader.ui.main.MainViewModel
+import com.smartx.xscan.R
+import com.smartx.xscan.core.reader.ReaderConnectionState
+import com.smartx.xscan.core.reader.RfidTag
+import com.smartx.xscan.databinding.FragmentReadingBinding
+import com.smartx.xscan.ui.main.MainViewModel
 import java.io.OutputStreamWriter
 import java.text.SimpleDateFormat
 import java.util.Date

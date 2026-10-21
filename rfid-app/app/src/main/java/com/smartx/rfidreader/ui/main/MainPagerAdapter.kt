@@ -1,11 +1,11 @@
-package com.smartx.rfidreader.ui.main
+package com.smartx.xscan.ui.main
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.smartx.rfidreader.ui.main.config.ConfigFragment
-import com.smartx.rfidreader.ui.main.reader.ReaderSelectionFragment
-import com.smartx.rfidreader.ui.main.reading.ReadingFragment
+import com.smartx.xscan.ui.main.config.ConfigFragment
+import com.smartx.xscan.ui.main.reader.ReaderSelectionFragment
+import com.smartx.xscan.ui.main.reading.ReadingFragment
 
 class MainPagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
     override fun getItemCount() = 3

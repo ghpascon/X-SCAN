@@ -10,7 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.smartx.xscan.R
-import com.smartx.xscan.core.reader.ReaderConnectionState
+import com.smartx.rfid.core.ReaderConnectionState
 import com.smartx.xscan.databinding.DialogConnectionLogBinding
 import com.smartx.xscan.ui.main.MainViewModel
 import kotlinx.coroutines.launch

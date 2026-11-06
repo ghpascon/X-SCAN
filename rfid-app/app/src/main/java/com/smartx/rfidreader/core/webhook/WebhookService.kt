@@ -10,10 +10,12 @@ import android.os.IBinder
 import android.provider.Settings
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.smartx.xscan.core.registry.ReaderRegistry
-import com.smartx.xscan.core.reader.ReaderConfig
-import com.smartx.xscan.core.reader.ReaderConnectionState
-import com.smartx.xscan.core.reader.RfidTag
+import com.smartx.xscan.BuildConfig
+import com.smartx.xscan.R
+import com.smartx.xscan.RfidApplication
+import com.smartx.rfid.core.ReaderConfig
+import com.smartx.rfid.core.ReaderConnectionState
+import com.smartx.rfid.core.RfidTag
 import com.smartx.xscan.core.settings.AppSettings
 import com.smartx.xscan.core.settings.AppSettingsRepository
 import kotlinx.coroutines.*
@@ -34,9 +36,9 @@ class WebhookService : Service() {
 
     companion object {
         private const val TAG = "WebhookService"
-        const val ACTION_START = "com.smartx.xscan.action.START_WEBHOOK"
-        const val ACTION_STOP = "com.smartx.xscan.action.STOP_WEBHOOK"
-        private const val CHANNEL_ID = "webhook_channel"
+        const val ACTION_START = "${BuildConfig.APPLICATION_ID}.action.START_WEBHOOK"
+        const val ACTION_STOP = "${BuildConfig.APPLICATION_ID}.action.STOP_WEBHOOK"
+        private const val CHANNEL_ID = BuildConfig.WEBHOOK_CHANNEL_ID
         private const val NOTIF_ID = 0xABCD
         @Volatile
         var isRunning = false
@@ -59,6 +61,8 @@ class WebhookService : Service() {
     private val deviceId: String by lazy {
         Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID) ?: "unknown"
     }
+
+    private val readerManager get() = (application as RfidApplication).readerManager
 
     private val tagsMap = LinkedHashMap<String, RfidTag>()
     private var lastKnownReaderConfig: ReaderConfig = ReaderConfig()
@@ -88,8 +92,8 @@ class WebhookService : Service() {
         WebhookStatusStore.setRunning(true)
 
         val notif = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("X-SCAN: Webhook ativo")
-            .setContentText("Aguardando envio periódico")
+            .setContentTitle(getString(R.string.webhook_service_title))
+            .setContentText(getString(R.string.webhook_service_text))
             .setSmallIcon(android.R.drawable.stat_notify_sync)
             .setOngoing(true)
             .build()
@@ -99,9 +103,9 @@ class WebhookService : Service() {
         // Observa tags de todos os readers. O serviço não inicia/para inventário;
         // apenas envia as tags que chegarem (ex.: via gatilho físico).
         tagJob = scope.launch {
-            val readers = ReaderRegistry.availableReaders
+            val readers = readerManager.readers
             if (readers.isEmpty()) {
-                Log.w(TAG, "Nenhum reader registrado no ReaderRegistry")
+                Log.w(TAG, "Nenhum leitor habilitado no ReaderManager")
                 return@launch
             }
 
@@ -185,9 +189,9 @@ class WebhookService : Service() {
     private suspend fun resolveReaderConfig(settings: AppSettings): ReaderConfig {
         val preferredReader = settings.lastReaderId
             .takeIf { it.isNotBlank() }
-            ?.let { ReaderRegistry.findById(it) }
+            ?.let { readerManager.findById(it) }
 
-        val connectedReader = ReaderRegistry.availableReaders.firstOrNull {
+        val connectedReader = readerManager.readers.firstOrNull {
             it.connectionState.value == ReaderConnectionState.CONNECTED
         }
 
@@ -290,7 +294,7 @@ class WebhookService : Service() {
     private fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val channel = NotificationChannel(CHANNEL_ID, "Webhook", NotificationManager.IMPORTANCE_LOW)
+            val channel = NotificationChannel(CHANNEL_ID, getString(R.string.webhook_channel_name), NotificationManager.IMPORTANCE_LOW)
             nm.createNotificationChannel(channel)
         }
     }

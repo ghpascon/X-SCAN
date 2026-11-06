@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.smartx.xscan.app-mergeDebugResources-59:/values-zh/values-zh.xml",
+            "outputFile": "com.smartx.xscan.app-mergeDebugResources-53:/values-zh/values-zh.xml",
             "map": [
                 {
-                    "source": "/home/gabriel/.gradle/caches/8.10.2/transforms/4c016fabf7edb8d57c49bcfd0e867dad/transformed/jetified-URFIDLibrary-v2.4.0307/res/values-zh/values-zh.xml",
+                    "source": "/home/gabriel/.gradle/caches/8.10.2/transforms/ec1b3f9295f8db14b51bf5973c11a374/transformed/jetified-ubx-urfid-2.4.0307/res/values-zh/values-zh.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

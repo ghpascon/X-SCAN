@@ -12,12 +12,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.smartx.xscan.R
-import com.smartx.xscan.core.reader.ReaderConnectionState
-import com.smartx.xscan.readers.cfh301.CfH301Reader
-import com.smartx.xscan.readers.ih25.IH25Reader
-import com.smartx.xscan.readers.tsl1128.Tsl1128Reader
-import com.smartx.xscan.readers.x714.X714Reader
-import com.smartx.xscan.readers.zebra.ZebraReader
+import com.smartx.rfid.core.IRfidReader
+import com.smartx.rfid.core.ReaderConnectionState
 import com.smartx.xscan.databinding.FragmentReaderSelectionBinding
 import com.smartx.xscan.ui.main.MainViewModel
 import com.smartx.xscan.ui.selection.ReaderListAdapter
@@ -51,58 +47,8 @@ class ReaderSelectionFragment : Fragment() {
         adapter.submitList(viewModel.availableReaders)
     }
 
-    private fun onConnectClicked(reader: com.smartx.xscan.core.reader.IRfidReader) {
-        if (reader is ZebraReader) {
-            showZebraTransportDialog(reader)
-            return
-        }
-
-        if (reader.isBle) {
-            // Leitores BLE: mostra escaner antes de conectar
-            val dialog = BleScanDialogFragment()
-            dialog.onDeviceSelected = { _, address ->
-                // Repassa o MAC para qualquer leitor BLE
-                when (reader) {
-                    is CfH301Reader -> reader.targetMacAddress = address
-                    is IH25Reader -> reader.targetMacAddress = address
-                    is Tsl1128Reader -> reader.targetMacAddress = address
-                    is X714Reader -> reader.targetMacAddress = address
-                }
-                viewModel.connect(reader)
-                // Abre o log de conexão para todos os leitores
-                ConnectionLogDialogFragment()
-                    .show(childFragmentManager, "connection_log")
-            }
-            dialog.show(childFragmentManager, "ble_scan")
-        } else {
-            viewModel.connect(reader)
-            ConnectionLogDialogFragment()
-                .show(childFragmentManager, "connection_log")
-        }
-    }
-
-    private fun showZebraTransportDialog(reader: ZebraReader) {
-        ZebraTransportDialog.show(
-            context = requireContext(),
-            onBluetoothSelected = {
-                reader.transportMode = ZebraReader.TransportMode.BLUETOOTH
-                val scanDialog = BleScanDialogFragment()
-                scanDialog.onDeviceSelected = { _, address ->
-                    reader.targetMacAddress = address
-                    viewModel.connect(reader)
-                    ConnectionLogDialogFragment()
-                        .show(childFragmentManager, "connection_log")
-                }
-                scanDialog.show(childFragmentManager, "ble_scan")
-            },
-            onSerialSelected = {
-                reader.transportMode = ZebraReader.TransportMode.SERIAL
-                reader.targetMacAddress = null
-                viewModel.connect(reader)
-                ConnectionLogDialogFragment()
-                    .show(childFragmentManager, "connection_log")
-            }
-        )
+    private fun onConnectClicked(reader: IRfidReader) {
+        ReaderConnectFlow.start(this, reader, viewModel)
     }
 
     private fun observeState() {

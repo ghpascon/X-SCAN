@@ -3,12 +3,13 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-BUILD_GRADLE="$ROOT_DIR/rfid-app/app/build.gradle"
+CONFIG_JSON="$ROOT_DIR/rfid-app/config.json"
 
-if [[ ! -f "$BUILD_GRADLE" ]]; then
-  echo "Erro: nao encontrou $BUILD_GRADLE"
+if [[ ! -f "$CONFIG_JSON" ]]; then
+  echo "Erro: nao encontrou $CONFIG_JSON"
   exit 1
 fi
+command -v jq >/dev/null || { echo "Erro: jq nao encontrado."; exit 1; }
 
 echo "Tipo de versao:"
 echo "  1) patch"
@@ -33,12 +34,12 @@ if [[ -z "${COMMIT_MESSAGE// }" ]]; then
   exit 1
 fi
 
-# Le versionName e versionCode do build.gradle
-CURRENT_VERSION="$(grep -E 'versionName\s+"[0-9]+\.[0-9]+\.[0-9]+"' "$BUILD_GRADLE" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
-CURRENT_CODE="$(grep -E 'versionCode\s+[0-9]+' "$BUILD_GRADLE" | grep -oE '[0-9]+')"
+# Le versionName e versionCode do rfid-app/config.json
+CURRENT_VERSION="$(jq -r '.app.versionName' "$CONFIG_JSON")"
+CURRENT_CODE="$(jq -r '.app.versionCode' "$CONFIG_JSON")"
 
 if [[ -z "$CURRENT_VERSION" ]]; then
-  echo "Erro: nao foi possivel encontrar versionName no build.gradle"
+  echo "Erro: nao foi possivel encontrar versionName no config.json"
   exit 1
 fi
 
@@ -62,9 +63,10 @@ esac
 NEW_VERSION="$MAJOR.$MINOR.$PATCH"
 NEW_CODE=$((CURRENT_CODE + 1))
 
-# Atualiza versionName e versionCode no build.gradle
-sed -i "s/versionName \"$CURRENT_VERSION\"/versionName \"$NEW_VERSION\"/" "$BUILD_GRADLE"
-sed -i "s/versionCode $CURRENT_CODE/versionCode $NEW_CODE/" "$BUILD_GRADLE"
+# Atualiza versionName e versionCode no config.json
+TMP_JSON="$(mktemp)"
+jq --arg v "$NEW_VERSION" --argjson c "$NEW_CODE" '.app.versionName = $v | .app.versionCode = $c' "$CONFIG_JSON" > "$TMP_JSON"
+mv "$TMP_JSON" "$CONFIG_JSON"
 
 echo "Versao atual: $CURRENT_VERSION (code $CURRENT_CODE)"
 echo "Nova versao:  $NEW_VERSION (code $NEW_CODE)"

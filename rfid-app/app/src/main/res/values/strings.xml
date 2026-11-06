@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">X-SCAN</string>
 
     <!-- Tela de seleção legada -->
     <string name="selection_title">Selecionar Leitor RFID</string>
@@ -144,10 +143,6 @@
     <string name="ble_scan_again">Escanear novamente</string>
 
     <!-- Zebra transport selection -->
-    <string name="zebra_transport_title">Conexão Zebra</string>
-    <string name="zebra_transport_message">Selecione o tipo de conexão para o leitor Zebra.</string>
-    <string name="zebra_transport_bt">Bluetooth</string>
-    <string name="zebra_transport_serial">Serial</string>
 
     <!-- Log de conexão -->
     <string name="connection_log_connected">Conectado com sucesso!</string>
@@ -156,6 +151,7 @@
     <string name="ble_disabled">Bluetooth está desligado</string>
     <string name="ble_permission_denied">Permissão Bluetooth negada</string>
     <string name="btn_cancel">Cancelar</string>
+    <string name="connection_option_title">Conexão: %1$s</string>
     <string name="badge_ble">BLE</string>
 
     <!-- Footer global -->

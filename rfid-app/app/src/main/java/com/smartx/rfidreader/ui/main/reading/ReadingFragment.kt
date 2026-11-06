@@ -24,9 +24,10 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.smartx.xscan.BuildConfig
 import com.smartx.xscan.R
-import com.smartx.xscan.core.reader.ReaderConnectionState
-import com.smartx.xscan.core.reader.RfidTag
+import com.smartx.rfid.core.ReaderConnectionState
+import com.smartx.rfid.core.RfidTag
 import com.smartx.xscan.databinding.FragmentReadingBinding
 import com.smartx.xscan.ui.main.MainViewModel
 import java.io.OutputStreamWriter
@@ -169,7 +170,7 @@ class ReadingFragment : Fragment() {
         }
 
         val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-        val fileName = "xscan_tags_${timestamp}.csv"
+        val fileName = "${BuildConfig.EXPORT_FILE_PREFIX}${timestamp}.csv"
 
         val uri = createCsvUri(fileName)
         if (uri == null) {

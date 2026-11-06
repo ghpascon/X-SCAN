@@ -17,11 +17,6 @@
         <item>S2</item>
         <item>S3</item>
     </string-array>
-    <string-array name="zebra_transport_options">
-        <item>@string/zebra_transport_bt</item>
-        <item>@string/zebra_transport_serial</item>
-        <item>@string/btn_cancel</item>
-    </string-array>
     <attr format="enum" name="animateCircleAngleTo">
         <enum name="bestChoice" value="0"/>
         <enum name="closest" value="1"/>
@@ -2054,7 +2049,7 @@
     <string name="abc_shareactionprovider_share_with_application">Share with <ns2:g example="Mail" id="application_name">%s</ns2:g></string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <string name="androidx_startup" translatable="false">androidx.startup</string>
-    <string name="app_name">X-SCAN</string>
+    <string name="app_name" translatable="false">X-SCAN</string>
     <string name="app_settings_saved">Configurações salvas</string>
     <string name="app_version">2.6.9.4</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
@@ -2129,6 +2124,7 @@
     <string name="connecting">Conectando…</string>
     <string name="connection_log_connected">Conectado com sucesso!</string>
     <string name="connection_log_failed">Falha ao conectar</string>
+    <string name="connection_option_title">Conexão: %1$s</string>
     <string name="delete_all_message">Todos os eventos salvos serão removidos permanentemente.</string>
     <string name="delete_all_title">Apagar todos?</string>
     <string name="delete_event">Apagar evento</string>
@@ -2363,17 +2359,16 @@
     <string name="tab_reading">Leitura</string>
     <string name="tag_count">%d tags</string>
     <string name="tag_count_zero">0 tags</string>
+    <string name="webhook_channel_name" translatable="false">Webhook</string>
     <string name="webhook_example_url">http://192.168.1.100:5000/api/v1/receive/x-scan</string>
     <string name="webhook_not_configured">Nenhum webhook configurado</string>
     <string name="webhook_saved">URL do webhook salva</string>
     <string name="webhook_send_fail">Último: falha às %2$s — %1$s</string>
     <string name="webhook_send_success">Último: %1$d enviado(s) às %2$s</string>
+    <string name="webhook_service_text" translatable="false">Aguardando envio periódico</string>
+    <string name="webhook_service_title" translatable="false">X-SCAN: Webhook ativo</string>
     <string name="webhook_status_active">Webhook ativo: Sim</string>
     <string name="webhook_status_inactive">Webhook ativo: Não</string>
-    <string name="zebra_transport_bt">Bluetooth</string>
-    <string name="zebra_transport_message">Selecione o tipo de conexão para o leitor Zebra.</string>
-    <string name="zebra_transport_serial">Serial</string>
-    <string name="zebra_transport_title">Conexão Zebra</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>

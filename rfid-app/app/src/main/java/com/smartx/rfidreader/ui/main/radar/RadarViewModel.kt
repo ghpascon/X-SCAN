@@ -3,7 +3,7 @@ package com.smartx.xscan.ui.main.radar
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.smartx.xscan.core.reader.RfidTag
+import com.smartx.rfid.core.RfidTag
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

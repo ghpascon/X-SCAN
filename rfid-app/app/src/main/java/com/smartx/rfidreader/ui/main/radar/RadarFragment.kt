@@ -19,7 +19,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.smartx.xscan.R
-import com.smartx.xscan.core.reader.ReaderConnectionState
+import com.smartx.rfid.core.ReaderConnectionState
 import com.smartx.xscan.databinding.FragmentRadarBinding
 import com.smartx.xscan.ui.main.MainViewModel
 import kotlinx.coroutines.Dispatchers

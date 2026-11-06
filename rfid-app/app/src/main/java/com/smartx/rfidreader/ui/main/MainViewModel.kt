@@ -5,23 +5,26 @@ import android.provider.Settings
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.smartx.rfid.core.ConnectionRequest
+import com.smartx.rfid.core.IRfidReader
+import com.smartx.rfid.core.ReaderConfig
+import com.smartx.rfid.core.ReaderConnectionState
+import com.smartx.rfid.core.RfidTag
+import com.smartx.rfid.manager.ReaderManager
+import com.smartx.rfid.tags.TagFilter
 import com.smartx.xscan.RfidApplication
 import com.smartx.xscan.core.location.GpsHelper
-import com.smartx.xscan.core.reader.IRfidReader
-import com.smartx.xscan.core.reader.ActiveReaderState
-import com.smartx.xscan.core.reader.ReaderConfig
-import com.smartx.xscan.core.reader.ReaderConnectionState
-import com.smartx.xscan.core.reader.RfidTag
-import com.smartx.xscan.core.registry.ReaderRegistry
 import com.smartx.xscan.core.settings.AppSettings
 import com.smartx.xscan.core.settings.AppSettingsRepository
-import com.smartx.xscan.readers.cfh301.CfH301Reader
-import com.smartx.xscan.readers.x714.X714Reader
-import com.smartx.xscan.readers.ih25.IH25Reader
-import com.smartx.xscan.readers.tsl1128.Tsl1128Reader
-import com.smartx.xscan.readers.zebra.ZebraReader
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class MainUiState(
@@ -35,27 +38,34 @@ data class MainUiState(
     val errorMessage: String? = null
 )
 
+/**
+ * Ponte entre a UI e o [ReaderManager] da biblioteca smartx-rfid.
+ * A conexão, o inventário e as tags vivem no manager (compartilhado por todo o app);
+ * aqui ficam apenas as regras de tela: configurações do app, buzzer e navegação.
+ */
 class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     private val TAG = "MainViewModel"
+    private val manager: ReaderManager = (app as RfidApplication).readerManager
     private val settingsRepo = AppSettingsRepository(app)
 
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
 
-    /** Armazenamento rápido para lookup O(1) por EPC */
-    private val _tagMap = LinkedHashMap<String, RfidTag>()
+    /** Tags coletadas (já filtradas e deduplicadas pela biblioteca; atualizadas a cada ~200 ms). */
+    val tags: StateFlow<List<RfidTag>> = manager.tags.tags
 
-    /** Flag para atualizar a UI apenas quando necessário (throttle de 200 ms) */
-    @Volatile private var _tagsDirty = false
+    /** Cada leitura individual que passou pelos filtros (usado pelo radar). */
+    val tagEventFlow: SharedFlow<RfidTag> = manager.tags.events
 
-    /** Timestamp do último buzzer (cooldown de 300 ms) */
-    @Volatile private var _lastBuzzerMs = 0L
+    /** Log de conexão exibido no ConnectionLogDialogFragment. */
+    val connectionLog: StateFlow<List<String>> = manager.connectionLog
 
+    /** Leitores habilitados (config.json -> readers). */
+    val availableReaders: List<IRfidReader> = manager.readers
 
-
-    private val _tags = MutableStateFlow<List<RfidTag>>(emptyList())
-    val tags: StateFlow<List<RfidTag>> = _tags.asStateFlow()
+    /** Leitor atualmente conectado. */
+    val reader: IRfidReader? get() = manager.activeReader
 
     /** Limite de tags exibidas na tela (null = todas). Padrão: 50 */
     private val _displayLimit = MutableStateFlow<Int?>(50)
@@ -65,17 +75,10 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         _displayLimit.value = limit
     }
 
-    /** Evento de buzzer: emitido a cada nova tag detectada (cooldown 300 ms) */
+    /** Evento de buzzer: emitido a cada tag lida (cooldown de 100 ms) */
     private val _buzzerEvent = MutableSharedFlow<Unit>(extraBufferCapacity = 8)
     val buzzerEvent: SharedFlow<Unit> = _buzzerEvent.asSharedFlow()
-
-    /**
-     * Emite cada tag individual após passar pelos filtros de prefixo e RSSI.
-     * Consumível por múltiplos collectors (SharedFlow). Usado pelo RadarFragment
-     * para atualizar RSSI dos targets sem coletar tagFlow diretamente do hardware.
-     */
-    private val _tagEventFlow = MutableSharedFlow<RfidTag>(extraBufferCapacity = 64)
-    val tagEventFlow: SharedFlow<RfidTag> = _tagEventFlow.asSharedFlow()
+    @Volatile private var lastBuzzerMs = 0L
 
     /** Evento de navegação para a tela de leitura após conexão bem-sucedida */
     private val _navigateToReading = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
@@ -85,44 +88,43 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     private val _saveInventoryResult = MutableSharedFlow<Boolean>(extraBufferCapacity = 1)
     val saveInventoryResult: SharedFlow<Boolean> = _saveInventoryResult.asSharedFlow()
 
-    /** Log de conexão — lista acumulada de linhas exibida no ConnectionLogDialogFragment */
-    private val _connectionLog = MutableStateFlow<List<String>>(emptyList())
-    val connectionLog: StateFlow<List<String>> = _connectionLog.asStateFlow()
-    private var connectionStartMs: Long = 0L
-    private var connectJob: Job? = null
-
-    private fun emitLog(msg: String) {
-        val elapsed = (System.currentTimeMillis() - connectionStartMs) / 1000.0
-        val line = "[+%1$.2fs] $msg".format(elapsed)
-        _connectionLog.update { it + line }
-    }
-
-    val availableReaders: List<IRfidReader> = ReaderRegistry.availableReaders
-
-    // Evento para instruir a UI a abrir o modal de escaneamento BLE (readerId)
+    // Eventos para instruir a UI a abrir o modal de scan BLE (readerId) e o diálogo de logs
     private val _showBleScanDialog = MutableSharedFlow<String>(extraBufferCapacity = 1)
     val showBleScanDialog: SharedFlow<String> = _showBleScanDialog.asSharedFlow()
-    // Evento para instruir a UI a abrir o diálogo de logs durante conexão
     private val _showConnectionLog = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val showConnectionLog: SharedFlow<Unit> = _showConnectionLog.asSharedFlow()
 
-    var reader: IRfidReader? = null
-        private set
+    private var connectJob: Job? = null
 
     init {
         viewModelScope.launch {
             settingsRepo.flow.collect { settings ->
+                manager.tags.filter = TagFilter(prefixes = settings.prefixes, minRssi = settings.rssiFilter)
                 _uiState.update { it.copy(appSettings = settings) }
             }
         }
-        // Publica estado do leitor no singleton global — visível por qualquer Activity
         viewModelScope.launch {
-            _uiState.collect { state ->
-                ActiveReaderState.update(
-                    readerName = reader?.displayName ?: "Nenhum leitor",
-                    connectionState = state.connectionState,
-                    isInventorying = state.isInventorying
-                )
+            manager.state.collect { s ->
+                _uiState.update {
+                    it.copy(
+                        connectionState = s.connectionState,
+                        isConnecting = s.isConnecting,
+                        isInventorying = s.isInventorying,
+                        config = s.config,
+                        errorMessage = s.lastError
+                    )
+                }
+            }
+        }
+        viewModelScope.launch {
+            manager.tags.events.collect {
+                if (_uiState.value.appSettings.buzzerEnabled) {
+                    val now = System.currentTimeMillis()
+                    if (now - lastBuzzerMs >= 100L) {
+                        lastBuzzerMs = now
+                        _buzzerEvent.tryEmit(Unit)
+                    }
+                }
             }
         }
     }
@@ -133,266 +135,89 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     /**
      * Tenta conectar automaticamente ao último leitor usado.
-     * Aguarda o carregamento inicial das settings antes de decidir.
-     * Não faz nada se já conectado, conectando, ou nenhum ID salvo.
+     * Não faz nada se já conectado/conectando, se não há ID salvo, ou se o leitor
+     * exige escolha explícita do usuário (`capabilities.supportsAutoReconnect = false`).
      */
     fun autoConnectLastReader() {
-        val state = _uiState.value
-        if (state.connectionState == ReaderConnectionState.CONNECTED || state.isConnecting) return
+        val state = manager.state.value
+        if (state.isConnected || state.isConnecting) return
         viewModelScope.launch {
-            // Aguarda o primeiro valor válido de settings (pode ainda não ter chegado no init)
             val settings = settingsRepo.flow.first()
             val lastId = settings.lastReaderId.ifBlank { return@launch }
-            val rfidReader = ReaderRegistry.findById(lastId) ?: return@launch
+            val rfidReader = manager.findById(lastId) ?: return@launch
+            if (!rfidReader.capabilities.supportsAutoReconnect) return@launch
 
-            // Zebra exige escolha explícita de transporte (Bluetooth/Serial).
-            // Não auto-conecta para evitar cair direto no Bluetooth.
-            if (rfidReader is ZebraReader) {
-                return@launch
-            }
-
-            // Se leitor BLE, restaura o último MAC salvo — sem MAC não tentamos reconectar
+            var request = ConnectionRequest()
             if (rfidReader.isBle) {
-                // Solicita que a UI exiba o modal de scan BLE para o usuário acompanhar
+                // Pede à UI o modal de scan BLE e o log para o usuário acompanhar
                 _showBleScanDialog.tryEmit(rfidReader.readerId)
-                // Solicita que a UI exiba também o diálogo de logs de conexão
                 _showConnectionLog.tryEmit(Unit)
-                val mac = settings.lastBleAddress.ifBlank { null }
-                if (mac == null) return@launch
-                when (rfidReader) {
-                    is CfH301Reader -> rfidReader.targetMacAddress = mac
-                    is X714Reader -> rfidReader.targetMacAddress = mac
-                    is IH25Reader -> rfidReader.targetMacAddress = mac
-                    is Tsl1128Reader -> rfidReader.targetMacAddress = mac
-                }
+                // Sem MAC salvo não tentamos reconectar
+                val mac = settings.lastBleAddress.ifBlank { null } ?: return@launch
+                request = ConnectionRequest(address = mac)
             }
 
-            // Verifica novamente após await para evitar dupla conexão
-            if (_uiState.value.connectionState == ReaderConnectionState.CONNECTED ||
-                _uiState.value.isConnecting) return@launch
-            connect(rfidReader)
+            // Verifica novamente após o await para evitar dupla conexão
+            val current = manager.state.value
+            if (current.isConnected || current.isConnecting) return@launch
+            connect(rfidReader, request)
         }
     }
 
     fun cancelConnection() {
         connectJob?.cancel()
         connectJob = null
-        _uiState.update { it.copy(isConnecting = false, errorMessage = null) }
-        emitLog("Conexão cancelada pelo usuário.")
+        manager.clearError()
     }
 
-    fun connect(rfidReader: IRfidReader) {
-        if (_uiState.value.isConnecting) return
+    fun connect(rfidReader: IRfidReader, request: ConnectionRequest = ConnectionRequest()) {
+        if (manager.state.value.isConnecting) return
         connectJob = viewModelScope.launch {
-            connectionStartMs = System.currentTimeMillis()
-            _connectionLog.value = emptyList()
-            emitLog("Iniciando conexão com ${rfidReader.displayName}...")
-            _uiState.update { it.copy(isConnecting = true, errorMessage = null) }
-            Log.i(TAG, "connect start reader=${rfidReader.readerId} t=$connectionStartMs")
-
-            // Conecta logSink para receber eventos BLE internos do X714
-            (rfidReader as? X714Reader)?.logSink = { msg -> emitLog(msg) }
-
-            // Tenta conectar até 3 vezes antes de declarar falha (pequeno delay entre tentativas)
-            var ok = false
-            val maxAttempts = 3
-            val retryDelayMs = 1000L
-            for (attempt in 1..maxAttempts) {
-                emitLog("Tentativa $attempt de $maxAttempts...")
-                Log.i(TAG, "connect attempt=$attempt/$maxAttempts reader=${rfidReader.readerId}")
-                try {
-                    ok = rfidReader.connect(getApplication())
-                } catch (e: Exception) {
-                    Log.e(TAG, "connect attempt exception", e)
-                    ok = false
-                }
-                val attemptElapsed = System.currentTimeMillis() - connectionStartMs
-                Log.i(TAG, "connect attempt end reader=${rfidReader.readerId} attempt=$attempt ok=$ok elapsed=${attemptElapsed}ms")
-                if (ok) break
-                if (attempt < maxAttempts) {
-                    emitLog("Tentativa $attempt falhou — nova tentativa em ${retryDelayMs}ms...")
-                    kotlinx.coroutines.delay(retryDelayMs)
-                }
-            }
-            val elapsed = System.currentTimeMillis() - connectionStartMs
-            Log.i(TAG, "connect end reader=${rfidReader.readerId} ok=$ok total=${elapsed}ms")
-
+            val ok = manager.connect(rfidReader, request)
             if (ok) {
-                reader = rfidReader
-                // Marca explicitamente como conectado — o collector em observeReader pode demorar
-                _uiState.update {
-                    it.copy(
-                        isConnecting = false,
-                        connectionState = ReaderConnectionState.CONNECTED
-                    )
-                }
-                emitLog("Lendo configuração do leitor...")
+                // Persiste leitor (e MAC, se BLE) para permitir auto-reconexão
                 val settings = _uiState.value.appSettings
-                // Se for BLE, persiste também o MAC selecionado para permitir auto-reconexão
-                val macToSave = when (rfidReader) {
-                    is CfH301Reader -> rfidReader.targetMacAddress ?: settings.lastBleAddress
-                    is X714Reader -> rfidReader.targetMacAddress ?: settings.lastBleAddress
-                    is IH25Reader -> rfidReader.targetMacAddress ?: settings.lastBleAddress
-                    else -> settings.lastBleAddress
-                } ?: ""
-                settingsRepo.save(settings.copy(lastReaderId = rfidReader.readerId, lastBleAddress = macToSave))
-                observeReader(rfidReader)
-                // Lê config atual e aplica imediatamente para garantir modo correto (ex: EPC+TID)
-                val config = rfidReader.readConfig()
-                rfidReader.applyConfig(config)
-                _uiState.update { it.copy(config = config) }
-                emitLog("✓ Pronto! (%.1fs)".format(elapsed / 1000.0))
+                settingsRepo.save(
+                    settings.copy(
+                        lastReaderId = rfidReader.readerId,
+                        lastBleAddress = rfidReader.targetMacAddress ?: settings.lastBleAddress
+                    )
+                )
                 _navigateToReading.emit(Unit)
-            } else {
-                emitLog("✗ Falha ao conectar. Verifique se o leitor está ligado e próximo.")
-                _uiState.update {
-                    it.copy(isConnecting = false, errorMessage = "Falha ao conectar ${rfidReader.displayName}")
-                }
             }
-            // Limpa logSink para evitar referência ao ViewModel
-            (rfidReader as? X714Reader)?.logSink = null
             connectJob = null
         }
     }
 
     fun disconnect() {
-        viewModelScope.launch {
-            if (reader?.isInventorying() == true) reader?.stopInventory()
-            reader?.disconnect()
-            reader = null
-            _tags.value = emptyList()
-            _uiState.update {
-                it.copy(connectionState = ReaderConnectionState.DISCONNECTED, isInventorying = false)
-            }
-        }
+        viewModelScope.launch { manager.disconnect() }
     }
 
-    private fun observeReader(r: IRfidReader) {
-        viewModelScope.launch {
-            r.connectionState.collect { state ->
-                _uiState.update { it.copy(connectionState = state, isConnecting = false) }
-                if (state == ReaderConnectionState.DISCONNECTED) {
-                    _uiState.update { it.copy(isInventorying = false) }
-                }
-            }
-        }
-        // Observa mudanças de estado de inventário acionadas via GPI (botão físico BLE).
-        // Necessário pois o GPI chega por BLE diretamente no X714Reader, sem passar pelo ViewModel.
-        (r as? X714Reader)?.let { x714 ->
-            viewModelScope.launch {
-                x714.inventoryStateFlow.collect { isOn ->
-                    _uiState.update { it.copy(isInventorying = isOn) }
-                }
-            }
-        }
-        viewModelScope.launch {
-            r.tagFlow.collect { tag ->
-                val settings = _uiState.value.appSettings
-
-                // Filtro de prefixo
-                val prefixes = settings.prefixes
-                if (prefixes.isNotEmpty() && prefixes.none { tag.epc.startsWith(it, ignoreCase = true) }) {
-                    return@collect
-                }
-
-                // Filtro RSSI
-                val rssiVal = tag.rssi.toDoubleOrNull()
-                if (rssiVal != null && rssiVal < settings.rssiFilter) return@collect
-
-                val existing = _tagMap[tag.epc]
-                val isNew = existing == null
-                if (isNew) {
-                    _tagMap[tag.epc] = tag
-                } else {
-                    _tagMap[tag.epc] = existing!!.copy(
-                        readCount = existing.readCount + 1,
-                        rssi = tag.rssi,
-                        timestamp = tag.timestamp
-                    )
-                }
-
-                // Marca dirty — a UI será atualizada pelo ticker de 200 ms
-                _tagsDirty = true
-
-                // Emite o evento individual para o radar (SharedFlow — safe para múltiplos collectors)
-                _tagEventFlow.tryEmit(tag)
-
-                // Buzzer para qualquer tag lida, com cooldown de 50 ms
-                if (settings.buzzerEnabled) {
-                    val now = System.currentTimeMillis()
-                    if (now - _lastBuzzerMs >= 100L) {
-                        _lastBuzzerMs = now
-                        _buzzerEvent.tryEmit(Unit)
-                    }
-                }
-            }
-        }
-        // Ticker: atualiza a lista na UI no máximo a cada 200 ms
-        viewModelScope.launch {
-            while (true) {
-                kotlinx.coroutines.delay(200)
-                if (_tagsDirty) {
-                    _tagsDirty = false
-                    _tags.value = _tagMap.values.toList()
-                }
-            }
-        }
-    }
-
-    fun clearError() {
-        _uiState.update { it.copy(errorMessage = null) }
-    }
+    fun clearError() = manager.clearError()
 
     // -------------------------------------------------------------------------
     // Inventário
     // -------------------------------------------------------------------------
 
     fun toggleInventory() {
-        val r = reader ?: return
-        if (r.isInventorying()) {
-            r.stopInventory()
-            _uiState.update { it.copy(isInventorying = false) }
-        } else {
-            val ok = r.startInventory()
-            _uiState.update { it.copy(isInventorying = ok) }
-        }
+        manager.toggleInventory()
     }
 
-    fun clearTags() {
-        _tagMap.clear()
-        _tagsDirty = false
-        _tags.value = emptyList()
-    }
+    fun clearTags() = manager.clearTags()
 
-    fun stopInventory() {
-        val r = reader ?: return
-        if (r.isInventorying()) {
-            r.stopInventory()
-            _uiState.update { it.copy(isInventorying = false) }
-        }
-    }
+    fun stopInventory() = manager.stopInventory()
 
     fun stopInventoryAndClear() {
-        val r = reader ?: return
-        if (r.isInventorying()) {
-            r.stopInventory()
-            _uiState.update { it.copy(isInventorying = false) }
-        }
-        _tagMap.clear()
-        _tagsDirty = false
-        _tags.value = emptyList()
+        manager.stopInventory()
+        manager.clearTags()
     }
 
     fun onTriggerPressed() {
-        val r = reader ?: return
-        r.onTriggerPressed()
-        _uiState.update { it.copy(isInventorying = r.isInventorying()) }
+        manager.onTriggerPressed()
     }
 
     fun onTriggerReleased() {
-        val r = reader ?: return
-        r.onTriggerReleased()
-        _uiState.update { it.copy(isInventorying = r.isInventorying()) }
+        manager.onTriggerReleased()
     }
 
     // -------------------------------------------------------------------------
@@ -400,25 +225,15 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     // -------------------------------------------------------------------------
 
     fun loadConfig() {
-        val r = reader ?: return
-        viewModelScope.launch {
-            val config = r.readConfig()
-            _uiState.update { it.copy(config = config) }
-        }
+        viewModelScope.launch { manager.readConfig() }
     }
 
     fun saveConfig(config: ReaderConfig) {
-        val r = reader ?: return
+        if (reader == null) return
         viewModelScope.launch {
             _uiState.update { it.copy(isSavingConfig = true, configSaveSuccess = null) }
-            val ok = r.applyConfig(config)
-            _uiState.update {
-                it.copy(
-                    isSavingConfig = false,
-                    configSaveSuccess = ok,
-                    config = if (ok) config else it.config
-                )
-            }
+            val ok = manager.applyConfig(config)
+            _uiState.update { it.copy(isSavingConfig = false, configSaveSuccess = ok) }
         }
     }
 
@@ -432,18 +247,14 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
      * ideal para localização/radar.
      */
     fun enterRadarMode() {
-        val r = reader ?: return
         val current = _uiState.value.config
-        viewModelScope.launch { r.applyConfig(current.copy(session = 0)) }
+        viewModelScope.launch { manager.applyConfig(current.copy(session = 0), remember = false) }
     }
 
-    /**
-     * Restaura a session original configurada pelo usuário ao sair do modo radar.
-     */
+    /** Restaura a session original configurada pelo usuário ao sair do modo radar. */
     fun exitRadarMode() {
-        val r = reader ?: return
         val current = _uiState.value.config
-        viewModelScope.launch { r.applyConfig(current) }
+        viewModelScope.launch { manager.applyConfig(current, remember = false) }
     }
 
     // -------------------------------------------------------------------------
@@ -451,7 +262,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     // -------------------------------------------------------------------------
 
     fun saveInventory(inventoryName: String) {
-        val tags = _tags.value
+        val tags = manager.tags.snapshot()
         if (tags.isEmpty() || inventoryName.isBlank()) return
         viewModelScope.launch {
             try {
@@ -495,14 +306,5 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
             _uiState.update { it.copy(appSettings = toSave) }
             onSaved?.invoke()
         }
-    }
-
-    // -------------------------------------------------------------------------
-    // Lifecycle
-    // -------------------------------------------------------------------------
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelScope.launch { reader?.disconnect() }
     }
 }

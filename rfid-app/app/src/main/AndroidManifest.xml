@@ -2,21 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Allow TSL SDK (minSdk 26) to be merged without raising project minSdk -->
-    <uses-sdk tools:overrideLibrary="com.uk.tsl.rfid.asciiprotocol" />
+    <!-- Permissões de Bluetooth vêm da biblioteca smartx-rfid (manifest merge) -->
 
-    <!-- Permissões Bluetooth (cobre API 21–30 e 31+) -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission
-        android:name="android.permission.BLUETOOTH_CONNECT"
-        android:minSdkVersion="31" />
-    <uses-permission
-        android:name="android.permission.BLUETOOTH_SCAN"
-        android:minSdkVersion="31"
-        android:usesPermissionFlags="neverForLocation" />
-
-    <!-- Permissões de localização (necessárias para Bluetooth scan em API 23–30) -->
+    <!-- Permissões de localização (GPS do inventário; também exigidas para scan BLE em API 23–30) -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -47,13 +35,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- Tela legada de seleção de leitor (não usada como launcher) -->
-        <activity
-            android:name=".ui.selection.ReaderSelectionActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
 
         <!-- Serviço de webhook que envia leituras periodicamente em foreground -->
         <service

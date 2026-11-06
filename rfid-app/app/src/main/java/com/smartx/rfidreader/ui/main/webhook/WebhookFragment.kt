@@ -14,7 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.smartx.xscan.R
-import com.smartx.xscan.core.reader.ReaderConnectionState
+import com.smartx.rfid.core.ReaderConnectionState
 import com.smartx.xscan.core.settings.AppSettings
 import com.smartx.xscan.core.webhook.WebhookSendStatus
 import com.smartx.xscan.databinding.FragmentWebhookBinding

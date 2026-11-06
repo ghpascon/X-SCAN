@@ -4,16 +4,30 @@ plugins {
     id 'kotlin-kapt'
 }
 
+// Configuração central do app: rfid-app/config.json
+def cfg = new groovy.json.JsonSlurper().parse(rootProject.file('config.json'))
+
 android {
+    // namespace = pacote do código-fonte (R, BuildConfig); não confundir com applicationId
     namespace 'com.smartx.xscan'
-    compileSdk 34
+    compileSdk cfg.app.compileSdk
 
     defaultConfig {
-        applicationId "com.smartx.xscan"
-        minSdk 29
-        targetSdk 34
-        versionCode 52
-        versionName "6.5.3"
+        applicationId cfg.app.applicationId
+        minSdk cfg.app.minSdk
+        targetSdk cfg.app.targetSdk
+        versionCode cfg.app.versionCode
+        versionName cfg.app.versionName
+
+        // Strings do app geradas a partir do config.json
+        resValue 'string', 'app_name', cfg.app.title
+        resValue 'string', 'webhook_service_title', cfg.service.name
+        resValue 'string', 'webhook_service_text', cfg.service.text
+        resValue 'string', 'webhook_channel_name', cfg.service.channelName
+
+        buildConfigField 'String', 'WEBHOOK_CHANNEL_ID', "\"${cfg.service.channelId}\""
+        buildConfigField 'String', 'EXPORT_FILE_PREFIX', "\"${cfg.app.exportFilePrefix}\""
+        buildConfigField 'String', 'LIB_VERSION', "\"${cfg.library.version}\""
     }
 
     buildTypes {
@@ -37,10 +51,11 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 
     packagingOptions {
-        // libserial_port.so existe tanto no SDK AT907 quanto no XR2; mantém o primeiro encontrado
+        // libserial_port.so pode vir de mais de um SDK dentro da lib; mantém o primeiro encontrado
         pickFirst 'lib/arm64-v8a/libserial_port.so'
         pickFirst 'lib/armeabi-v7a/libserial_port.so'
         pickFirst 'lib/x86/libserial_port.so'
@@ -80,30 +95,10 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.8.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
 
-    // --- SDK AT907 (Chainway / ATID) ---
-    implementation(name: 'atid.dev.rfid_v2.32.2022062000', ext: 'aar')
-    implementation(name: 'atid.system.comm_v1.18.2021070700', ext: 'aar')
-    implementation(name: 'atid.system.ctrl_v1.20.2021070700', ext: 'aar')
-    implementation(name: 'atid.system.device_v1.16.2021070700', ext: 'aar')
-    implementation(name: 'atid.system.jcomm_v1.23.2022062000', ext: 'aar')
-    implementation(name: 'atid.util_v1.19.2022062000', ext: 'aar')
-
-    // --- SDK C72 (Chainway DeviceAPI) ---
-    implementation(name: 'DeviceAPI_ver20251103_release', ext: 'aar')
-
-    // --- SDK IH25 (Honeywell) ---
-    implementation(name: 'honeywell_rfid_sdk', ext: 'aar')
-
-    // --- SDK Zebra (Zebra RFID API AARs in docs) ---
-    implementation files('../../docs/ZEBRA_SDK/rfidapi3lib-2.0.5.275.aar')
-
-    // --- SDK TSL 1128 ---
-    implementation(name: 'Rfid.AsciiProtocol-3.5.0-release', ext: 'aar')
-    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
-
-    // --- SDK XR2 (Ubx / URFIDLibrary) ---
-    implementation(name: 'URFIDLibrary-v2.4.0307', ext: 'aar')
-    implementation files('libs/platform_sdk_v3.1.221124.jar')
+    // --- Leitores RFID (drivers, SDKs de fabricantes, manager de tags) ---
+    // library.source = local  -> composite build com ../smartx-rfid-android
+    // library.source = remote -> GitHub Packages (versão: library.version)
+    implementation "${cfg.library.groupId}:${cfg.library.artifactId}:${cfg.library.version}"
 }
 
 // -----------------------------------------------------------------------------

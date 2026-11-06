@@ -1,3 +1,5 @@
+// Toda a configuração do app (título, versão, serviço, biblioteca, leitores) vem de config.json.
+
 pluginManagement {
     repositories {
         google {
@@ -12,16 +14,82 @@ pluginManagement {
     }
 }
 
+def cfg = new groovy.json.JsonSlurper().parse(new File(settingsDir, 'config.json'))
+def lib = cfg.library
+def libDir = lib.localPath ? new File(settingsDir, lib.localPath).canonicalFile : null
+
+if (!['local', 'remote', 'maven-local'].contains(lib.source)) {
+    throw new GradleException("config.json: library.source inválido '${lib.source}' (use local, remote ou maven-local)")
+}
+
+// Reaproveita a autenticação já existente do GitHub CLI; não grava nem imprime tokens.
+def ghExecutable = (System.getenv('PATH') ?: '').split(File.pathSeparator)
+    .collect { new File(it, 'gh') }
+    .find { it.isFile() && it.canExecute() }
+def ghOutput = { List<String> args ->
+    if (ghExecutable == null) return null
+    try {
+        def result = providers.exec {
+            commandLine(([ghExecutable.absolutePath] + args) as String[])
+            ignoreExitValue = true
+        }
+        return result.result.get().exitValue == 0 ? result.standardOutput.asText.get().trim() : null
+    } catch (Exception ignored) {
+        return null
+    }
+}
+def githubPackagesUser = System.getenv('GITHUB_ACTOR') ?: providers.gradleProperty('gpr.user').orNull
+def githubPackagesToken = System.getenv('GITHUB_TOKEN') ?: providers.gradleProperty('gpr.key').orNull
+if (lib.source == 'remote') {
+    githubPackagesUser = githubPackagesUser ?: ghOutput(['api', 'user', '--jq', '.login'])
+    githubPackagesToken = githubPackagesToken ?: ghOutput(['auth', 'token'])
+    if (!githubPackagesUser || !githubPackagesToken) {
+        throw new GradleException(
+            'GitHub Packages requer autenticação. Faça gh auth login e autorize read:packages, ' +
+            'ou configure GITHUB_ACTOR/GITHUB_TOKEN ou gpr.user/gpr.key em ~/.gradle/gradle.properties.'
+        )
+    }
+}
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
-        flatDir {
-            dirs("app/libs")
+
+        if (lib.source == 'local') {
+            // Lib ao lado do app (composite build) + repositório Maven dos SDKs de fabricantes
+            maven {
+                name = 'smartxVendorSdks'
+                url = uri(new File(libDir, 'vendor-sdks/repo'))
+            }
+        } else if (lib.source == 'maven-local') {
+            mavenLocal()
+        } else {
+            maven {
+                name = 'smartxGitHubPackages'
+                url = uri(lib.remoteUrl)
+                credentials {
+                    username = githubPackagesUser
+                    password = githubPackagesToken
+                }
+            }
         }
     }
 }
 
 rootProject.name = "rfid-app"
 include ':app'
+
+if (lib.source == 'local') {
+    if (!libDir.isDirectory()) {
+        throw new GradleException(
+            "config.json: library.source = \"local\", mas a pasta ${libDir} não existe.\n" +
+            "Ajuste library.localPath ou rode ./scripts/lib_source.sh remote")
+    }
+    includeBuild(libDir) {
+        dependencySubstitution {
+            substitute module("${lib.groupId}:${lib.artifactId}") using project(':smartx-rfid')
+        }
+    }
+}

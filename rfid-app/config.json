@@ -1,0 +1,25 @@
+{
+  "app": {
+    "title": "X-SCAN",
+    "applicationId": "com.smartx.xscan",
+    "versionName": "7.0.0",
+    "versionCode": 53,
+    "minSdk": 29,
+    "targetSdk": 34,
+    "compileSdk": 34,
+    "exportFilePrefix": "xscan_tags_"
+  },
+  "service": {
+    "name": "X-SCAN: Webhook ativo",
+    "text": "Aguardando envio periódico",
+    "channelId": "webhook_channel",
+    "channelName": "Webhook"
+  },
+  "library": {
+    "source": "remote",
+    "version": "1.1.0",
+    "groupId": "com.smartx.rfid",
+    "artifactId": "smartx-rfid",
+    "remoteUrl": "https://maven.pkg.github.com/ghpascon/smartx-rfid-android"
+  }
+}

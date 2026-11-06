@@ -5,7 +5,7 @@ set -e
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
-PACKAGE="com.smartx.xscan"
+PACKAGE="$(jq -r '.app.applicationId' config.json)"
 APK="app/build/outputs/apk/debug/app-debug.apk"
 
 # ── 1. Verifica ADB ──────────────────────────────────────────────────────────
@@ -45,6 +45,9 @@ fi
 
 # ── 4. Build ──────────────────────────────────────────────────────────────────
 echo ""
+echo "▶ Biblioteca: usando remote (GitHub Packages)..."
+./scripts/lib_source.sh remote
+
 echo "▶ Build..."
 ./gradlew assembleDebug --quiet
 

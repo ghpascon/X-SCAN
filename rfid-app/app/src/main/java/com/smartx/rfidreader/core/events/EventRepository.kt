@@ -3,7 +3,7 @@ package com.smartx.xscan.core.events
 import android.util.Log
 import com.smartx.xscan.core.db.EventDao
 import com.smartx.xscan.core.db.EventEntity
-import com.smartx.xscan.core.reader.RfidTag
+import com.smartx.rfid.core.RfidTag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext

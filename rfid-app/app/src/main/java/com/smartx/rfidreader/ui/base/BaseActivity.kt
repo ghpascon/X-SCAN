@@ -11,8 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
 import com.smartx.xscan.R
-import com.smartx.xscan.core.reader.ActiveReaderState
-import com.smartx.xscan.core.reader.ReaderConnectionState
+import com.smartx.xscan.RfidApplication
+import com.smartx.rfid.core.ReaderConnectionState
 import com.smartx.xscan.databinding.ActivityBaseBinding
 import com.smartx.xscan.databinding.HeaderAppBinding
 import kotlinx.coroutines.launch
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
  *  - header_app (nome do leitor + status de conexão) em TODAS as telas
  *  - footer_app (device ID) em TODAS as telas
  *
- * O header é atualizado automaticamente via [ActiveReaderState] — não é
+ * O header é atualizado automaticamente via `RfidApplication.readerManager.state` — não é
  * necessário chamar nada nas subclasses. Qualquer nova Activity que estenda
  * BaseActivity exibirá o estado real do leitor sem código adicional.
  *
@@ -76,35 +76,29 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
     private fun observeReaderState() {
+        val manager = (application as RfidApplication).readerManager
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    ActiveReaderState.readerName.collect { name ->
-                        _baseBinding.headerApp.headerReaderName.text = name
+                manager.state.collect { s ->
+                    val state = s.connectionState
+                    val inventorying = s.isInventorying
+                    _baseBinding.headerApp.headerReaderName.text =
+                        s.activeReader?.displayName ?: "Nenhum leitor"
+                    val statusText = when {
+                        inventorying -> "Lendo"
+                        state == ReaderConnectionState.CONNECTING -> "Conectando..."
+                        state == ReaderConnectionState.CONNECTED -> "Conectado"
+                        state == ReaderConnectionState.ERROR -> "Erro"
+                        else -> "Desconectado"
                     }
-                }
-                launch {
-                    kotlinx.coroutines.flow.combine(
-                        ActiveReaderState.connectionState,
-                        ActiveReaderState.isInventorying
-                    ) { state, inventorying -> state to inventorying }
-                        .collect { (state, inventorying) ->
-                            val statusText = when {
-                                inventorying -> "Lendo"
-                                state == ReaderConnectionState.CONNECTING -> "Conectando..."
-                                state == ReaderConnectionState.CONNECTED -> "Conectado"
-                                state == ReaderConnectionState.ERROR -> "Erro"
-                                else -> "Desconectado"
-                            }
-                            val statusDot = when {
-                                inventorying -> R.drawable.ic_status_active
-                                state == ReaderConnectionState.CONNECTED -> R.drawable.ic_status_connected
-                                state == ReaderConnectionState.CONNECTING -> R.drawable.ic_status_connected
-                                else -> R.drawable.ic_status_disconnected
-                            }
-                            _baseBinding.headerApp.headerConnectionStatus.text = statusText
-                            _baseBinding.headerApp.headerStatusDot.setBackgroundResource(statusDot)
-                        }
+                    val statusDot = when {
+                        inventorying -> R.drawable.ic_status_active
+                        state == ReaderConnectionState.CONNECTED -> R.drawable.ic_status_connected
+                        state == ReaderConnectionState.CONNECTING -> R.drawable.ic_status_connected
+                        else -> R.drawable.ic_status_disconnected
+                    }
+                    _baseBinding.headerApp.headerConnectionStatus.text = statusText
+                    _baseBinding.headerApp.headerStatusDot.setBackgroundResource(statusDot)
                 }
             }
         }
@@ -123,7 +117,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     /**
      * Sobrescreve o header manualmente para casos especiais (ex: forçar texto fixo).
-     * Na maioria dos casos não é necessário — o header atualiza sozinho via ActiveReaderState.
+     * Na maioria dos casos não é necessário — o header atualiza sozinho via ReaderManager.
      */
     protected fun updateHeader(
         readerName: String,

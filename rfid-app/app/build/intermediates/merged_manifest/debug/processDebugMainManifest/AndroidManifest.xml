@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.smartx.xscan"
-    android:versionCode="51"
-    android:versionName="6.5.2" > <!-- Allow TSL SDK (minSdk 26) to be merged without raising project minSdk -->
+    android:versionCode="52"
+    android:versionName="6.5.3" >
+
     <uses-sdk
         android:minSdkVersion="29"
         android:targetSdkVersion="34" />
 
-    <!-- Permissões Bluetooth (cobre API 21–30 e 31+) -->
-    <uses-permission
-        android:name="android.permission.BLUETOOTH"
-        android:maxSdkVersion="30" />
-    <uses-permission
-        android:name="android.permission.BLUETOOTH_ADMIN"
-        android:maxSdkVersion="30" />
-    <uses-permission
-        android:name="android.permission.BLUETOOTH_CONNECT"
-        android:minSdkVersion="31" />
-    <uses-permission
-        android:name="android.permission.BLUETOOTH_SCAN"
-        android:minSdkVersion="31"
-        android:usesPermissionFlags="neverForLocation" />
+    <!-- Permissões de Bluetooth vêm da biblioteca smartx-rfid (manifest merge) -->
 
-    <!-- Permissões de localização (necessárias para Bluetooth scan em API 23–30) -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- Permissões de localização (GPS do inventário; também exigidas para scan BLE em API 23–30) -->
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:maxSdkVersion="30" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!-- Permissões de serviço e hardware -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!-- Bluetooth (API 21–30 e 31+) — usado pelos leitores BLE e pelo BleScanner -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation" />
 
     <permission
         android:name="com.smartx.xscan.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
@@ -40,6 +42,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name="com.smartx.xscan.RfidApplication"
@@ -66,13 +69,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- Tela legada de seleção de leitor (não usada como launcher) -->
-        <activity
-            android:name="com.smartx.xscan.ui.selection.ReaderSelectionActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
 
         <!-- Serviço de webhook que envia leituras periodicamente em foreground -->
         <service

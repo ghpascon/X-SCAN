@@ -5,7 +5,7 @@ package com.smartx.xscan.ui.base;
  * - header_app (nome do leitor + status de conexão) em TODAS as telas
  * - footer_app (device ID) em TODAS as telas
  *
- * O header é atualizado automaticamente via [ActiveReaderState] — não é
+ * O header é atualizado automaticamente via `RfidApplication.readerManager.state` — não é
  * necessário chamar nada nas subclasses. Qualquer nova Activity que estenda
  * BaseActivity exibirá o estado real do leitor sem código adicional.
  *
@@ -74,7 +74,7 @@ public abstract class BaseActivity<VB extends androidx.viewbinding.ViewBinding> 
     
     /**
      * Sobrescreve o header manualmente para casos especiais (ex: forçar texto fixo).
-     * Na maioria dos casos não é necessário — o header atualiza sozinho via ActiveReaderState.
+     * Na maioria dos casos não é necessário — o header atualiza sozinho via ReaderManager.
      */
     protected final void updateHeader(@org.jetbrains.annotations.NotNull()
     java.lang.String readerName, @org.jetbrains.annotations.NotNull()

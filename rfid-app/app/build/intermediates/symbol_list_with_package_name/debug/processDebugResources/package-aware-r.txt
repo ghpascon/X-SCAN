@@ -80,7 +80,6 @@ animator mtrl_fab_transformation_sheet_expand_spec
 array inventory_mode_options
 array region_options
 array session_options
-array zebra_transport_options
 attr SharedValue
 attr SharedValueId
 attr actionBarDivider
@@ -3299,8 +3298,6 @@ id btnAddSelected
 id btnAddTarget
 id btnApplyConfig
 id btnBleCancel
-id btnBluetooth
-id btnCancel
 id btnCancelScan
 id btnClearPrefixes
 id btnClearScanned
@@ -3323,7 +3320,6 @@ id btnSaveWebhook
 id btnScanAgain
 id btnScanTargets
 id btnSelectAll
-id btnSerial
 id btnStartSync
 id btnToggleInventory
 id btnToggleRadar
@@ -3769,7 +3765,6 @@ id textFinalResult
 id textFoundCount
 id textLog
 id textLogTitle
-id textMessage
 id textNoTargets
 id textPendingCount
 id textPowerValue
@@ -3789,7 +3784,6 @@ id textSpacerNoTitle
 id textStart
 id textStatusDetail
 id textStatusTime
-id textSubtitle
 id textSyncItemLabel
 id textSyncItemStatus
 id textSyncPending
@@ -3800,7 +3794,6 @@ id textTargetRssi
 id textTargetStatus
 id textTid
 id textTime
-id textTitle
 id textTop
 id textWebhookStatus
 id textWebhookSummary
@@ -3974,7 +3967,6 @@ layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_base
 layout activity_main
-layout activity_selection
 layout activity_sync
 layout custom_dialog
 layout design_bottom_navigation_item
@@ -3997,7 +3989,6 @@ layout dialog_connection_log
 layout dialog_inventory_name
 layout dialog_radar_scan
 layout dialog_webhook_config
-layout dialog_zebra_transport
 layout footer_app
 layout fragment_config
 layout fragment_home
@@ -4188,6 +4179,7 @@ string confirm_delete
 string connecting
 string connection_log_connected
 string connection_log_failed
+string connection_option_title
 string delete_all_message
 string delete_all_title
 string delete_event
@@ -4412,17 +4404,16 @@ string tab_reader
 string tab_reading
 string tag_count
 string tag_count_zero
+string webhook_channel_name
 string webhook_example_url
 string webhook_not_configured
 string webhook_saved
 string webhook_send_fail
 string webhook_send_success
+string webhook_service_text
+string webhook_service_title
 string webhook_status_active
 string webhook_status_inactive
-string zebra_transport_bt
-string zebra_transport_message
-string zebra_transport_serial
-string zebra_transport_title
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

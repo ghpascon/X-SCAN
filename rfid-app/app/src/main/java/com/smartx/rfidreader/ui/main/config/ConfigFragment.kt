@@ -14,8 +14,8 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.slider.Slider
 import com.smartx.xscan.R
-import com.smartx.xscan.core.reader.ReaderConfig
-import com.smartx.xscan.core.reader.ReaderConnectionState
+import com.smartx.rfid.core.ReaderConfig
+import com.smartx.rfid.core.ReaderConnectionState
 import com.smartx.xscan.core.settings.AppSettings
 import com.smartx.xscan.databinding.FragmentConfigBinding
 import com.smartx.xscan.ui.main.MainViewModel

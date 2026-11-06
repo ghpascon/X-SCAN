@@ -4,6 +4,9 @@ set -e
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
+echo "▶ Biblioteca: usando remote (GitHub Packages)..."
+./scripts/lib_source.sh remote
+
 echo "▶ Build Android (debug only)..."
 ./gradlew assembleDebug --quiet
 

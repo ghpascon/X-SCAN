@@ -11,21 +11,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.smartx.xscan.R
 import com.smartx.xscan.RfidApplication
-import com.smartx.xscan.core.reader.ReaderConnectionState
+import com.smartx.rfid.core.ReaderConnectionState
 import com.smartx.xscan.core.webhook.WebhookService
 import com.smartx.xscan.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import com.smartx.xscan.ui.main.config.ConfigFragment
 import com.smartx.xscan.ui.main.radar.RadarFragment
 import com.smartx.xscan.ui.main.reader.ReaderSelectionFragment
-import com.smartx.xscan.ui.main.reader.BleScanDialogFragment
 import com.smartx.xscan.ui.main.reader.ConnectionLogDialogFragment
-import com.smartx.xscan.ui.main.reader.ZebraTransportDialog
-import com.smartx.xscan.readers.cfh301.CfH301Reader
-import com.smartx.xscan.readers.ih25.IH25Reader
-import com.smartx.xscan.readers.tsl1128.Tsl1128Reader
-import com.smartx.xscan.readers.x714.X714Reader
-import com.smartx.xscan.readers.zebra.ZebraReader
+import com.smartx.xscan.ui.main.reader.ReaderConnectFlow
 import com.smartx.xscan.ui.main.reading.ReadingFragment
 import com.smartx.xscan.ui.sync.SyncFragment
 import kotlinx.coroutines.launch
@@ -161,11 +155,8 @@ class HomeFragment : Fragment() {
                 launch {
                     viewModel.showBleScanDialog.collect { readerId ->
                         val reader = viewModel.availableReaders.firstOrNull { it.readerId == readerId } ?: return@collect
-                        if (reader is ZebraReader) {
-                            showZebraTransportDialog(reader)
-                        } else {
-                            showBleScanDialog(reader)
-                        }
+                        val option = reader.connectionOptions.firstOrNull { it.requiresDevice }
+                        ReaderConnectFlow.connectWith(this@HomeFragment, reader, viewModel, option)
                     }
                 }
                 // Abrir diálogo de logs quando solicitado (auto-connect)
@@ -177,40 +168,6 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun showBleScanDialog(reader: com.smartx.xscan.core.reader.IRfidReader) {
-        val dialog = BleScanDialogFragment()
-        dialog.onDeviceSelected = { _, address ->
-            when (reader) {
-                is CfH301Reader -> reader.targetMacAddress = address
-                is IH25Reader -> reader.targetMacAddress = address
-                is Tsl1128Reader -> reader.targetMacAddress = address
-                is X714Reader -> reader.targetMacAddress = address
-                is ZebraReader -> reader.targetMacAddress = address
-            }
-            viewModel.connect(reader)
-            ConnectionLogDialogFragment()
-                .show(childFragmentManager, "connection_log")
-        }
-        dialog.show(childFragmentManager, "ble_scan")
-    }
-
-    private fun showZebraTransportDialog(reader: ZebraReader) {
-        ZebraTransportDialog.show(
-            context = requireContext(),
-            onBluetoothSelected = {
-                reader.transportMode = ZebraReader.TransportMode.BLUETOOTH
-                showBleScanDialog(reader)
-            },
-            onSerialSelected = {
-                reader.transportMode = ZebraReader.TransportMode.SERIAL
-                reader.targetMacAddress = null
-                viewModel.connect(reader)
-                ConnectionLogDialogFragment()
-                    .show(childFragmentManager, "connection_log")
-            }
-        )
     }
 
     override fun onDestroyView() {

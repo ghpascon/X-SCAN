@@ -1,7 +1,9 @@
 # X-SCAN
 
-Aplicativo Android para leitura de tags RFID UHF em coletores/handhelds industriais.  
-Suporta múltiplos modelos de leitor por meio de uma interface unificada; adicionar um novo modelo exige implementar **uma única interface** e registrá-la em **um único lugar**.
+Aplicativo Android para leitura de tags RFID UHF em coletores/handhelds industriais.
+Toda a integração com leitores (C72, CF-H301, IH25, Zebra, TSL 1128, X714, XR2...) vive na biblioteca
+[`smartx-rfid-android`](https://github.com/ghpascon/smartx-rfid-android); o app apenas consome a API da lib.
+Nomes, versões e a origem da lib ficam centralizados em [`rfid-app/config.json`](rfid-app/config.json).
 
 ---
 
@@ -10,21 +12,10 @@ Suporta múltiplos modelos de leitor por meio de uma interface unificada; adicio
 1. [Visão Geral](#1-visão-geral)
 2. [Arquitetura](#2-arquitetura)
 3. [Estrutura de Pacotes](#3-estrutura-de-pacotes)
-4. [Camada Core — Contratos e Dados](#4-camada-core--contratos-e-dados)
-   - 4.1 [IRfidReader](#41-irfidreader)
-   - 4.2 [RfidTag](#42-rfidtag)
-   - 4.3 [ReaderConfig](#43-readerconfig)
-   - 4.4 [ReaderConnectionState](#44-readerconnectionstate)
-   - 4.5 [ReaderRegistry](#45-readerregistry)
-5. [Leitores Implementados](#5-leitores-implementados)
-   - 5.1 [C72 (Chainway)](#51-c72-chainway)
-   - 5.2 [IH25 (Honeywell) — BLE](#52-ih25-honeywell--ble)
-   - 5.3 [CF-H301 (816UBT) — BLE](#53-cf-h301-816ubt--ble)
-6. [Como Adicionar um Novo Leitor](#6-como-adicionar-um-novo-leitor)
+4. [Configuração central (config.json)](#4-configuração-central-configjson)
+5. [Biblioteca smartx-rfid](#5-biblioteca-smartx-rfid)
+6. [Como adicionar um novo leitor](#6-como-adicionar-um-novo-leitor)
 7. [Camada de Persistência](#7-camada-de-persistência)
-   - 7.1 [AppSettings / DataStore](#71-appsettings--datastore)
-   - 7.2 [Room Database](#72-room-database)
-   - 7.3 [EventRepository](#73-eventrepository)
 8. [ViewModel Principal](#8-viewmodel-principal)
 9. [Telas (Fragments / Activities)](#9-telas-fragments--activities)
 10. [Fluxo de Gatilho Físico](#10-fluxo-de-gatilho-físico)
@@ -38,20 +29,23 @@ Suporta múltiplos modelos de leitor por meio de uma interface unificada; adicio
 
 ## 1. Visão Geral
 
-| Item            | Valor                             |
-| --------------- | --------------------------------- |
-| Package         | `com.smartx.xscan`                |
-| `applicationId` | `com.smartx.xscan`                |
-| `versionName`   | `2.0.0`                           |
-| `minSdk`        | 24 (Android 7.0)                  |
-| `targetSdk`     | 34 (Android 14)                   |
-| Linguagem       | Kotlin                            |
-| UI              | ViewBinding + Fragments           |
-| Concorrência    | Coroutines + StateFlow/SharedFlow |
+Os valores abaixo vêm de `rfid-app/config.json` (não edite `build.gradle`/`strings.xml` para isso).
+
+| Item                 | Origem                                       |
+| -------------------- | -------------------------------------------- |
+| Título do app        | `app.title` (resValue `app_name`)            |
+| `applicationId`      | `app.applicationId`                          |
+| Versão do app        | `app.versionName` / `app.versionCode`        |
+| `minSdk`/`targetSdk` | `app.minSdk` / `app.targetSdk`               |
+| Serviço webhook      | `service.*` (título, texto, canal)           |
+| Biblioteca RFID      | `library.*` (origem, versão, caminho)        |
+| Leitores ativos      | Todos os leitores do `ReaderRegistry` da lib |
+
+Stack: Kotlin, ViewBinding + Fragments, Coroutines + StateFlow/SharedFlow, Room, DataStore, OkHttp.
 
 O app permite:
 
-- Conectar ao leitor RFID embutido ou BLE do coletor
+- Conectar ao leitor RFID embutido, BLE ou serial do coletor
 - Realizar inventário de tags UHF com filtro de prefixo EPC e filtro de RSSI
 - Exibir em tempo real as tags lidas (EPC, TID, RSSI, contagem)
 - Salvar inventários localmente com coordenadas GPS
@@ -63,433 +57,153 @@ O app permite:
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                    UI Layer                          │
-│  MainActivity  ──►  HomeFragment                    │
-│                        ├─► ReaderSelectionFragment  │
-│                        │       └─► BleScanDialog     │
-│                        ├─► ReadingFragment           │
-│                        └─► ConfigFragment            │
-│  SyncActivity  ──►  (histórico + progresso)         │
-└────────────────────┬────────────────────────────────┘
-                     │  observe / call
-┌────────────────────▼────────────────────────────────┐
-│               MainViewModel                          │
-│  - uiState: StateFlow<MainUiState>                  │
-│  - tags: StateFlow<List<RfidTag>>        (throttled) │
-│  - buzzerEvent: SharedFlow<Unit>         (throttled) │
-│  - displayLimit: StateFlow<Int?>                     │
-│  - navigateToReading / saveInventoryResult           │
-└────────────────────┬────────────────────────────────┘
-                     │  IRfidReader.tagFlow / connect / etc.
-┌────────────────────▼────────────────────────────────┐
-│              Reader Layer (readers/*)                │
-│ C72Reader │ IH25Reader │ CfH301Reader │ ...         │
-│        implements IRfidReader                        │
-└────────────────────┬────────────────────────────────┘
-                     │
-        Hardware SDK (AAR locais em /libs)
-┌────────────────────▼────────────────────────────────┐
-│              Core / Data Layer                       │
-│  AppSettingsRepository (DataStore)                   │
-│  EventRepository → Room DB + OkHttp webhook          │
-│  GpsHelper (FusedLocationProvider)                   │
+│ UI: MainActivity ► HomeFragment                      │
+│       ├─► ReaderSelectionFragment ► ReaderConnectFlow│
+│       │        └─► BleScanDialogFragment             │
+│       ├─► ReadingFragment / RadarFragment            │
+│       └─► ConfigFragment / WebhookFragment           │
+│     SyncActivity (histórico + envio)                 │
+└───────────────────────┬─────────────────────────────┘
+                        │ observe / call
+┌───────────────────────▼─────────────────────────────┐
+│ MainViewModel  (regras de tela: settings, buzzer,    │
+│                 navegação)                           │
+└───────────────────────┬─────────────────────────────┘
+                        │
+┌───────────────────────▼─────────────────────────────┐
+│ RfidApplication.readerManager  (ReaderManager)       │
+│   biblioteca smartx-rfid: leitores, conexão,         │
+│   inventário, TagCollector, BleScanner               │
+└───────────────────────┬─────────────────────────────┘
+                        │ SDKs dos fabricantes (dentro da lib)
+┌───────────────────────▼─────────────────────────────┐
+│ Dados do app: AppSettingsRepository (DataStore),     │
+│ EventRepository (Room + OkHttp), GpsHelper           │
 └─────────────────────────────────────────────────────┘
 ```
+
+O `ReaderManager` é único por processo (`RfidApplication.readerManager`) e é compartilhado pela UI e
+pelo `WebhookService`.
 
 ---
 
 ## 3. Estrutura de Pacotes
 
 ```
-app/src/main/java/com/smartx/rfidreader/
-│
-├── RfidApplication.kt               # Application: instancia AppDatabase / EventRepository
-│
-├── core/
-│   ├── reader/
-│   │   ├── IRfidReader.kt           # Interface unificada — CONTRATO PRINCIPAL
-│   │   ├── RfidTag.kt               # Data class de uma tag lida
-│   │   ├── ReaderConfig.kt          # Configurações do leitor (potência, session, modo)
-│   │   └── ReaderConnectionState.kt # Enum: DISCONNECTED | CONNECTING | CONNECTED | ERROR
-│   │
-│   ├── registry/
-│   │   └── ReaderRegistry.kt        # Lista de leitores disponíveis — REGISTRAR AQUI
-│   │
-│   ├── settings/
-│   │   └── AppSettings.kt           # Data class de configurações + DataStore repository
-│   │
-│   ├── db/
-│   │   ├── AppDatabase.kt           # Room: singleton, version 2
-│   │   ├── EventDao.kt              # Queries Room
-│   │   └── EventEntity.kt           # Entidade `rfid_events` + toWebhookJson()
-│   │
-│   ├── events/
-│   │   └── EventRepository.kt       # CRUD de eventos + HTTP POST para webhook
-│   │
-│   └── location/
-│       └── GpsHelper.kt             # Captura localização GPS (FusedLocation, timeout 5s)
-│
-├── readers/
-│   ├── c72/
-│   │   └── C72Reader.kt             # SDK Chainway DeviceAPI (AAR)
-│   ├── cfh301/
-│   │   └── CfH301Reader.kt          # Protocolo 816UBT via BLE (FFE1)
-│   └── ih25/
-│       └── IH25Reader.kt            # SDK Honeywell RFID (AAR) — BLE
-│
-└── ui/
-    ├── main/
-    │   ├── MainActivity.kt          # Single-Activity host; captura KeyEvent de gatilho
-    │   ├── MainViewModel.kt         # ViewModel compartilhado (activityViewModels)
-    │   ├── MainPagerAdapter.kt      # ViewPager2: abas Home
-    │   ├── HomeFragment.kt          # Tela inicial (botões: Leitura, Config, Sync, Sair)
-    │   ├── reader/
-    │   │   ├── ReaderSelectionFragment.kt  # Lista de leitores disponíveis
-    │   │   ├── BleScanDialogFragment.kt    # Dialog de scan BLE (para IH25)
-    │   │   └── BleDeviceAdapter.kt         # Adapter da lista BLE
-    │   ├── reading/
-    │   │   ├── ReadingFragment.kt   # UI de inventário + RecyclerView de tags
-    │   │   └── TagListAdapter.kt    # ListAdapter com DiffCallback (EPC, TID, RSSI, contagem)
-    │   └── config/
-    │       └── ConfigFragment.kt    # Configurações do leitor (potência, session, modo)
-    │
-    ├── selection/ (legado)          # ReaderSelectionActivity — não usado como launcher
-    │
-    └── sync/
-        ├── SyncActivity.kt          # Tela de histórico de inventários + envio
-        ├── SyncViewModel.kt         # Lógica de progresso de envio
-        ├── EventListAdapter.kt      # Lista de EventEntity
-        └── SyncProgressAdapter.kt  # Progresso por evento durante sync
+rfid-app/
+├── config.json                      # Configuração central do app (ver seção 4)
+├── settings.gradle                  # Lê o config.json e resolve a lib (local/remote/maven-local)
+├── scripts/                         # build.sh, deploy.sh, lib_source.sh
+└── app/src/main/java/com/smartx/rfidreader/   (package com.smartx.xscan)
+    ├── RfidApplication.kt           # Cria o ReaderManager com os leitores do config.json
+    ├── core/
+    │   ├── settings/                # AppSettings + DataStore
+    │   ├── db/                      # Room (AppDatabase, EventDao, EventEntity)
+    │   ├── events/EventRepository   # CRUD de eventos + HTTP POST
+    │   ├── location/GpsHelper       # GPS (FusedLocation, timeout 5s)
+    │   └── webhook/                 # WebhookService + status
+    └── ui/
+        ├── base/BaseActivity        # Header/footer com estado do leitor (ReaderManager.state)
+        ├── main/                    # MainActivity, MainViewModel, Home, Reading, Radar, Config, Webhook
+        │   └── reader/              # ReaderSelectionFragment, ReaderConnectFlow, BleScanDialogFragment,
+        │                            # ConnectionLogDialogFragment
+        └── sync/                    # SyncActivity + SyncViewModel
 ```
+
+Não há mais drivers de leitor nem SDKs/AARs no app: tudo isso está na lib.
 
 ---
 
-## 4. Camada Core — Contratos e Dados
+## 4. Configuração central (config.json)
 
-### 4.1 `IRfidReader`
+`rfid-app/config.json` é a única fonte para os valores que antes estavam espalhados:
 
-**Arquivo:** `core/reader/IRfidReader.kt`
-
-Interface que deve ser implementada por **todo leitor RFID**. O ViewModel e o restante do app só interagem com esta interface — nunca com as classes concretas.
-
-```kotlin
-interface IRfidReader {
-    val readerId: String           // ID único como "C72", "IH25", "CF-H301"
-    val displayName: String        // Nome de exibição como "Chainway C72"
-    val isBle: Boolean             // true → fluxo de seleção BLE é ativado
-
-    val connectionState: StateFlow<ReaderConnectionState>
-    val tagFlow: Flow<RfidTag>     // Tags chegam aqui durante o inventário
-
-    suspend fun connect(context: Context): Boolean
-    suspend fun disconnect()
-    fun startInventory(): Boolean
-    fun stopInventory(): Boolean
-    fun isInventorying(): Boolean
-    suspend fun applyConfig(config: ReaderConfig): Boolean
-    suspend fun readConfig(): ReaderConfig
-    fun onTriggerPressed(): Boolean
-    fun onTriggerReleased(): Boolean
+```json
+{
+  "app": {
+    "title": "X-SCAN",
+    "applicationId": "com.smartx.xscan",
+    "versionName": "6.5.3",
+    "versionCode": 52,
+    "minSdk": 29,
+    "targetSdk": 34,
+    "compileSdk": 34,
+    "exportFilePrefix": "xscan_tags_"
+  },
+  "service": {
+    "name": "...",
+    "text": "...",
+    "channelId": "webhook_channel",
+    "channelName": "Webhook"
+  },
+  "library": {
+    "source": "local",
+    "version": "1.0.0",
+    "groupId": "com.smartx.rfid",
+    "artifactId": "smartx-rfid",
+    "localPath": "../smartx-rfid-android",
+    "remoteUrl": "https://maven.pkg.github.com/ghpascon/smartx-rfid-android"
+  },
+  "readers": ["C72", "CF-H301", "IH25", "ZEBRA", "TSL1128", "X714", "XR2"]
 }
 ```
 
-**Regras importantes:**
+| Chave                  | Efeito                                                                             |
+| ---------------------- | ---------------------------------------------------------------------------------- |
+| `app.title`            | Nome do app (`@string/app_name`, launcher e header)                                |
+| `app.versionName/Code` | Versão do APK (o `scripts/commit.sh` incrementa automaticamente)                   |
+| `service.*`            | Título/texto da notificação e canal do `WebhookService`                            |
+| `app.exportFilePrefix` | Prefixo dos CSVs exportados                                                        |
+| `library.source`       | `local` (código-fonte em `localPath`), `remote` (GitHub Packages) ou `maven-local` |
+| `library.version`      | Versão da lib usada em `remote`/`maven-local`                                      |
+| `library.version`      | Também determina quais leitores estão registrados na lib                           |
 
-- `connect()` deve atualizar `connectionState` para `CONNECTING` imediatamente, e então para `CONNECTED` ou `ERROR`.
-- `tagFlow` deve ser um `SharedFlow` com `extraBufferCapacity ≥ 64` para não bloquear o SDK.
-- `onTriggerPressed()` / `onTriggerReleased()` são chamados pelo `MainActivity` quando o botão físico é pressionado. O comportamento padrão é iniciar/parar inventário.
-- O `readerId` deve ser único e estável (usado para re-conexão automática via DataStore).
+No app, esses valores chegam via `BuildConfig` (`LIB_VERSION`, `WEBHOOK_CHANNEL_ID`,
+`EXPORT_FILE_PREFIX`) e `resValue`.
+
+### Trocar a origem da lib
+
+```bash
+cd rfid-app
+./scripts/lib_source.sh status
+./scripts/lib_source.sh local ../smartx-rfid-android   # desenvolvimento lado a lado
+./scripts/lib_source.sh remote 1.0.1                   # GitHub Packages (GITHUB_ACTOR/GITHUB_TOKEN ou gpr.user/gpr.key)
+./scripts/lib_source.sh maven-local 1.0.1              # após smartx-rfid-android/scripts/publish_local.sh
+```
+
+A pasta `smartx-rfid-android/` é um repositório git independente (ignorado por este repo via `.gitignore`).
 
 ---
 
-### 4.2 `RfidTag`
+## 5. Biblioteca smartx-rfid
 
-**Arquivo:** `core/reader/RfidTag.kt`
+Documentação completa em `smartx-rfid-android/README.md`. Resumo da API usada pelo app:
 
-```kotlin
-data class RfidTag(
-    val epc: String,
-    val rssi: String,           // String para compatibilidade entre SDKs (ex: "-65.0", "-65")
-    val tid: String = "",       // Vazio se o SDK não suportar ou o modo não estiver ativo
-    val readCount: Int = 1,
-    val timestamp: Date = Date()
-)
-```
+| Classe                                             | Papel                                                                                                                     |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `ReaderManager`                                    | `readers`, `state`, `connect/disconnect`, `start/stop/toggleInventory`, `readConfig/applyConfig`, `connectionLog`, `tags` |
+| `ReaderRegistry`                                   | Fonte dos leitores registrados na versão da lib; o app carrega todos com `createAll()`                                    |
+| `IRfidReader`                                      | Contrato de um leitor (`capabilities`, `connectionOptions`, `tagFlow`, `connect`, ...)                                    |
+| `ConnectionOption/Request`                         | Formas de conexão (`INTEGRATED`, `BLUETOOTH`, `SERIAL`) e endereço escolhido                                              |
+| `TagCollector` / `TagFilter`                       | Deduplicação, throttle de ~200 ms, filtro por prefixo EPC e RSSI mínimo                                                   |
+| `BleScanner` / `BlePermissions`                    | Scan BLE e permissões necessárias por versão do Android                                                                   |
+| `RfidTag`, `ReaderConfig`, `ReaderConnectionState` | Modelos de dados                                                                                                          |
 
-O `epc` é a chave de deduplicação no `LinkedHashMap` do ViewModel.
-
----
-
-### 4.3 `ReaderConfig`
-
-**Arquivo:** `core/reader/ReaderConfig.kt`
-
-Representa a configuração que pode ser lida/escrita no leitor:
-
-```kotlin
-data class ReaderConfig(
-    val txPower: Int = 30,                          // dBm (5–33)
-    val session: Int = 1,                           // Gen2 session 0–3
-    val region: Int = 0x02,                         // Frequência (varia por SDK)
-    val rssiFilter: Int = -120,                     // RSSI mínimo (dBm); -120 = sem filtro
-    val inventoryMode: InventoryMode = EPC_TID
-) {
-    enum class InventoryMode { EPC_ONLY, EPC_TID, EPC_TID_USER }
-}
-```
-
-> **Atenção às unidades de potência por SDK:**
->
-> | Leitor  | Unidade interna do SDK     | Conversão                                          |
-> | ------- | -------------------------- | -------------------------------------------------- |
-> | C72     | dBm                        | direto `setPower(30)`                              |
-> | IH25    | Centidécimos de dBm (cdBm) | `txPower × 100` → `setAntennaPower(3000)` = 30 dBm |
-> | CF-H301 | Nível direto (0–30)        | direto `SetPower(level)`                           |
-
-Ao implementar um novo leitor, **sempre converta** para/de `dBm` (unidade padrão do app) nas funções `applyConfig()` e `readConfig()`.
+Publicação, versionamento e scripts (`commit.sh`, `get_remote_repo.sh`, `publish*.sh`) estão descritos no README da lib.
 
 ---
 
-### 4.4 `ReaderConnectionState`
+## 6. Como adicionar um novo leitor
 
-```kotlin
-enum class ReaderConnectionState {
-    DISCONNECTED,
-    CONNECTING,
-    CONNECTED,
-    ERROR
-}
-```
+Nada muda no app além do `config.json`:
 
----
+1. Implemente o leitor na lib (`IRfidReader`) e registre-o em `ReaderRegistry` — veja o README da lib.
+2. Publique uma nova versão da lib (`smartx-rfid-android/scripts/commit.sh`).
+3. No app, ajuste `library.version` (ou use `local`). O app passa a carregar os leitores registrados nessa versão, sem editar uma lista duplicada.
 
-### 4.5 `ReaderRegistry`
-
-**Arquivo:** `core/registry/ReaderRegistry.kt`
-
-Lista centrale de todos os leitores disponíveis. **Este é o único lugar onde um novo leitor precisa ser registrado.**
-
-```kotlin
-object ReaderRegistry {
-    val availableReaders: List<IRfidReader> by lazy {
-        listOf(
-            C72Reader(),
-            CfH301Reader(),
-            IH25Reader()
-            // ← adicione NovoLeitorReader() aqui
-        )
-    }
-
-    fun findById(readerId: String): IRfidReader? =
-        availableReaders.firstOrNull { it.readerId == readerId }
-}
-```
-
----
-
-## 5. Leitores Implementados
-
-### 5.1 C72 (Chainway)
-
-**Arquivo:** `readers/c72/C72Reader.kt`  
-**SDK:** `com.rscja.deviceapi` (AAR: `DeviceAPI_ver20251103_release`)
-
-| Característica      | Detalhe                                                                     |
-| ------------------- | --------------------------------------------------------------------------- |
-| `readerId`          | `"C72"`                                                                     |
-| `isBle`             | `false` — módulo RFID UART embarcado                                        |
-| Conexão             | `RFIDWithUHFA8.getInstance().init(context)`                                 |
-| Inventário          | `r.startInventoryTag()` com `IUHFInventoryCallback`                         |
-| Unidade de potência | dBm direto (`setPower(30)`)                                                 |
-| TID                 | Suportado: `setEPCAndTIDMode()` habilita antes de `startInventory()`        |
-| Thread              | IO seguro                                                                   |
-| Gatilho físico      | `KeyEvent.KEYCODE_F1` ou `KEYCODE_CAMERA` — capturado em `dispatchKeyEvent` |
-
----
-
-### 5.2 IH25 (Honeywell) — BLE
-
-**Arquivo:** `readers/ih25/IH25Reader.kt`  
-**SDK:** `com.honeywell.rfidservice` (AAR: `honeywell_rfid_sdk`)
-
-| Característica      | Detalhe                                                                                                                               |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `readerId`          | `"IH25"`                                                                                                                              |
-| `isBle`             | `true` — connecta via Bluetooth LE                                                                                                    |
-| Conexão             | `RfidManager.connect(targetMacAddress)` assíncrono; resultado via `EventListener.onReaderCreated()`                                   |
-| Inventário          | `reader.read(TagAdditionData.TID_BANK, option)`                                                                                       |
-| Unidade de potência | cdBm (`30 dBm → 3000`)                                                                                                                |
-| TID                 | Lido via `TagReadData.getAdditionData()` → bytes → hex string                                                                         |
-| Gatilho físico      | `EventListener.onRfidTriggered(pressed)` — gerenciado pelo próprio SDK                                                                |
-| Fluxo BLE           | Antes de `connect()`, o campo `targetMacAddress` deve ser preenchido com o MAC do dispositivo selecionado via `BleScanDialogFragment` |
-
-#### Fluxo de conexão IH25
-
-```
-connect(context)
-    └─► RfidManager.connect(mac)
-            └─► EventListener.onDeviceConnected()
-                    └─► rfidManager.createReader()
-                            └─► EventListener.onReaderCreated(success, reader)
-                                    └─► reader.setOnTagReadListener(...)
-                                    └─► rfidManager.setTriggerMode(RFID)
-                                    └─► connectionState = CONNECTED
-```
-
----
-
-### 5.3 CF-H301 (816UBT) — BLE
-
-**Arquivo:** `readers/cfh301/CfH301Reader.kt`  
-**Protocolo:** BLE GATT na característica `0xFFE1` com frames binários + CRC16
-
-| Característica | Detalhe                                                                                   |
-| -------------- | ----------------------------------------------------------------------------------------- |
-| `readerId`     | `"CF-H301"`                                                                               |
-| `isBle`        | `true`                                                                                    |
-| Conexão        | `connectGatt` + descoberta de serviços + habilitação de notificação em `FFE1`             |
-| Inventário     | Poll de comando `Inventory_G2` com parsing de múltiplos frames                            |
-| Potência       | `SetPower` com nível direto (0–30)                                                        |
-| TID            | Leitura complementar por EPC com comando `ReadData_G2` no banco TID                       |
-| Fluxo BLE      | Requer MAC selecionado no `BleScanDialogFragment`; valor é persistido para auto-reconexão |
-
----
-
-## 6. Como Adicionar um Novo Leitor
-
-Siga os passos abaixo. Nenhuma outra alteração na UI ou no ViewModel é necessária.
-
-### Passo 1 — Criar o arquivo AAR da SDK
-
-Copie o `.aar` da SDK do novo leitor para:
-
-```
-app/libs/nome_do_sdk.aar
-```
-
-Adicione em `app/build.gradle`:
-
-```groovy
-implementation(name: 'nome_do_sdk', ext: 'aar')
-```
-
----
-
-### Passo 2 — Criar a classe Reader
-
-Crie `readers/novomodelo/NovoModeloReader.kt`:
-
-```kotlin
-package com.smartx.xscan.readers.novomodelo
-
-import android.content.Context
-import com.smartx.xscan.core.reader.*
-import kotlinx.coroutines.flow.*
-
-class NovoModeloReader : IRfidReader {
-
-    override val readerId = "NOVO_MODELO"       // ID único
-    override val displayName = "Marca NovoModelo"
-    override val isBle = false                  // true se for BLE
-
-    private val _connectionState = MutableStateFlow(ReaderConnectionState.DISCONNECTED)
-    override val connectionState: StateFlow<ReaderConnectionState> = _connectionState.asStateFlow()
-
-    private val _tagChannel = MutableSharedFlow<RfidTag>(extraBufferCapacity = 64)
-    override val tagFlow: Flow<RfidTag> = _tagChannel.asSharedFlow()
-
-    override suspend fun connect(context: Context): Boolean {
-        _connectionState.value = ReaderConnectionState.CONNECTING
-        // TODO: inicializar SDK
-        // Se ok:
-        _connectionState.value = ReaderConnectionState.CONNECTED
-        return true
-    }
-
-    override suspend fun disconnect() {
-        // TODO: liberar SDK
-        _connectionState.value = ReaderConnectionState.DISCONNECTED
-    }
-
-    override fun startInventory(): Boolean {
-        // TODO: iniciar leitura
-        // Para cada tag: _tagChannel.tryEmit(RfidTag(epc = "...", rssi = "..."))
-        return true
-    }
-
-    override fun stopInventory(): Boolean {
-        // TODO: parar leitura
-        return true
-    }
-
-    override fun isInventorying(): Boolean = false // retorne o estado real
-
-    override suspend fun applyConfig(config: ReaderConfig): Boolean {
-        // IMPORTANTE: converter config.txPower (dBm) para a unidade da SDK
-        return true
-    }
-
-    override suspend fun readConfig(): ReaderConfig {
-        // IMPORTANTE: converter unidade da SDK de volta para dBm
-        return ReaderConfig()
-    }
-
-    override fun onTriggerPressed(): Boolean {
-        if (!isInventorying()) startInventory()
-        return true
-    }
-
-    override fun onTriggerReleased(): Boolean {
-        if (isInventorying()) stopInventory()
-        return true
-    }
-}
-```
-
-**Atenção a conversões de potência** — veja a tabela em [4.3 ReaderConfig](#43-readerconfig).
-
----
-
-### Passo 3 — Registrar no ReaderRegistry
-
-Em `core/registry/ReaderRegistry.kt`:
-
-```kotlin
-val availableReaders: List<IRfidReader> by lazy {
-    listOf(
-        C72Reader(),
-        CfH301Reader(),
-        IH25Reader(),
-        NovoModeloReader()   // ← adicionar aqui
-    )
-}
-```
-
-✅ Pronto. A UI vai exibir o novo leitor automaticamente na tela de seleção.
-
----
-
-### Passo 4 — Gatilho físico (se necessário)
-
-Se o novo leitor usa um keycode diferente para o botão físico, adicione-o em `MainActivity`:
-
-```kotlin
-// Para keycodes KeyEvent padrão:
-private val TRIGGER_KEYCODES = intArrayOf(
-    KeyEvent.KEYCODE_F1,
-    KeyEvent.KEYCODE_FOCUS,
-    293,
-    // ← adicionar novo keycode aqui
-)
-```
-
----
-
-### Passo 5 — BLE (se `isBle = true`)
-
-Se o leitor usa BLE, o campo `targetMacAddress` (ou equivalente) deve ser populado antes de `connect()`. O `ReaderSelectionFragment` detecta `isBle == true` e abre automaticamente o `BleScanDialogFragment` para o usuário selecionar o dispositivo. O resultado (MAC selecionado) é passado ao reader BLE (ex.: `IH25Reader`, `CfH301Reader`) antes de chamar `connect()`.
-
-Para um novo leitor BLE, adicione a propriedade de MAC na classe e certifique-se que `ReaderSelectionFragment.onReaderSelected()` a popule da mesma forma que faz com os readers BLE existentes.
+A UI se adapta sozinha: `ReaderConnectFlow` usa `connectionOptions` para perguntar o transporte
+(ex.: Zebra Bluetooth/Serial) e abre o scan BLE quando a opção exige dispositivo; `capabilities` define
+auto-reconexão (`supportsAutoReconnect`) e gatilho por `KeyEvent` (`usesKeyEventTrigger`).
 
 ---
 
@@ -564,18 +278,16 @@ ViewModel compartilhado entre todos os Fragments via `activityViewModels()`.
 | `uiState`             | `StateFlow<MainUiState>`   | Estado geral: conexão, inventário, config                  |
 | `tags`                | `StateFlow<List<RfidTag>>` | Lista deduplicada, atualizada a cada **200 ms** (throttle) |
 | `displayLimit`        | `StateFlow<Int?>`          | Limite de exibição: 50/100/200/null (todas)                |
-| `buzzerEvent`         | `SharedFlow<Unit>`         | Emitido apenas para **novas** tags, com throttle de 300 ms |
+| `buzzerEvent`         | `SharedFlow<Unit>`         | Emitido a cada leitura aceita, com cooldown de 100 ms      |
 | `navigateToReading`   | `SharedFlow<Unit>`         | Emitido após conexão bem-sucedida                          |
 | `saveInventoryResult` | `SharedFlow<Boolean>`      | `true` = sucesso, `false` = erro ao salvar                 |
 
-### Throttle de UI (performance)
+### Responsabilidades
 
-O SDK do IH25 pode entregar dezenas de tags por segundo. Para evitar que o RecyclerView e o DiffUtil travem a UI:
-
-- Tags chegam via `tagFlow`, são inseridas/atualizadas em `_tagMap` (LinkedHashMap — O(1))
-- Um flag `_tagsDirty` é setado a cada tag recebida
-- Um ticker coroutine roda a cada **200 ms** e só emite `_tags.value = ...` se `_tagsDirty == true`
-- O buzzer só é emitido para **novas** tags (não re-leituras) e no máximo **1x a cada 300 ms**
+Conexão, inventário, config e tags são delegados ao `ReaderManager` (lib). O ViewModel mantém apenas:
+`AppSettings` (DataStore), o buzzer (cooldown 100 ms por leitura), `displayLimit`, eventos de navegação e
+o salvamento de inventário. O `TagFilter` da lib é atualizado a cada mudança em `AppSettings`.
+`tags` já vem deduplicada e com throttle de ~200 ms (`TagCollector`).
 
 ---
 
@@ -596,17 +308,15 @@ Auto-conecta ao último leitor ao iniciar (via `viewModel.autoConnectLastReader(
 
 ### `ReaderSelectionFragment`
 
-Lista todos os leitores do `ReaderRegistry`. Ao clicar:
+Lista os leitores registrados na lib (`ReaderRegistry.createAll()`). Ao clicar, delega a `ReaderConnectFlow.start()`:
 
-- Se `isBle == true` → abre `BleScanDialogFragment` primeiro
-- Caso contrário → chama `viewModel.connect(reader)` diretamente
+- mais de uma `connectionOptions` → diálogo para escolher a forma de conexão;
+- opção com `requiresDevice` (Bluetooth) → `BleScanDialogFragment`, depois `viewModel.connect(reader, ConnectionRequest(option, address))`;
+- demais casos → conecta direto e abre o log de conexão.
 
 ### `BleScanDialogFragment`
 
-Dialog de scan BLE para o IH25:
-
-- Lista dispositivos BLE próximos
-- Ao selecionar: popula `IH25Reader.targetMacAddress` e inicia `viewModel.connect()`
+Usa `BleScanner`/`BlePermissions` da lib; lista dispositivos (pareados primeiro) e devolve o MAC via `onDeviceSelected`.
 
 ### `ReadingFragment`
 
@@ -642,14 +352,13 @@ O gatilho físico pode chegar de **três formas** diferentes dependendo do hardw
 │    → MainActivity.dispatchKeyEvent()                         │
 │       └─► viewModel.onTriggerPressed() / onTriggerReleased() │
 │                                                              │
-│ 2. Callback do SDK (IH25)                                    │
-│    → EventListener.onRfidTriggered(pressed)                  │
-│       └─► IH25Reader.onTriggerPressed() / onTriggerReleased()│
+│ 2. Callback do SDK (IH25, Zebra, TSL, X714) — tratado        │
+│    dentro da lib; chega como estado do ReaderManager         │
 └─────────────────────────────────────────────────────────────┘
                           │
                viewModel.onTriggerPressed()
                           │
-               reader.onTriggerPressed()
+               ReaderManager.onTriggerPressed()
                           │
                reader.startInventory()  (ou stop)
 ```
@@ -708,22 +417,21 @@ Cada inventário é enviado como um único HTTP POST `Content-Type: application/
 
 ## 13. Dependências
 
-| Biblioteca                                         | Versão   | Uso                               |
-| -------------------------------------------------- | -------- | --------------------------------- |
-| `androidx.core:core-ktx`                           | 1.13.1   | Extensões Kotlin                  |
-| `androidx.appcompat:appcompat`                     | 1.7.0    | Compatibilidade                   |
-| `com.google.android.material:material`             | 1.12.0   | Material Design (Chips, Snackbar) |
-| `androidx.constraintlayout:constraintlayout`       | 2.1.4    | Layouts                           |
-| `androidx.viewpager2:viewpager2`                   | 1.1.0    | ViewPager                         |
-| `androidx.recyclerview:recyclerview`               | 1.3.2    | Listas                            |
-| `androidx.datastore:datastore-preferences`         | 1.1.1    | Configurações persistentes        |
-| `androidx.room:room-runtime` + `room-ktx`          | 2.6.1    | Banco de dados local              |
-| `com.squareup.okhttp3:okhttp`                      | 4.12.0   | HTTP POST para webhook            |
-| `com.google.android.gms:play-services-location`    | 21.3.0   | GPS (FusedLocation)               |
-| `androidx.lifecycle:lifecycle-viewmodel-ktx`       | 2.8.5    | ViewModel + coroutines            |
-| `org.jetbrains.kotlinx:kotlinx-coroutines-android` | 1.8.1    | Coroutines                        |
-| SDK C72 (AAR)                                      | 20251103 | `com.rscja.deviceapi`             |
-| SDK IH25 (AAR)                                     | —        | `com.honeywell.rfidservice`       |
+| Biblioteca                                         | Versão            | Uso                                         |
+| -------------------------------------------------- | ----------------- | ------------------------------------------- |
+| `androidx.core:core-ktx`                           | 1.13.1            | Extensões Kotlin                            |
+| `androidx.appcompat:appcompat`                     | 1.7.0             | Compatibilidade                             |
+| `com.google.android.material:material`             | 1.12.0            | Material Design (Chips, Snackbar)           |
+| `androidx.constraintlayout:constraintlayout`       | 2.1.4             | Layouts                                     |
+| `androidx.viewpager2:viewpager2`                   | 1.1.0             | ViewPager                                   |
+| `androidx.recyclerview:recyclerview`               | 1.3.2             | Listas                                      |
+| `androidx.datastore:datastore-preferences`         | 1.1.1             | Configurações persistentes                  |
+| `androidx.room:room-runtime` + `room-ktx`          | 2.6.1             | Banco de dados local                        |
+| `com.squareup.okhttp3:okhttp`                      | 4.12.0            | HTTP POST para webhook                      |
+| `com.google.android.gms:play-services-location`    | 21.3.0            | GPS (FusedLocation)                         |
+| `androidx.lifecycle:lifecycle-viewmodel-ktx`       | 2.8.5             | ViewModel + coroutines                      |
+| `org.jetbrains.kotlinx:kotlinx-coroutines-android` | 1.8.1             | Coroutines                                  |
+| `com.smartx.rfid:smartx-rfid`                      | `library.version` | Leitores RFID (inclui SDKs dos fabricantes) |
 
 ---
 
@@ -739,8 +447,15 @@ Cada inventário é enviado como um único HTTP POST `Content-Type: application/
 
 ```bash
 cd rfid-app
-./gradlew assembleDebug
+./scripts/build.sh      # ou ./gradlew assembleDebug
+./scripts/deploy.sh     # build + adb install + abre o app (usa app.applicationId do config.json)
 ```
+
+Com `library.source = remote` são necessárias credenciais do GitHub Packages (`GITHUB_ACTOR`/`GITHUB_TOKEN`).
+
+### Versão e commit
+
+`./scripts/commit.sh` (raiz) incrementa `app.versionName`/`app.versionCode` no `rfid-app/config.json`, commita e faz push.
 
 APK gerado: `app/build/outputs/apk/debug/app-debug.apk`
 
@@ -766,13 +481,10 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 ## 15. Permissões Android
 
-Declaradas no `AndroidManifest.xml`:
+Permissões Bluetooth (`BLUETOOTH*`, scan/connect) são declaradas pela lib e mescladas no manifest. Declaradas no `AndroidManifest.xml` do app:
 
 | Permissão                                         | Motivo                                       |
 | ------------------------------------------------- | -------------------------------------------- |
-| `BLUETOOTH` / `BLUETOOTH_ADMIN`                   | Bluetooth clássico (API ≤ 30)                |
-| `BLUETOOTH_CONNECT` (API 31+)                     | Conectar ao IH25 via BLE                     |
-| `BLUETOOTH_SCAN` (API 31+)                        | Scan de dispositivos BLE                     |
 | `ACCESS_FINE_LOCATION` / `ACCESS_COARSE_LOCATION` | Obrigatória para BLE scan em API 23–30 + GPS |
 | `INTERNET`                                        | HTTP POST para webhook                       |
 | `FOREGROUND_SERVICE`                              | Serviços de fundo (SDKs internos)            |

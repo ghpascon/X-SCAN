@@ -2821,7 +2821,7 @@
         <item name="colorOutline">@color/md_theme_outline</item>
         <item name="colorOutlineVariant">@color/md_theme_outlineVariant</item>
         
-        <item name="appLogo">@drawable/logo</item>
+        <item name="appLogo">@drawable/launcher_branding</item>
     </style>
     <style name="Base.ThemeOverlay.AppCompat" parent="Platform.ThemeOverlay.AppCompat"/>
     <style name="Base.ThemeOverlay.AppCompat.ActionBar">

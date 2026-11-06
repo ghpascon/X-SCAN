@@ -2,12 +2,14 @@
   "app": {
     "title": "X-SCAN",
     "applicationId": "com.smartx.xscan",
-    "versionName": "7.0.0",
-    "versionCode": 53,
+    "versionName": "7.0.1",
+    "versionCode": 54,
     "minSdk": 29,
     "targetSdk": 34,
     "compileSdk": 34,
-    "exportFilePrefix": "xscan_tags_"
+    "exportFilePrefix": "xscan_tags_",
+    "headerLogo": "smtx.png",
+    "launcherIcon": "logo_xgrid_black.png"
   },
   "service": {
     "name": "X-SCAN: Webhook ativo",

@@ -17,9 +17,10 @@
 
         <ImageView
             android:id="@+id/headerLogo"
-            android:layout_width="@dimen/logo_header_width"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/logo_header_height"
-            android:src="@drawable/smtx"
+            android:maxWidth="160dp"
+            android:src="@drawable/header_branding"
             android:contentDescription="@string/app_name"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter" />

@@ -3080,6 +3080,7 @@ drawable design_password_eye
 drawable design_snackbar_background
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
+drawable header_branding
 drawable ic_arrow_back_black_24
 drawable ic_call_answer
 drawable ic_call_answer_low
@@ -3111,6 +3112,7 @@ drawable ic_status_disconnected
 drawable ic_status_inactive
 drawable ic_sync_error
 drawable indeterminate_static
+drawable launcher_branding
 drawable logo
 drawable m3_avd_hide_password
 drawable m3_avd_show_password

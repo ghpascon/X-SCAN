@@ -56,4 +56,3 @@ com.smartx.xscan.app-packageDebugResources-54 /home/gabriel/Desktop/_SMARTX/proj
 com.smartx.xscan.app-debug-55 /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/build/intermediates/merged_res/debug/mergeDebugResources
 com.smartx.xscan.app-debug-56 /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/debug/res
 com.smartx.xscan.app-main-57 /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/res
-com.smartx.xscan.app-debug-58 /home/gabriel/Desktop/_SMARTX/projects/X-SCAN/smartx-rfid-android/smartx-rfid/build/intermediates/packaged_res/debug/packageDebugResources

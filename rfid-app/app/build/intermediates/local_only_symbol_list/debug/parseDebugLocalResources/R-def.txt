@@ -44,6 +44,7 @@ dimen reader_icon_size
 drawable badge_background
 drawable bg_chip_inactive
 drawable bg_spinner
+drawable header_branding
 drawable ic_launcher_foreground
 drawable ic_nav_config
 drawable ic_nav_reader
@@ -56,6 +57,7 @@ drawable ic_status_connected
 drawable ic_status_disconnected
 drawable ic_status_inactive
 drawable ic_sync_error
+drawable launcher_branding
 drawable logo
 drawable smtx
 drawable smtx_w

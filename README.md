@@ -95,7 +95,7 @@ rfid-app/
 ├── settings.gradle                  # Lê o config.json e resolve a lib (local/remote/maven-local)
 ├── scripts/                         # build.sh, deploy.sh, lib_source.sh
 └── app/src/main/java/com/smartx/rfidreader/   (package com.smartx.xscan)
-    ├── RfidApplication.kt           # Cria o ReaderManager com os leitores do config.json
+    ├── RfidApplication.kt           # Cria o ReaderManager com os leitores registrados na lib
     ├── core/
     │   ├── settings/                # AppSettings + DataStore
     │   ├── db/                      # Room (AppDatabase, EventDao, EventEntity)
@@ -128,7 +128,9 @@ Não há mais drivers de leitor nem SDKs/AARs no app: tudo isso está na lib.
     "minSdk": 29,
     "targetSdk": 34,
     "compileSdk": 34,
-    "exportFilePrefix": "xscan_tags_"
+    "exportFilePrefix": "xscan_tags_",
+    "headerLogo": "smtx.png",
+    "launcherIcon": "logo.png"
   },
   "service": {
     "name": "...",
@@ -151,6 +153,8 @@ Não há mais drivers de leitor nem SDKs/AARs no app: tudo isso está na lib.
 | Chave                  | Efeito                                                                             |
 | ---------------------- | ---------------------------------------------------------------------------------- |
 | `app.title`            | Nome do app (`@string/app_name`, launcher e header)                                |
+| `app.headerLogo`       | PNG em `rfid-app/static/` usado no logo do header                                  |
+| `app.launcherIcon`     | PNG em `rfid-app/static/` usado no ícone do app e nos itens que exibem a marca     |
 | `app.versionName/Code` | Versão do APK (o `scripts/commit.sh` incrementa automaticamente)                   |
 | `service.*`            | Título/texto da notificação e canal do `WebhookService`                            |
 | `app.exportFilePrefix` | Prefixo dos CSVs exportados                                                        |

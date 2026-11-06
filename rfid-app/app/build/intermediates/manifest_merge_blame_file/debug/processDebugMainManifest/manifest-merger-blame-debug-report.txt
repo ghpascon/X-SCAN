@@ -1,8 +1,8 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 3    package="com.smartx.xscan"
-4    android:versionCode="52"
-5    android:versionName="6.5.3" >
+4    android:versionCode="53"
+5    android:versionName="7.0.0" >
 6
 7    <uses-sdk
 8        android:minSdkVersion="29"
@@ -17,7 +17,7 @@
 16        android:name="android.permission.ACCESS_FINE_LOCATION"
 16-->/home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:8:22-76
 17        android:maxSdkVersion="30" />
-17-->[com.smartx.rfid:smartx-rfid:1.0.3] /home/gabriel/.gradle/caches/8.10.2/transforms/9a1190c3c765f076fb041c467c0a9a15/transformed/jetified-smartx-rfid-1.0.3/AndroidManifest.xml:22:9-35
+17-->[com.smartx.rfid:smartx-rfid:1.1.0] /home/gabriel/.gradle/caches/8.10.2/transforms/c9258c14ab58ebd155ed841c7e658191/transformed/jetified-smartx-rfid-1.1.0/AndroidManifest.xml:22:9-35
 18    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 18-->/home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:9:5-81
 18-->/home/gabriel/Desktop/_SMARTX/projects/X-SCAN/rfid-app/app/src/main/AndroidManifest.xml:9:22-78
@@ -35,26 +35,26 @@
 24
 25    <!-- Bluetooth (API 21–30 e 31+) — usado pelos leitores BLE e pelo BleScanner -->
 26    <uses-permission
-26-->[com.smartx.rfid:smartx-rfid:1.0.3] /home/gabriel/.gradle/caches/8.10.2/transforms/9a1190c3c765f076fb041c467c0a9a15/transformed/jetified-smartx-rfid-1.0.3/AndroidManifest.xml:8:5-10:38
+26-->[com.smartx.rfid:smartx-rfid:1.1.0] /home/gabriel/.gradle/caches/8.10.2/transforms/c9258c14ab58ebd155ed841c7e658191/transformed/jetified-smartx-rfid-1.1.0/AndroidManifest.xml:8:5-10:38
 27        android:name="android.permission.BLUETOOTH"
-27-->[com.smartx.rfid:smartx-rfid:1.0.3] /home/gabriel/.gradle/caches/8.10.2/transforms/9a1190c3c765f076fb041c467c0a9a15/transformed/jetified-smartx-rfid-1.0.3/AndroidManifest.xml:9:9-52
+27-->[com.smartx.rfid:smartx-rfid:1.1.0] /home/gabriel/.gradle/caches/8.10.2/transforms/c9258c14ab58ebd155ed841c7e658191/transformed/jetified-smartx-rfid-1.1.0/AndroidManifest.xml:9:9-52
 28        android:maxSdkVersion="30" />
-28-->[com.smartx.rfid:smartx-rfid:1.0.3] /home/gabriel/.gradle/caches/8.10.2/transforms/9a1190c3c765f076fb041c467c0a9a15/transformed/jetified-smartx-rfid-1.0.3/AndroidManifest.xml:10:9-35
+28-->[com.smartx.rfid:smartx-rfid:1.1.0] /home/gabriel/.gradle/caches/8.10.2/transforms/c9258c14ab58ebd155ed841c7e658191/transformed/jetified-smartx-rfid-1.1.0/AndroidManifest.xml:10:9-35
 29    <uses-permission
-29-->[com.smartx.rfid:smartx-rfid:1.0.3] /home/gabriel/.gradle/caches/8.10.2/transforms/9a1190c3c765f076fb041c467c0a9a15/transformed/jetified-smartx-rfid-1.0.3/AndroidManifest.xml:11:5-13:38
+29-->[com.smartx.rfid:smartx-rfid:1.1.0] /home/gabriel/.gradle/caches/8.10.2/transforms/c9258c14ab58ebd155ed841c7e658191/transformed/jetified-smartx-rfid-1.1.0/AndroidManifest.xml:11:5-13:38
 30        android:name="android.permission.BLUETOOTH_ADMIN"
-30-->[com.smartx.rfid:smartx-rfid:1.0.3] /home/gabriel/.gradle/caches/8.10.2/transforms/9a1190c3c765f076fb041c467c0a9a15/transformed/jetified-smartx-rfid-1.0.3/AndroidManifest.xml:12:9-58
+30-->[com.smartx.rfid:smartx-rfid:1.1.0] /home/gabriel/.gradle/caches/8.10.2/transforms/c9258c14ab58ebd155ed841c7e658191/transformed/jetified-smartx-rfid-1.1.0/AndroidManifest.xml:12:9-58
 31        android:maxSdkVersion="30" />
-31-->[com.smartx.rfid:smartx-rfid:1.0.3] /home/gabriel/.gradle/caches/8.10.2/transforms/9a1190c3c765f076fb041c467c0a9a15/transformed/jetified-smartx-rfid-1.0.3/AndroidManifest.xml:13:9-35
+31-->[com.smartx.rfid:smartx-rfid:1.1.0] /home/gabriel/.gradle/caches/8.10.2/transforms/c9258c14ab58ebd155ed841c7e658191/transformed/jetified-smartx-rfid-1.1.0/AndroidManifest.xml:13:9-35
 32    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-32-->[com.smartx.rfid:smartx-rfid:1.0.3] /home/gabriel/.gradle/caches/8.10.2/transforms/9a1190c3c765f076fb041c467c0a9a15/transformed/jetified-smartx-rfid-1.0.3/AndroidManifest.xml:14:5-76
-32-->[com.smartx.rfid:smartx-rfid:1.0.3] /home/gabriel/.gradle/caches/8.10.2/transforms/9a1190c3c765f076fb041c467c0a9a15/transformed/jetified-smartx-rfid-1.0.3/AndroidManifest.xml:14:22-73
+32-->[com.smartx.rfid:smartx-rfid:1.1.0] /home/gabriel/.gradle/caches/8.10.2/transforms/c9258c14ab58ebd155ed841c7e658191/transformed/jetified-smartx-rfid-1.1.0/AndroidManifest.xml:14:5-76
+32-->[com.smartx.rfid:smartx-rfid:1.1.0] /home/gabriel/.gradle/caches/8.10.2/transforms/c9258c14ab58ebd155ed841c7e658191/transformed/jetified-smartx-rfid-1.1.0/AndroidManifest.xml:14:22-73
 33    <uses-permission
-33-->[com.smartx.rfid:smartx-rfid:1.0.3] /home/gabriel/.gradle/caches/8.10.2/transforms/9a1190c3c765f076fb041c467c0a9a15/transformed/jetified-smartx-rfid-1.0.3/AndroidManifest.xml:15:5-17:58
+33-->[com.smartx.rfid:smartx-rfid:1.1.0] /home/gabriel/.gradle/caches/8.10.2/transforms/c9258c14ab58ebd155ed841c7e658191/transformed/jetified-smartx-rfid-1.1.0/AndroidManifest.xml:15:5-17:58
 34        android:name="android.permission.BLUETOOTH_SCAN"
-34-->[com.smartx.rfid:smartx-rfid:1.0.3] /home/gabriel/.gradle/caches/8.10.2/transforms/9a1190c3c765f076fb041c467c0a9a15/transformed/jetified-smartx-rfid-1.0.3/AndroidManifest.xml:16:9-57
+34-->[com.smartx.rfid:smartx-rfid:1.1.0] /home/gabriel/.gradle/caches/8.10.2/transforms/c9258c14ab58ebd155ed841c7e658191/transformed/jetified-smartx-rfid-1.1.0/AndroidManifest.xml:16:9-57
 35        android:usesPermissionFlags="neverForLocation" />
-35-->[com.smartx.rfid:smartx-rfid:1.0.3] /home/gabriel/.gradle/caches/8.10.2/transforms/9a1190c3c765f076fb041c467c0a9a15/transformed/jetified-smartx-rfid-1.0.3/AndroidManifest.xml:17:9-55
+35-->[com.smartx.rfid:smartx-rfid:1.1.0] /home/gabriel/.gradle/caches/8.10.2/transforms/c9258c14ab58ebd155ed841c7e658191/transformed/jetified-smartx-rfid-1.1.0/AndroidManifest.xml:17:9-55
 36
 37    <permission
 37-->[androidx.core:core:1.13.1] /home/gabriel/.gradle/caches/8.10.2/transforms/ff71e4781ad131b06a6fa55b996f5869/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47

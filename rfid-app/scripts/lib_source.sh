@@ -37,6 +37,7 @@ case "$cmd" in
     if [[ "$cmd" == "remote" ]]; then
       echo
       echo "O Gradle tenta usar a sessão do gh CLI; o token precisa ter o escopo read:packages."
+      echo "Se ocorrer erro de autenticação, rode: gh auth refresh --hostname github.com --scopes read:packages"
       echo "Alternativas: GITHUB_ACTOR/GITHUB_TOKEN ou gpr.user/gpr.key em ~/.gradle/gradle.properties."
     fi ;;
   version)

@@ -2,8 +2,8 @@
   "app": {
     "title": "X-SCAN",
     "applicationId": "com.smartx.xscan",
-    "versionName": "7.0.1",
-    "versionCode": 54,
+    "versionName": "7.0.2",
+    "versionCode": 55,
     "minSdk": 29,
     "targetSdk": 34,
     "compileSdk": 34,

@@ -122,6 +122,7 @@ def brandingResDir = file("$buildDir/generated/res/branding/drawable")
 tasks.register('copyBranding') {
     inputs.files(brandingAssets.collect { it.source })
     outputs.files(brandingAssets.collect { new File(brandingResDir, it.target) })
+    outputs.file(new File(brandingResDir, 'app_logo_branding.png'))
     doLast {
         def headerAsset = brandingAssets[0]
         copy {
@@ -130,9 +131,12 @@ tasks.register('copyBranding') {
             rename { headerAsset.target }
         }
 
-        // Adaptive icons use a 108dp viewport with a 72dp safe zone. Normalize
-        // each configured icon into that canvas, preserving its aspect ratio,
-        // so replacing it with a differently sized PNG won't stretch or crop it.
+        // Adaptive icons use a 108dp viewport; launchers may mask it (circle,
+        // squircle...) and only a centered 66dp circle is guaranteed visible.
+        // The artwork is fitted dynamically: the farthest visible pixel from the
+        // artwork center must stay inside that circle, so the whole logo shows
+        // with a margin regardless of the PNG's size/shape. Rendered at 4x
+        // (432px) to stay sharp; the foreground drawable scales it to the viewport.
         def iconAsset = brandingAssets[1]
         def sourceImage = javax.imageio.ImageIO.read(iconAsset.source)
         if (sourceImage == null) {
@@ -145,7 +149,7 @@ tasks.register('copyBranding') {
         int bottom = -1
         for (int y = 0; y < sourceImage.height; y++) {
             for (int x = 0; x < sourceImage.width; x++) {
-                if ((sourceImage.getRGB(x, y) >>> 24) != 0) {
+                if ((sourceImage.getRGB(x, y) >>> 24) > 8) {
                     left = Math.min(left, x)
                     top = Math.min(top, y)
                     right = Math.max(right, x)
@@ -157,7 +161,24 @@ tasks.register('copyBranding') {
             throw new GradleException("O PNG do ícone está totalmente transparente: ${iconAsset.source}")
         }
 
-        def iconCanvas = new java.awt.image.BufferedImage(108, 108, java.awt.image.BufferedImage.TYPE_INT_ARGB)
+        double centerX = (left + right + 1) / 2.0d
+        double centerY = (top + bottom + 1) / 2.0d
+        double maxRadius = 1.0d
+        for (int y = top; y <= bottom; y++) {
+            for (int x = left; x <= right; x++) {
+                if ((sourceImage.getRGB(x, y) >>> 24) > 8) {
+                    maxRadius = Math.max(maxRadius, Math.hypot(x + 0.5d - centerX, y + 0.5d - centerY))
+                }
+            }
+        }
+
+        final int canvasSize = 432            // 108dp * 4
+        // 66dp safe circle minus ~10% breathing room, so the logo never touches
+        // the mask edge or looks zoomed in on any launcher shape.
+        final double safeRadius = 30.0d * 4
+        double scale = safeRadius / maxRadius
+
+        def iconCanvas = new java.awt.image.BufferedImage(canvasSize, canvasSize, java.awt.image.BufferedImage.TYPE_INT_ARGB)
         def graphics = iconCanvas.createGraphics()
         try {
             graphics.setComposite(java.awt.AlphaComposite.Src)
@@ -166,15 +187,14 @@ tasks.register('copyBranding') {
             graphics.setRenderingHint(java.awt.RenderingHints.KEY_RENDERING,
                     java.awt.RenderingHints.VALUE_RENDER_QUALITY)
 
-            int contentWidth = right - left + 1
-            int contentHeight = bottom - top + 1
-            double scale = 72.0d / Math.max(contentWidth, contentHeight)
-            int drawWidth = Math.max(1, (int) Math.round(contentWidth * scale))
-            int drawHeight = Math.max(1, (int) Math.round(contentHeight * scale))
-            int x = (108 - drawWidth) / 2
-            int y = (108 - drawHeight) / 2
+            double drawWidth = (right - left + 1) * scale
+            double drawHeight = (bottom - top + 1) * scale
+            int dx1 = (int) Math.round((canvasSize - drawWidth) / 2.0d)
+            int dy1 = (int) Math.round((canvasSize - drawHeight) / 2.0d)
+            int dx2 = (int) Math.round((canvasSize + drawWidth) / 2.0d)
+            int dy2 = (int) Math.round((canvasSize + drawHeight) / 2.0d)
             graphics.drawImage(sourceImage,
-                    x, y, x + drawWidth, y + drawHeight,
+                    dx1, dy1, dx2, dy2,
                     left, top, right + 1, bottom + 1, null)
         } finally {
             graphics.dispose()
@@ -182,6 +202,35 @@ tasks.register('copyBranding') {
 
         if (!javax.imageio.ImageIO.write(iconCanvas, 'png', new File(brandingResDir, iconAsset.target))) {
             throw new GradleException("Não foi possível gerar o recurso do ícone: ${iconAsset.target}")
+        }
+
+        // In-app logo (reader list): artwork cropped to its visible bounds and
+        // centered in a square 512px canvas with a 12% margin on each side, so it
+        // is never cut off or zoomed regardless of the PNG's size/aspect ratio.
+        int cropW = right - left + 1
+        int cropH = bottom - top + 1
+        final int appCanvas = 512
+        double appScale = (appCanvas * 0.76d) / Math.max(cropW, cropH)
+        int appDrawW = Math.max(1, (int) Math.round(cropW * appScale))
+        int appDrawH = Math.max(1, (int) Math.round(cropH * appScale))
+        def appLogo = new java.awt.image.BufferedImage(appCanvas, appCanvas,
+                java.awt.image.BufferedImage.TYPE_INT_ARGB)
+        def appGraphics = appLogo.createGraphics()
+        try {
+            appGraphics.setComposite(java.awt.AlphaComposite.Src)
+            appGraphics.setRenderingHint(java.awt.RenderingHints.KEY_INTERPOLATION,
+                    java.awt.RenderingHints.VALUE_INTERPOLATION_BICUBIC)
+            appGraphics.setRenderingHint(java.awt.RenderingHints.KEY_RENDERING,
+                    java.awt.RenderingHints.VALUE_RENDER_QUALITY)
+            int ax = (appCanvas - appDrawW) / 2
+            int ay = (appCanvas - appDrawH) / 2
+            appGraphics.drawImage(sourceImage, ax, ay, ax + appDrawW, ay + appDrawH,
+                    left, top, right + 1, bottom + 1, null)
+        } finally {
+            appGraphics.dispose()
+        }
+        if (!javax.imageio.ImageIO.write(appLogo, 'png', new File(brandingResDir, 'app_logo_branding.png'))) {
+            throw new GradleException("Não foi possível gerar o recurso app_logo_branding.png")
         }
     }
 }

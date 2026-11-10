@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Center app logo as the adaptive icon foreground -->
+    <!-- Logo pre-fitted (with margin) into a square canvas; scale it to the 108dp viewport -->
     <item>
         <bitmap
             android:src="@drawable/launcher_branding"
-            android:gravity="center"
+            android:gravity="fill"
+            android:filter="true"
             android:antialias="true" />
     </item>
 

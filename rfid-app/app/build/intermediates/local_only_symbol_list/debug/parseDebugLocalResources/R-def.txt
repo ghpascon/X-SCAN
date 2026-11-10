@@ -41,6 +41,7 @@ dimen logo_header_height
 dimen logo_header_width
 dimen logo_toolbar_height
 dimen reader_icon_size
+drawable app_logo_branding
 drawable badge_background
 drawable bg_chip_inactive
 drawable bg_spinner

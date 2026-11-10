@@ -218,7 +218,7 @@
         <item name="colorOutline">@color/md_theme_outline</item>
         <item name="colorOutlineVariant">@color/md_theme_outlineVariant</item>
         
-        <item name="appLogo">@drawable/launcher_branding</item>
+        <item name="appLogo">@drawable/app_logo_branding</item>
     </style>
     <style name="Theme.RfidReader" parent="Base.Theme.RfidReader"/>
 </resources>

@@ -238,6 +238,12 @@ tasks.register('copyBranding') {
 preBuild.dependsOn tasks.named('copyBranding')
 
 android.applicationVariants.all { variant ->
+    // O nome do APK segue o título configurado em config.json.
+    def apkBaseName = cfg.app.title.replaceAll(/[^A-Za-z0-9._-]/, '_')
+    variant.outputs.all {
+        outputFileName = "${apkBaseName}.apk"
+    }
+
     def genRes = file("$buildDir/generated/res/branding")
     // registra a pasta gerada como fonte de resources
     variant.registerGeneratedResFolders(files(genRes))

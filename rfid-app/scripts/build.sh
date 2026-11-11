@@ -10,9 +10,12 @@ echo "▶ Biblioteca: usando remote (GitHub Packages)..."
 echo "▶ Build Android (debug only)..."
 ./gradlew assembleDebug --quiet
 
-APK="app/build/outputs/apk/debug/app-debug.apk"
+APK_DIR="app/build/outputs/apk/debug"
+APK_METADATA="$APK_DIR/output-metadata.json"
+APK_NAME="$(jq -r '.elements[0].outputFile // empty' "$APK_METADATA")"
+APK="$APK_DIR/$APK_NAME"
 
-if [ -f "$APK" ]; then
+if [ -n "$APK_NAME" ] && [ -f "$APK" ]; then
   echo "✓ Build concluído:"
   echo "$APK"
 else

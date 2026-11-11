@@ -6,7 +6,7 @@ PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
 PACKAGE="$(jq -r '.app.applicationId' config.json)"
-APK="app/build/outputs/apk/debug/app-debug.apk"
+APK_DIR="app/build/outputs/apk/debug"
 
 # ── 1. Verifica ADB ──────────────────────────────────────────────────────────
 if ! command -v adb &>/dev/null; then
@@ -51,7 +51,10 @@ echo "▶ Biblioteca: usando remote (GitHub Packages)..."
 echo "▶ Build..."
 ./gradlew assembleDebug --quiet
 
-if [ ! -f "$APK" ]; then
+APK_NAME="$(jq -r '.elements[0].outputFile // empty' "$APK_DIR/output-metadata.json")"
+APK="$APK_DIR/$APK_NAME"
+
+if [ -z "$APK_NAME" ] || [ ! -f "$APK" ]; then
   echo "Erro: APK não encontrado em $APK"
   exit 1
 fi

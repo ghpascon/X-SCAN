@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 55,
-      "versionName": "7.0.2",
-      "outputFile": "app-debug.apk"
+      "versionCode": 56,
+      "versionName": "7.0.3",
+      "outputFile": "X-SCAN.apk"
     }
   ],
   "elementType": "File",

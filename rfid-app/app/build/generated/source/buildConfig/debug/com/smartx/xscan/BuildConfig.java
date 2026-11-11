@@ -7,8 +7,8 @@ public final class BuildConfig {
   public static final boolean DEBUG = Boolean.parseBoolean("true");
   public static final String APPLICATION_ID = "com.smartx.xscan";
   public static final String BUILD_TYPE = "debug";
-  public static final int VERSION_CODE = 55;
-  public static final String VERSION_NAME = "7.0.2";
+  public static final int VERSION_CODE = 56;
+  public static final String VERSION_NAME = "7.0.3";
   // Field from default config.
   public static final String EXPORT_FILE_PREFIX = "xscan_tags_";
   // Field from default config.

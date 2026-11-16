@@ -2,8 +2,8 @@
   "app": {
     "title": "X-SCAN",
     "applicationId": "com.smartx.xscan",
-    "versionName": "7.0.4",
-    "versionCode": 57,
+    "versionName": "7.1.0",
+    "versionCode": 58,
     "minSdk": 29,
     "targetSdk": 34,
     "compileSdk": 34,
@@ -19,7 +19,7 @@
   },
   "library": {
     "source": "remote",
-    "version": "1.1.0",
+    "version": "1.3.4",
     "groupId": "com.smartx.rfid",
     "artifactId": "smartx-rfid",
     "remoteUrl": "https://maven.pkg.github.com/ghpascon/smartx-rfid-android"

@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     companion object {
-        private val TRIGGER_KEYCODES = intArrayOf(
+        private val LEGACY_TRIGGER_KEYCODES = intArrayOf(
             KeyEvent.KEYCODE_F1,
             KeyEvent.KEYCODE_FOCUS,
             KeyEvent.KEYCODE_CAMERA,
@@ -159,11 +159,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        if (event.keyCode in TRIGGER_KEYCODES) {
-            return when (event.action) {
-                KeyEvent.ACTION_DOWN -> { viewModel.onTriggerPressed(); true }
-                KeyEvent.ACTION_UP -> { viewModel.onTriggerReleased(); true }
-                else -> super.dispatchKeyEvent(event)
+        val capabilities = viewModel.reader?.capabilities
+        val triggerKeyCodes = capabilities?.triggerKeyCodes.orEmpty()
+        val isTriggerKey = capabilities?.usesKeyEventTrigger == true &&
+            if (triggerKeyCodes.isEmpty()) {
+                event.keyCode in LEGACY_TRIGGER_KEYCODES
+            } else {
+                event.keyCode in triggerKeyCodes
+            }
+
+        if (isTriggerKey) {
+            when (event.action) {
+                KeyEvent.ACTION_DOWN -> { viewModel.onTriggerPressed(); return true }
+                KeyEvent.ACTION_UP -> { viewModel.onTriggerReleased(); return true }
             }
         }
         return super.dispatchKeyEvent(event)

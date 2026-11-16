@@ -59,9 +59,6 @@ drawable ic_status_disconnected
 drawable ic_status_inactive
 drawable ic_sync_error
 drawable launcher_branding
-drawable logo
-drawable smtx
-drawable smtx_w
 id actionBar
 id badgePending
 id baseContent

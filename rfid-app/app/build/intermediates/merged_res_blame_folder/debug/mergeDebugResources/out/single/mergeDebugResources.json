@@ -1,7 +1,15 @@
 [
     {
+        "merged": "com.smartx.xscan.app-debug-55:/layout_dialog_ble_scan.xml.flat",
+        "source": "com.smartx.xscan.app-main-57:/layout/dialog_ble_scan.xml"
+    },
+    {
         "merged": "com.smartx.xscan.app-debug-55:/layout_fragment_reader_selection.xml.flat",
         "source": "com.smartx.xscan.app-main-57:/layout/fragment_reader_selection.xml"
+    },
+    {
+        "merged": "com.smartx.xscan.app-debug-55:/drawable_launcher_branding.png.flat",
+        "source": "com.smartx.xscan.app-res-50:/drawable/launcher_branding.png"
     },
     {
         "merged": "com.smartx.xscan.app-debug-55:/layout_fragment_sync.xml.flat",
@@ -14,6 +22,14 @@
     {
         "merged": "com.smartx.xscan.app-debug-55:/drawable_ic_status_disconnected.xml.flat",
         "source": "com.smartx.xscan.app-main-57:/drawable/ic_status_disconnected.xml"
+    },
+    {
+        "merged": "com.smartx.xscan.app-debug-55:/drawable_ic_settings.xml.flat",
+        "source": "com.smartx.xscan.app-main-57:/drawable/ic_settings.xml"
+    },
+    {
+        "merged": "com.smartx.xscan.app-debug-55:/layout_item_ble_device.xml.flat",
+        "source": "com.smartx.xscan.app-main-57:/layout/item_ble_device.xml"
     },
     {
         "merged": "com.smartx.xscan.app-debug-55:/drawable_bg_spinner.xml.flat",
@@ -32,66 +48,6 @@
         "source": "com.smartx.xscan.app-main-57:/layout/item_event.xml"
     },
     {
-        "merged": "com.smartx.xscan.app-debug-55:/layout_dialog_connection_log.xml.flat",
-        "source": "com.smartx.xscan.app-main-57:/layout/dialog_connection_log.xml"
-    },
-    {
-        "merged": "com.smartx.xscan.app-debug-55:/layout_dialog_radar_scan.xml.flat",
-        "source": "com.smartx.xscan.app-main-57:/layout/dialog_radar_scan.xml"
-    },
-    {
-        "merged": "com.smartx.xscan.app-debug-55:/drawable_ic_rfid_reader.xml.flat",
-        "source": "com.smartx.xscan.app-main-57:/drawable/ic_rfid_reader.xml"
-    },
-    {
-        "merged": "com.smartx.xscan.app-debug-55:/layout_item_reader.xml.flat",
-        "source": "com.smartx.xscan.app-main-57:/layout/item_reader.xml"
-    },
-    {
-        "merged": "com.smartx.xscan.app-debug-55:/drawable_header_branding.png.flat",
-        "source": "com.smartx.xscan.app-res-50:/drawable/header_branding.png"
-    },
-    {
-        "merged": "com.smartx.xscan.app-debug-55:/drawable_ic_nav_reading.xml.flat",
-        "source": "com.smartx.xscan.app-main-57:/drawable/ic_nav_reading.xml"
-    },
-    {
-        "merged": "com.smartx.xscan.app-debug-55:/drawable_ic_status_active.xml.flat",
-        "source": "com.smartx.xscan.app-main-57:/drawable/ic_status_active.xml"
-    },
-    {
-        "merged": "com.smartx.xscan.app-debug-55:/drawable_ic_status_connected.xml.flat",
-        "source": "com.smartx.xscan.app-main-57:/drawable/ic_status_connected.xml"
-    },
-    {
-        "merged": "com.smartx.xscan.app-debug-55:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.smartx.xscan.app-main-57:/drawable/ic_launcher_foreground.xml"
-    },
-    {
-        "merged": "com.smartx.xscan.app-debug-55:/layout_item_tag.xml.flat",
-        "source": "com.smartx.xscan.app-main-57:/layout/item_tag.xml"
-    },
-    {
-        "merged": "com.smartx.xscan.app-debug-55:/layout_item_radar_target.xml.flat",
-        "source": "com.smartx.xscan.app-main-57:/layout/item_radar_target.xml"
-    },
-    {
-        "merged": "com.smartx.xscan.app-debug-55:/layout_dialog_ble_scan.xml.flat",
-        "source": "com.smartx.xscan.app-main-57:/layout/dialog_ble_scan.xml"
-    },
-    {
-        "merged": "com.smartx.xscan.app-debug-55:/drawable_launcher_branding.png.flat",
-        "source": "com.smartx.xscan.app-res-50:/drawable/launcher_branding.png"
-    },
-    {
-        "merged": "com.smartx.xscan.app-debug-55:/drawable_ic_settings.xml.flat",
-        "source": "com.smartx.xscan.app-main-57:/drawable/ic_settings.xml"
-    },
-    {
-        "merged": "com.smartx.xscan.app-debug-55:/layout_item_ble_device.xml.flat",
-        "source": "com.smartx.xscan.app-main-57:/layout/item_ble_device.xml"
-    },
-    {
         "merged": "com.smartx.xscan.app-debug-55:/layout_item_radar_scan_tag.xml.flat",
         "source": "com.smartx.xscan.app-main-57:/layout/item_radar_scan_tag.xml"
     },
@@ -100,32 +56,40 @@
         "source": "com.smartx.xscan.app-main-57:/layout/fragment_webhook.xml"
     },
     {
+        "merged": "com.smartx.xscan.app-debug-55:/layout_dialog_connection_log.xml.flat",
+        "source": "com.smartx.xscan.app-main-57:/layout/dialog_connection_log.xml"
+    },
+    {
+        "merged": "com.smartx.xscan.app-debug-55:/layout_dialog_radar_scan.xml.flat",
+        "source": "com.smartx.xscan.app-main-57:/layout/dialog_radar_scan.xml"
+    },
+    {
         "merged": "com.smartx.xscan.app-debug-55:/layout_footer_app.xml.flat",
         "source": "com.smartx.xscan.app-main-57:/layout/footer_app.xml"
     },
     {
-        "merged": "com.smartx.xscan.app-debug-55:/drawable_smtx_w.png.flat",
-        "source": "com.smartx.xscan.app-res-50:/drawable/smtx_w.png"
+        "merged": "com.smartx.xscan.app-debug-55:/drawable_ic_rfid_reader.xml.flat",
+        "source": "com.smartx.xscan.app-main-57:/drawable/ic_rfid_reader.xml"
     },
     {
         "merged": "com.smartx.xscan.app-debug-55:/layout_header_app.xml.flat",
         "source": "com.smartx.xscan.app-main-57:/layout/header_app.xml"
     },
     {
-        "merged": "com.smartx.xscan.app-debug-55:/drawable_smtx.png.flat",
-        "source": "com.smartx.xscan.app-res-50:/drawable/smtx.png"
+        "merged": "com.smartx.xscan.app-debug-55:/layout_item_reader.xml.flat",
+        "source": "com.smartx.xscan.app-main-57:/layout/item_reader.xml"
     },
     {
         "merged": "com.smartx.xscan.app-debug-55:/drawable_ic_status_inactive.xml.flat",
         "source": "com.smartx.xscan.app-main-57:/drawable/ic_status_inactive.xml"
     },
     {
-        "merged": "com.smartx.xscan.app-debug-55:/drawable_logo.png.flat",
-        "source": "com.smartx.xscan.app-res-50:/drawable/logo.png"
-    },
-    {
         "merged": "com.smartx.xscan.app-debug-55:/drawable_ic_sync_error.xml.flat",
         "source": "com.smartx.xscan.app-main-57:/drawable/ic_sync_error.xml"
+    },
+    {
+        "merged": "com.smartx.xscan.app-debug-55:/drawable_header_branding.png.flat",
+        "source": "com.smartx.xscan.app-res-50:/drawable/header_branding.png"
     },
     {
         "merged": "com.smartx.xscan.app-debug-55:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
@@ -136,16 +100,36 @@
         "source": "com.smartx.xscan.app-main-57:/layout/item_webhook_status.xml"
     },
     {
+        "merged": "com.smartx.xscan.app-debug-55:/drawable_ic_nav_reading.xml.flat",
+        "source": "com.smartx.xscan.app-main-57:/drawable/ic_nav_reading.xml"
+    },
+    {
         "merged": "com.smartx.xscan.app-debug-55:/layout_fragment_home.xml.flat",
         "source": "com.smartx.xscan.app-main-57:/layout/fragment_home.xml"
+    },
+    {
+        "merged": "com.smartx.xscan.app-debug-55:/drawable_ic_status_connected.xml.flat",
+        "source": "com.smartx.xscan.app-main-57:/drawable/ic_status_connected.xml"
+    },
+    {
+        "merged": "com.smartx.xscan.app-debug-55:/drawable_ic_status_active.xml.flat",
+        "source": "com.smartx.xscan.app-main-57:/drawable/ic_status_active.xml"
     },
     {
         "merged": "com.smartx.xscan.app-debug-55:/drawable_bg_chip_inactive.xml.flat",
         "source": "com.smartx.xscan.app-main-57:/drawable/bg_chip_inactive.xml"
     },
     {
+        "merged": "com.smartx.xscan.app-debug-55:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.smartx.xscan.app-main-57:/drawable/ic_launcher_foreground.xml"
+    },
+    {
         "merged": "com.smartx.xscan.app-debug-55:/layout_item_sync_result.xml.flat",
         "source": "com.smartx.xscan.app-main-57:/layout/item_sync_result.xml"
+    },
+    {
+        "merged": "com.smartx.xscan.app-debug-55:/layout_item_tag.xml.flat",
+        "source": "com.smartx.xscan.app-main-57:/layout/item_tag.xml"
     },
     {
         "merged": "com.smartx.xscan.app-debug-55:/drawable_app_logo_branding.png.flat",
@@ -158,6 +142,10 @@
     {
         "merged": "com.smartx.xscan.app-debug-55:/layout_fragment_radar.xml.flat",
         "source": "com.smartx.xscan.app-main-57:/layout/fragment_radar.xml"
+    },
+    {
+        "merged": "com.smartx.xscan.app-debug-55:/layout_item_radar_target.xml.flat",
+        "source": "com.smartx.xscan.app-main-57:/layout/item_radar_target.xml"
     },
     {
         "merged": "com.smartx.xscan.app-debug-55:/layout_fragment_reading.xml.flat",
